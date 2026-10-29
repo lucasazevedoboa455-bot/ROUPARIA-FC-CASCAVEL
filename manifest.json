@@ -1,0 +1,19 @@
+{
+  "name": "Rouparia FC Cascavel",
+  "short_name": "Rouparia FCC",
+  "description": "Controle de estoque, uniformes, jogadores, entregas e lavanderia do Futebol Clube Cascavel.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f2f2f2",
+  "theme_color": "#111111",
+  "icons": [
+    {
+      "src": "app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
