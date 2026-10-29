@@ -66,7 +66,7 @@ async function carregar(){
 }
 function render(){
  el('total').textContent=materiais.length;el('totalJog').textContent=jogadores.length;el('totalLav').textContent=lavanderia.reduce((s,x)=>s+(Number(x.quantidade)||0),0);
- el('listaMateriais').innerHTML=materiais.map(x=>'<div class="item"><b>'+esc(x.item)+'</b><br>'+esc(x.categoria||'')+' — '+Number(x.quantidade||0)+' peças'+(x.tamanho?' · Tam. '+esc(x.tamanho):'')+(x.observacao?'<br>'+esc(x.observacao):'')+'</div>').join('')||'Nenhum material cadastrado.';
+ el('listaMateriais').innerHTML=materiais.map(x=>{const qtd=Number(x.quantidade||0);const alerta=qtd<=3?'<br><b style="color:#b42318">⚠️ ESTOQUE BAIXO — restam '+qtd+' peça(s)</b>':'';return '<div class="item"><b>'+esc(x.item)+'</b><br>'+esc(x.categoria||'')+' — '+qtd+' peças'+(x.tamanho?' · Tam. '+esc(x.tamanho):'')+(x.observacao?'<br>'+esc(x.observacao):'')+alerta+'</div>'}).join('')||'Nenhum material cadastrado.';
  el('listaJogadores').innerHTML=jogadores.map(x=>'<div class="item"><b>'+esc(x.nome)+'</b><br>Camisa '+esc(x.numero_camisa??'—')+'</div>').join('')||'Nenhum jogador cadastrado.';
  el('listaUniformes').innerHTML=uniformes.map(x=>{const qtd=Number(x.quantidade||0);const alerta=qtd<=3?'<br><b style="color:#b42318">⚠️ ESTOQUE BAIXO — restam '+qtd+' peça(s)</b>':'';return '<div class="item"><b>'+esc(x.descricao)+'</b><br>Tamanho '+esc(x.tamanho)+' — '+qtd+' peças'+alerta+'</div>'}).join('')||'Nenhum uniforme cadastrado.';
  el('listaLav').innerHTML=lavanderia.map(x=>'<div class="item">'+esc(x.descricao)+' — '+Number(x.quantidade||0)+' peças <button onclick="retornar('+Number(x.id)+')">Retornou</button></div>').join('')||'Nenhuma peça na lavanderia.';
