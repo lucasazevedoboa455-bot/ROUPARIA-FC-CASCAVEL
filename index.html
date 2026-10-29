@@ -3,8 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="icon" type="image/png" href="IMG_3620.png">
-<link rel="apple-touch-icon" href="IMG_3620.png">
+<meta name="theme-color" content="#111111">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Rouparia FCC">
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" type="image/svg+xml" href="./app-icon.svg">
+<link rel="apple-touch-icon" href="./app-icon.svg">
 <title>Rouparia FC Cascavel</title>
 <style>
 *{box-sizing:border-box}body{font-family:Arial,sans-serif;background:#f2f2f2;margin:0;color:#111}header{background:#111;color:#f5c400;padding:20px 15px;border-bottom:5px solid #f5c400}header h1{font-size:23px;margin:0}main{padding:15px;max-width:700px;margin:auto}nav{display:flex;gap:6px;flex-wrap:wrap;padding:12px;background:white;border-radius:10px}button{background:#f5c400;border:0;border-radius:7px;padding:11px;font-weight:bold;cursor:pointer}button:disabled{opacity:.5}nav button{flex:1}.card{background:white;padding:15px;border-radius:12px;margin:12px 0}input,select{box-sizing:border-box;width:100%;padding:12px;margin:6px 0 12px;border:1px solid #ccc;border-radius:7px}h2{font-size:19px}.item{padding:10px 0;border-bottom:1px solid #ddd}.small{color:#666;font-size:13px}.msg{padding:10px;border-radius:8px;background:#fff3cd;margin:10px 0;overflow-wrap:anywhere}.hidden{display:none}
@@ -35,6 +40,7 @@
 const SUPABASE_URL='https://tcgwafifjtqcgmzfesfk.supabase.co';
 const SUPABASE_KEY='sb_publishable_VQT7oxscxB1yQH1kWj4ipQ_gNhtv3ZJ';
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js').catch(() => {})); }
 let clubeId=null, materiais=[], jogadores=[], uniformes=[], lavanderia=[], cLavanderia=[], movimentacoes=[], entregas=[];
 const el=id=>document.getElementById(id);
 function mensagem(id,text){el(id).textContent=text;el(id).classList.remove('hidden')}
