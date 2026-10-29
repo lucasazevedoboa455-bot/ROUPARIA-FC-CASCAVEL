@@ -21,10 +21,11 @@
 </section>
 <section id="app" class="hidden">
 <div class="card"><span id="clubName">Seu clube</span> <button onclick="sair()" style="float:right">Sair</button><div id="status" class="small"></div></div>
-<nav><button onclick="aba('inicio')">Início</button><button onclick="aba('estoque')">Estoque</button><button onclick="aba('jogadores')">Jogadores</button><button onclick="aba('lavanderia')">Lavanderia</button></nav>
+<nav><button onclick="aba('inicio')">Início</button><button onclick="aba('estoque')">Estoque</button><button onclick="aba('jogadores')">Jogadores</button><button onclick="aba('uniformes')">Uniformes</button><button onclick="aba('lavanderia')">Lavanderia</button></nav>
 <section id="inicio"><div class="card"><h2>Resumo da rouparia</h2><p>Materiais cadastrados: <b id="total">0</b></p><p>Jogadores cadastrados: <b id="totalJog">0</b></p><p>Peças na lavanderia: <b id="totalLav">0</b></p></div><div class="card"><p>Os dados são carregados do Supabase e separados pelo clube vinculado ao seu usuário.</p></div></section>
 <section id="estoque" class="hidden"><div class="card"><h2>Cadastrar material</h2><form id="formMaterial"><label>Nome do material</label><input name="nome" placeholder="Ex.: Camisa de jogo" required><label>Categoria</label><select name="categoria"><option>Camisa</option><option>Calção</option><option>Meia</option><option>Uniforme de goleiro</option><option>Coletes</option><option>Treino</option><option>Outro</option></select><label>Quantidade</label><input name="qtd" type="number" min="0" value="0" required><label>Tamanho (opcional)</label><input name="tamanho" placeholder="Ex.: M"><label>Observação (opcional)</label><input name="obs"><button type="submit">Salvar material</button></form></div><div class="card"><h2>Materiais cadastrados</h2><div id="listaMateriais">Carregando...</div></div></section>
 <section id="jogadores" class="hidden"><div class="card"><h2>Cadastrar jogador</h2><form id="formJogador"><label>Nome do jogador</label><input name="nome" required placeholder="Nome completo"><label>Número da camisa</label><input name="numero" type="number" min="0" placeholder="Número"><button type="submit">Salvar jogador</button></form></div><div class="card"><h2>Jogadores cadastrados</h2><div id="listaJogadores">Carregando...</div></div></section>
+<section id="uniformes" class="hidden"><div class="card"><h2>Cadastrar uniforme</h2><form id="formUniforme"><label>Descrição</label><input name="descricao" required placeholder="Ex.: Camisa de jogo amarela"><label>Tamanho</label><select name="tamanho" required><option value="">Escolha o tamanho</option><option>PP</option><option>P</option><option>M</option><option>G</option><option>GG</option><option>XG</option><option>Infantil 8</option><option>Infantil 10</option><option>Infantil 12</option><option>Infantil 14</option><option>Único</option></select><label>Quantidade</label><input name="quantidade" type="number" min="0" value="0" required><button type="submit">Salvar uniforme</button></form></div><div class="card"><h2>Uniformes cadastrados</h2><div id="listaUniformes">Carregando...</div></div></section>
 <section id="lavanderia" class="hidden"><div class="card"><h2>Registrar saída para lavanderia</h2><form id="formLav"><label>Descrição das peças</label><input name="nome" required placeholder="Ex.: Camisas do treino"><label>Quantidade enviada</label><input name="qtd" type="number" min="1" value="1" required><button type="submit">Registrar saída</button></form></div><div class="card"><h2>Peças na lavanderia</h2><div id="listaLav">Carregando...</div></div></section>
 <div id="appMsg" class="msg hidden"></div>
 </section>
@@ -34,11 +35,11 @@
 const SUPABASE_URL='https://tcgwafifjtqcgmzfesfk.supabase.co';
 const SUPABASE_KEY='sb_publishable_VQT7oxscxB1yQH1kWj4ipQ_gNhtv3ZJ';
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-let clubeId=null, materiais=[], jogadores=[], lavanderia=[];
+let clubeId=null, materiais=[], jogadores=[], uniformes=[], lavanderia=[];
 const el=id=>document.getElementById(id);
 function mensagem(id,text){el(id).textContent=text;el(id).classList.remove('hidden')}
 function limparMensagem(id){el(id).textContent='';el(id).classList.add('hidden')}
-function aba(id){document.querySelectorAll('#app main section').forEach(s=>s.classList.add('hidden'));el(id).classList.remove('hidden');}
+function aba(id){document.querySelectorAll('#app section[id]').forEach(s=>s.classList.add('hidden'));el(id).classList.remove('hidden');}
 async function iniciar(){
  const {data:{user},error}=await db.auth.getUser();
  if(error||!user){el('login').classList.remove('hidden');el('app').classList.add('hidden');return}
@@ -58,12 +59,14 @@ async function carregar(){
  ]);
  if(a.error||b.error||c.error){mensagem('appMsg','Não foi possível carregar os dados. Verifique as políticas de segurança (RLS) no Supabase. Detalhe: '+(a.error?.message||b.error?.message||c.error?.message));return}
  materiais=a.data||[];jogadores=b.data||[];lavanderia=(c.data||[]).filter(x=>x.status!=='retornou');
+ const u=await db.from('uniformes').select('*').eq('clube_id',clubeId).order('id');if(u.error){mensagem('appMsg','Erro ao carregar uniformes: '+u.error.message);return}uniformes=u.data||[];
  render();
 }
 function render(){
  el('total').textContent=materiais.length;el('totalJog').textContent=jogadores.length;el('totalLav').textContent=lavanderia.reduce((s,x)=>s+(Number(x.quantidade)||0),0);
  el('listaMateriais').innerHTML=materiais.map(x=>'<div class="item"><b>'+esc(x.item)+'</b><br>'+esc(x.categoria||'')+' — '+Number(x.quantidade||0)+' peças'+(x.tamanho?' · Tam. '+esc(x.tamanho):'')+(x.observacao?'<br>'+esc(x.observacao):'')+'</div>').join('')||'Nenhum material cadastrado.';
  el('listaJogadores').innerHTML=jogadores.map(x=>'<div class="item"><b>'+esc(x.nome)+'</b><br>Camisa '+esc(x.numero_camisa??'—')+'</div>').join('')||'Nenhum jogador cadastrado.';
+ el('listaUniformes').innerHTML=uniformes.map(x=>'<div class="item"><b>'+esc(x.descricao)+'</b><br>Tamanho '+esc(x.tamanho)+' — '+Number(x.quantidade||0)+' peças</div>').join('')||'Nenhum uniforme cadastrado.';
  el('listaLav').innerHTML=lavanderia.map(x=>'<div class="item">'+esc(x.descricao)+' — '+Number(x.quantidade||0)+' peças <button onclick="retornar('+Number(x.id)+')">Retornou</button></div>').join('')||'Nenhuma peça na lavanderia.';
 }
 function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
@@ -72,6 +75,7 @@ el('formLogin').onsubmit=async e=>{e.preventDefault();limparMensagem('loginMsg')
 el('formMaterial').onsubmit=async e=>{e.preventDefault();const f=new FormData(e.target);if(await salvar('estoque',{clube_id:clubeId,item:f.get('nome'),categoria:f.get('categoria'),quantidade:Number(f.get('qtd')),tamanho:f.get('tamanho')||null,observacao:f.get('obs')||null}))e.target.reset()};
 el('formJogador').onsubmit=async e=>{e.preventDefault();const f=new FormData(e.target);if(await salvar('jogadores',{clube_id:clubeId,nome:f.get('nome'),numero_camisa:f.get('numero')?Number(f.get('numero')):null}))e.target.reset()};
 el('formLav').onsubmit=async e=>{e.preventDefault();const f=new FormData(e.target);if(await salvar('lavanderia',{clube_id:clubeId,descricao:f.get('nome'),quantidade:Number(f.get('qtd')),status:'pendente'}))e.target.reset()};
+el('formUniforme').onsubmit=async e=>{e.preventDefault();const f=new FormData(e.target);if(await salvar('uniformes',{clube_id:clubeId,descricao:f.get('descricao'),tamanho:f.get('tamanho').trim(),quantidade:Number(f.get('quantidade'))}))e.target.reset()};
 async function retornar(id){const {error}=await db.from('lavanderia').update({status:'retornou'}).eq('id',id).eq('clube_id',clubeId);if(error){mensagem('appMsg','Não foi possível registrar o retorno: '+error.message);return}await carregar()}
 async function sair(){await db.auth.signOut();clubeId=null;el('app').classList.add('hidden');el('login').classList.remove('hidden')}
 iniciar();
