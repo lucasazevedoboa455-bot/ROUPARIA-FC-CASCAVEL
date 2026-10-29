@@ -1,1 +1,111 @@
 
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rouparia FC Cascavel</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f2f2f2;margin:0;color:#111}
+header{background:#111;color:#f5c400;padding:22px 15px;border-bottom:5px solid #f5c400}
+header h1{font-size:23px;margin:0}
+main{padding:15px;max-width:600px;margin:auto}
+nav{display:flex;gap:6px;flex-wrap:wrap;padding:12px;background:white}
+button{background:#f5c400;border:0;border-radius:7px;padding:11px;font-weight:bold;cursor:pointer}
+nav button{flex:1}
+.card{background:white;padding:15px;border-radius:12px;margin:12px 0}
+input,select{box-sizing:border-box;width:100%;padding:12px;margin:6px 0 12px;border:1px solid #ccc;border-radius:7px}
+h2{font-size:19px}
+.item{padding:10px 0;border-bottom:1px solid #ddd}
+.small{color:#666;font-size:13px}
+</style>
+</head>
+<body>
+<header>
+<h1>⚽ ROUPARIA FC CASCAVEL</h1>
+<p>Controle de uniformes e materiais</p>
+</header>
+<nav>
+<button onclick="aba('inicio')">Início</button>
+<button onclick="aba('estoque')">Estoque</button>
+<button onclick="aba('jogadores')">Jogadores</button>
+<button onclick="aba('lavanderia')">Lavanderia</button>
+</nav>
+<main>
+<section id="inicio">
+<div class="card">
+<h2>Resumo da rouparia</h2>
+<p>Materiais cadastrados: <b id="total">0</b></p>
+<p>Jogadores cadastrados: <b id="totalJog">0</b></p>
+<p>Peças na lavanderia: <b id="totalLav">0</b></p>
+</div>
+<div class="card">
+<h2>Bem-vindo!</h2>
+<p>Use as opções acima para organizar sua rouparia.</p>
+<p class="small">FC Cascavel • Preto e amarelo</p>
+</div>
+</section>
+<section id="estoque" hidden>
+<div class="card">
+<h2>Cadastrar material</h2>
+<form id="formMaterial">
+<label>Nome do material</label>
+<input name="nome" placeholder="Ex.: Camisa de jogo" required>
+<label>Categoria</label>
+<select name="categoria">
+<option>Camisa</option><option>Calção</option><option>Meia</option>
+<option>Uniforme de goleiro</option><option>Coletes</option><option>Outro</option>
+</select>
+<label>Quantidade disponível</label>
+<input name="qtd" type="number" min="0" value="0" required>
+<button type="submit">Salvar material</button>
+</form>
+</div>
+<div class="card"><h2>Materiais cadastrados</h2><div id="listaMateriais"></div></div>
+</section>
+<section id="jogadores" hidden>
+<div class="card">
+<h2>Cadastrar jogador</h2>
+<form id="formJogador">
+<label>Nome do jogador</label><input name="nome" required placeholder="Nome completo">
+<label>Número da camisa</label><input name="numero" type="number" min="0" placeholder="Número">
+<label>Tamanho</label>
+<select name="tamanho"><option>P</option><option selected>M</option><option>G</option><option>GG</option></select>
+<button type="submit">Salvar jogador</button>
+</form>
+</div>
+<div class="card"><h2>Jogadores cadastrados</h2><div id="listaJogadores"></div></div>
+</section>
+<section id="lavanderia" hidden>
+<div class="card">
+<h2>Registrar lavanderia</h2>
+<form id="formLav">
+<label>Descrição das peças</label><input name="nome" required placeholder="Ex.: Camisas do treino">
+<label>Quantidade enviada</label><input name="qtd" type="number" min="1" value="1" required>
+<button type="submit">Registrar saída</button>
+</form>
+</div>
+<div class="card"><h2>Peças na lavanderia</h2><div id="listaLav"></div></div>
+</section>
+</main>
+<script>
+const ler=(k,d=[])=>{try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}};
+let materiais=ler('fc_mat'),jogadores=ler('fc_jog'),lavanderia=ler('fc_lav');
+function gravar(){localStorage.setItem('fc_mat',JSON.stringify(materiais));localStorage.setItem('fc_jog',JSON.stringify(jogadores));localStorage.setItem('fc_lav',JSON.stringify(lavanderia));render()}
+function aba(id){document.querySelectorAll('main section').forEach(s=>s.hidden=s.id!==id)}
+document.getElementById('formMaterial').onsubmit=e=>{e.preventDefault();let f=new FormData(e.target);materiais.push({nome:f.get('nome'),categoria:f.get('categoria'),qtd:+f.get('qtd')});e.target.reset();gravar()};
+document.getElementById('formJogador').onsubmit=e=>{e.preventDefault();let f=new FormData(e.target);jogadores.push({nome:f.get('nome'),numero:f.get('numero'),tamanho:f.get('tamanho')});e.target.reset();gravar()};
+document.getElementById('formLav').onsubmit=e=>{e.preventDefault();let f=new FormData(e.target);lavanderia.push({nome:f.get('nome'),qtd:+f.get('qtd')});e.target.reset();gravar()};
+function render(){
+document.getElementById('total').textContent=materiais.length;
+document.getElementById('totalJog').textContent=jogadores.length;
+document.getElementById('totalLav').textContent=lavanderia.reduce((a,x)=>a+x.qtd,0);
+document.getElementById('listaMateriais').innerHTML=materiais.map((x,i)=>`<div class="item"><b>${x.nome}</b><br>${x.categoria} — ${x.qtd} peças <button onclick="materiais.splice(${i},1);gravar()">Excluir</button></div>`).join('')||'Nenhum material cadastrado.';
+document.getElementById('listaJogadores').innerHTML=jogadores.map((x,i)=>`<div class="item"><b>${x.nome}</b><br>Camisa ${x.numero||'—'} · Tam. ${x.tamanho} <button onclick="jogadores.splice(${i},1);gravar()">Excluir</button></div>`).join('')||'Nenhum jogador cadastrado.';
+document.getElementById('listaLav').innerHTML=lavanderia.map((x,i)=>`<div class="item">${x.nome} — ${x.qtd} peças <button onclick="lavanderia.splice(${i},1);gravar()">Retornou</button></div>`).join('')||'Nenhuma peça na lavanderia.';
+}
+render();
+</script>
+</body>
+</html>
+
