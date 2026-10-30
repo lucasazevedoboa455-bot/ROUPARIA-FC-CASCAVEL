@@ -25,17 +25,15 @@
 <form id="formLogin"><label>Qual é sua função no clube?</label><select id="perfilAntesLogin" name="perfilAntesLogin" required><option value="">Selecione sua função</option><option value="admin">Administrador</option><option value="diretor">Diretor</option><option value="roupeiro">Roupeiro</option></select><label>Categoria (para roupeiro)</label><select id="categoriaAntesLogin" name="categoriaAntesLogin"><option value="">Selecione sua categoria</option><option>Profissional</option><option>Sub-20</option><option>Sub-17</option><option>Sub-15</option><option>Sub-13</option></select><label>E-mail</label><input name="email" type="email" required autocomplete="username"><label>Senha</label><input name="senha" type="password" required autocomplete="current-password"><button type="submit">Entrar</button></form>
 <div id="loginMsg" class="msg hidden"></div>
 <hr>
-<h2>Cadastrar meu clube</h2>
-<p>Crie seu acesso, informe o nome do seu clube e personalize o aplicativo com as cores da sua equipe.</p>
+<h2>Cadastrar acesso ao clube</h2>
+<p>Informe o código geral do seu time e a categoria em que você trabalha. O administrador libera o acesso.</p>
 <form id="formCadastro">
-<label>Nome do clube</label><input name="clube" required maxlength="100" placeholder="Ex.: Futebol Clube Cascavel">
-<label>Seu nome</label><input name="nome" required maxlength="100" placeholder="Nome do responsável">
+<label>Seu nome</label><input name="nome" required maxlength="100" placeholder="Seu nome completo">
 <label>E-mail</label><input name="email" type="email" required autocomplete="email" placeholder="voce@email.com">
 <label>Senha (mínimo 8 caracteres)</label><input name="senha" type="password" minlength="8" required autocomplete="new-password">
-<label>Cor principal</label><input name="cor1" type="color" value="#009739">
-<label>Cor secundária</label><input name="cor2" type="color" value="#FFDF00">
-<label>Terceira cor</label><input name="cor3" type="color" value="#002776">
-<button type="submit">Criar conta e cadastrar clube</button>
+<label>Código de acesso do clube</label><input name="codigo" required maxlength="30" autocomplete="off" placeholder="Ex.: FCC001">
+<label>Sua categoria</label><select name="categoria" required><option value="">Selecione sua categoria</option><option>Profissional</option><option>Sub-20</option><option>Sub-17</option><option>Sub-15</option><option>Sub-13</option></select>
+<button type="submit">Criar meu acesso</button>
 </form>
 <div id="cadastroMsg" class="msg hidden"></div>
 </section>
@@ -56,12 +54,13 @@
  <div id="notificacoesMsg" class="small" aria-live="polite">As notificações ainda precisam ser ativadas neste aparelho.</div>
 </div>
 <div class="card" id="categoriaPainel"><label for="categoriaAtual">Categoria da equipe</label><select id="categoriaAtual" onchange="selecionarCategoria(this.value)"><option value="">Carregando categorias...</option></select><div class="small">Os dados e permissões respeitam as categorias vinculadas ao seu perfil.</div></div>
-<nav><button onclick="aba('inicio')">Início</button><button onclick="aba('estoque')">Estoque</button><button onclick="aba('jogadores')">Jogadores</button><button onclick="aba('uniformes')">Uniformes</button><button onclick="aba('lavanderia')">Lavanderia</button><button onclick="aba('movimentacoes')">Saídas/Devoluções</button><button onclick="aba('relatorios')">Relatórios</button><button onclick="aba('entregas')">Entregas por jogador</button><button id="abaAtividadesBtn" class="hidden" onclick="aba('atividades')">Atividades</button></nav>
+<nav><button onclick="aba('inicio')">Início</button><button onclick="aba('estoque')">Estoque</button><button onclick="aba('jogadores')">Jogadores</button><button onclick="aba('uniformes')">Uniformes</button><button onclick="aba('lavanderia')">Lavanderia</button><button onclick="aba('movimentacoes')">Saídas/Devoluções</button><button onclick="aba('relatorios')">Relatórios</button><button onclick="aba('entregas')">Entregas por jogador</button><button id="abaAtividadesBtn" class="hidden" onclick="aba('atividades')">Atividades</button><button id="abaCodigoBtn" class="hidden" onclick="aba('codigoClube')">Código do clube</button></nav>
 <section id="inicio"><div class="card"><h2>Resumo da rouparia</h2><p>Materiais cadastrados: <b id="total">0</b></p><p>Jogadores cadastrados: <b id="totalJog">0</b></p><p>Peças na lavanderia: <b id="totalLav">0</b></p></div><div class="card"><h2>⚠️ Alertas de estoque</h2><p class="small">Itens com 3 peças ou menos precisam de atenção.</p><div id="alertasEstoque">Carregando alertas...</div></div><div class="card"><p>Os dados são carregados do Supabase e separados pelo clube vinculado ao seu usuário.</p></div></section>
 <section id="estoque" class="hidden"><div class="card"><h2>Cadastrar material</h2><form id="formMaterial"><label>Nome do material</label><input name="nome" placeholder="Ex.: Camisa de jogo" required><label>Categoria</label><select name="categoria"><option>Camisa</option><option>Calção</option><option>Meia</option><option>Uniforme de goleiro</option><option>Coletes</option><option>Treino</option><option>Outro</option></select><label>Quantidade</label><input name="qtd" type="number" min="0" value="0" required><label>Tamanho (opcional)</label><input name="tamanho" placeholder="Ex.: M"><label>Observação (opcional)</label><input name="obs"><button type="submit">Salvar material</button></form></div><div class="card"><h2>Materiais cadastrados</h2><div id="listaMateriais">Carregando...</div></div></section>
 <section id="jogadores" class="hidden"><div class="card"><h2>Cadastrar jogador</h2><form id="formJogador"><label>Nome do jogador</label><input name="nome" required placeholder="Nome completo"><label>Número da camisa</label><input name="numero" type="number" min="0" placeholder="Número"><label>Tamanho da chuteira</label><select name="chuteira"><option value="">Selecione o tamanho</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option><option value="32">32</option><option value="33">33</option><option value="34">34</option><option value="35">35</option><option value="36">36</option><option value="37">37</option><option value="38">38</option><option value="39">39</option><option value="40">40</option><option value="41">41</option><option value="42">42</option><option value="43">43</option><option value="44">44</option><option value="45">45</option><option value="46">46</option></select><label>Foto do jogador (opcional)</label><input name="foto" id="fotoJogador" type="file" accept="image/*,.heic,.heif" onchange="mostrarPreviaFotoJogador(this)" oninput="mostrarPreviaFotoJogador(this)"><div style="display:flex;align-items:center;gap:12px;margin:10px 0"><img id="previaFotoJogador" alt="Prévia da foto do jogador" style="width:88px;height:88px;object-fit:cover;border-radius:50%;background:#eee;display:none"><span id="textoPreviaFoto" class="small">Escolha uma foto da galeria para ver a prévia aqui.</span></div><p class="small">JPG, PNG ou WEBP. Máximo de 5 MB.</p><button type="submit">Salvar jogador</button></form></div><div class="card"><h2>Jogadores cadastrados</h2><div id="listaJogadores">Carregando...</div></div></section>
 <section id="uniformes" class="hidden"><div class="card"><h2>Cadastrar uniforme</h2><form id="formUniforme"><label>Descrição</label><input name="descricao" required placeholder="Ex.: Camisa de jogo amarela"><label>Tamanho</label><select name="tamanho" required><option value="">Escolha o tamanho</option><option>PP</option><option>P</option><option>M</option><option>G</option><option>GG</option><option>XG</option><option>Infantil 8</option><option>Infantil 10</option><option>Infantil 12</option><option>Infantil 14</option><option>Único</option></select><label>Quantidade</label><input name="quantidade" type="number" min="0" value="0" required><button type="submit">Salvar uniforme</button></form></div><div class="card"><h2>Uniformes cadastrados</h2><div id="listaUniformes">Carregando...</div></div></section>
 <section id="entregas" class="hidden"><div class="card"><h2>Registrar entrega de uniforme</h2><form id="formEntrega"><label>Jogador</label><select name="jogador" id="entregaJogador" required><option value="">Escolha o jogador</option></select><label>Uniforme</label><select name="uniforme" id="entregaUniforme" required><option value="">Escolha o uniforme</option></select><label>Quantidade entregue</label><input name="quantidade" type="number" min="1" value="1" required><label>Data da entrega</label><input name="data" type="date" required><label>Observação (opcional)</label><input name="obs" placeholder="Ex.: entrega para jogo fora de casa"><button type="submit">Registrar entrega</button></form></div><div class="card"><h2>Histórico de entregas</h2><div id="listaEntregas">Carregando...</div></div></section><section id="relatorios" class="hidden"><div class="card"><h2>Relatórios da rouparia</h2><p>Baixe os dados do seu clube em arquivos CSV que abrem no Excel.</p><button type="button" onclick="exportarRelatorio('estoque')">Baixar relatório do estoque</button><br><br><button type="button" onclick="exportarRelatorio('movimentacoes')">Baixar saídas e devoluções</button><br><br><button type="button" onclick="exportarRelatorio('jogadores')">Baixar lista de jogadores</button><br><br><button type="button" onclick="exportarRelatorio('uniformes')">Baixar relatório de uniformes</button><br><br><button type="button" onclick="exportarRelatorio('lavanderia')">Baixar relatório da lavanderia</button><br><br><button type="button" onclick="exportarRelatorio('entregas')">Baixar entregas por jogador</button><div class="small">Os relatórios incluem os dados carregados do clube conectado.</div></div></section><section id="movimentacoes" class="hidden"><div class="card"><h2>Registrar saída ou devolução</h2><p class="small">Registre a entrega de materiais e a devolução para manter o histórico.</p><form id="formMov"><label>Material</label><select name="material" id="movMaterial" required><option value="">Escolha o material</option></select><label>Tipo de movimentação</label><select name="tipo" required><option value="saida">Saída / entrega</option><option value="devolucao">Devolução / retorno</option></select><label>Quantidade</label><input name="quantidade" type="number" min="1" value="1" required><label>Para quem / observação</label><input name="obs" placeholder="Ex.: Jogador ou comissão técnica"><button type="submit">Registrar movimentação</button></form></div><div class="card"><h2>Histórico de movimentações</h2><div id="listaMov">Carregando...</div></div></section><section id="lavanderia" class="hidden"><div class="card"><h2>Registrar saída para lavanderia</h2><form id="formLav"><label>Descrição das peças</label><input name="nome" required placeholder="Ex.: Camisas do treino"><label>Quantidade enviada</label><input name="qtd" type="number" min="1" value="1" required><button type="submit">Registrar saída</button></form></div><div class="card"><h2>Peças na lavanderia</h2><div id="listaLav">Carregando...</div></div></section>
+<section id="codigoClube" class="hidden"><div class="card"><h2>🔐 Código de acesso do clube</h2><p>Compartilhe este código com os roupeiros do seu time. Ele permite o cadastro como roupeiro, nunca como administrador.</p><div id="codigoClubeAtual" style="font-size:1.5rem;font-weight:700;letter-spacing:2px;padding:12px 0">Carregando código...</div><button type="button" onclick="gerarNovoCodigoClube()">Gerar novo código</button><p class="small">Ao gerar outro código, o anterior deixa de funcionar para novos cadastros. Quem já está cadastrado continua com acesso.</p><div id="codigoClubeMsg" class="msg hidden"></div></div></section>
 <section id="atividades" class="hidden"><div class="card"><h2>📋 Atividades dos usuários</h2><p class="small">Acompanhe os acessos e as alterações feitas na rouparia deste clube. Exibimos os 100 registros mais recentes.</p><div id="resumoAtividades" class="small">Carregando resumo...</div><div id="listaAtividades">Carregando atividades...</div><p class="small">O histórico começa a ser registrado a partir de agora. Os cadastros antigos não possuem identificação de quem os criou.</p><button type="button" onclick="carregarAtividades()">Atualizar atividades</button></div></section><div id="appMsg" class="msg hidden"></div>
 </section>
 </main>
@@ -131,12 +130,16 @@ async function iniciar(){
  if(ev){mensagem('loginMsg','Erro ao verificar o clube: '+ev.message);return}
  if(!vinculo){
    const meta=user.user_metadata||{};
-   if(!meta.clube_nome){await db.auth.signOut();mensagem('loginMsg','Esta conta ainda não está vinculada a um clube. Faça o cadastro do clube ou fale com o administrador.');return}
-   const {data:novoClube,error:erroClube}=await db.rpc('criar_clube_do_usuario',{p_nome:meta.clube_nome,p_cor_primaria:meta.cor_primaria||'#009739',p_cor_secundaria:meta.cor_secundaria||'#FFDF00',p_cor_terciaria:meta.cor_terciaria||'#002776'});
-   if(erroClube){mensagem('loginMsg','Não foi possível concluir o cadastro do clube: '+erroClube.message);return}
+   if(!meta.codigo_acesso||!meta.categoria_nome){
+     await db.auth.signOut();
+     mensagem('loginMsg','Esta conta ainda não está vinculada a um clube. Faça o cadastro usando o código geral fornecido pelo administrador.');
+     return;
+   }
+   const {data:novoClube,error:erroVinculo}=await db.rpc('entrar_clube_com_codigo',{p_codigo:String(meta.codigo_acesso),p_categoria_nome:String(meta.categoria_nome)});
+   if(erroVinculo){await db.auth.signOut();mensagem('loginMsg','Não foi possível vincular seu cadastro: '+erroVinculo.message);return;}
    const resultado=await db.from('usuarios-clube').select('id,clube_id,perfil').eq('usuario_id',user.id).maybeSingle();
    vinculo=resultado.data;
-   if(!vinculo){mensagem('loginMsg','Clube criado ('+novoClube+'), mas não consegui confirmar o vínculo. Entre novamente.');return}
+   if(!vinculo){mensagem('loginMsg','O código foi aceito ('+novoClube+'), mas não consegui confirmar o vínculo. Entre novamente.');return;}
  }
  clubeId=vinculo.clube_id;perfilAtual=vinculo.perfil||'roupeiro';usuarioClubeId=vinculo.id;
  if(!perfilEscolhidoAntesLogin||perfilEscolhidoAntesLogin!==perfilAtual){el('login').classList.remove('hidden');el('app').classList.add('hidden');mensagem('loginMsg','A função selecionada não corresponde à função liberada para seu usuário. Selecione a função correta ou peça ao administrador para conferir seu acesso.');await db.auth.signOut();return;}
@@ -174,7 +177,7 @@ async function iniciar(){
  }
  el('entradaCategoria').classList.add('hidden');el('app').classList.remove('hidden');aplicarPermissoesTela();
  if(location.hash!=='#/app')history.replaceState(null,'',location.pathname+location.search+'#/app');
- if(perfilAtual==='admin')el('abaAtividadesBtn').classList.remove('hidden');else el('abaAtividadesBtn').classList.add('hidden');
+ if(perfilAtual==='admin'){el('abaAtividadesBtn').classList.remove('hidden');el('abaCodigoBtn').classList.remove('hidden');await carregarCodigoClube();}else{el('abaAtividadesBtn').classList.add('hidden');el('abaCodigoBtn').classList.add('hidden');}
  if(!acessoRegistradoNestaSessao){await registrarAcesso();acessoRegistradoNestaSessao=true;}
  await carregar();
 }
@@ -182,6 +185,23 @@ async function registrarAcesso(){
  if(!clubeId)return;
  const {error}=await db.from('atividade_rouparia').insert({clube_id:clubeId,action:'acesso'});
  if(error)console.warn('Não foi possível registrar o acesso:',error.message);
+}
+async function carregarCodigoClube(){
+ if(perfilAtual!=='admin'||!clubeId)return;
+ const box=el('codigoClubeAtual');if(!box)return;
+ box.textContent='Carregando código...';
+ const {data,error}=await db.from('clubes').select('codigo').eq('id',clubeId).maybeSingle();
+ if(error){box.textContent='Não foi possível carregar o código: '+error.message;return;}
+ box.textContent=data?.codigo||'Ainda não gerado';
+}
+async function gerarNovoCodigoClube(){
+ if(perfilAtual!=='admin'||!clubeId)return;
+ if(!confirm('Gerar um novo código? O código antigo deixará de funcionar para novos cadastros.'))return;
+ const box=el('codigoClubeAtual');if(box)box.textContent='Gerando...';
+ const {data,error}=await db.rpc('gerar_codigo_clube');
+ if(error){if(box)box.textContent='Erro ao gerar código.';mensagem('codigoClubeMsg','Não foi possível gerar o código: '+error.message);return;}
+ if(box)box.textContent=data||'Código gerado';
+ limparMensagem('codigoClubeMsg');
 }
 async function carregarAtividades(){
  if(perfilAtual!=='admin'||!clubeId)return;
@@ -260,11 +280,14 @@ el('formLogin').onsubmit=async e=>{e.preventDefault();limparMensagem('loginMsg')
 el('formCadastro').onsubmit=async e=>{
  e.preventDefault();limparMensagem('cadastroMsg');
  const f=new FormData(e.target),email=String(f.get('email')).trim(),senha=String(f.get('senha'));
- if(senha.length<8){mensagem('cadastroMsg','A senha precisa ter pelo menos 8 caracteres.');return}
- const {data,error}=await db.auth.signUp({email,password:senha,options:{data:{nome_responsavel:String(f.get('nome')).trim(),clube_nome:String(f.get('clube')).trim(),cor_primaria:f.get('cor1'),cor_secundaria:f.get('cor2'),cor_terciaria:f.get('cor3')}}});
- if(error){mensagem('cadastroMsg','Não foi possível criar a conta: '+error.message);return}
- if(data.session){mensagem('cadastroMsg','Conta criada! Preparando o clube...');await iniciar();}
- else{mensagem('cadastroMsg','Conta criada. Confira seu e-mail para confirmar o cadastro. Depois volte aqui e entre com seu e-mail e senha para concluir a criação do clube.');}
+ const codigo=String(f.get('codigo')||'').trim().toUpperCase(),categoria=String(f.get('categoria')||'').trim();
+ if(senha.length<8){mensagem('cadastroMsg','A senha precisa ter pelo menos 8 caracteres.');return;}
+ if(!codigo||!categoria){mensagem('cadastroMsg','Informe o código do clube e sua categoria.');return;}
+ const {data,error}=await db.auth.signUp({email,password:senha,options:{data:{nome_responsavel:String(f.get('nome')).trim(),codigo_acesso:codigo,categoria_nome:categoria}}});
+ if(error){mensagem('cadastroMsg','Não foi possível criar a conta: '+error.message);return;}
+ perfilEscolhidoAntesLogin='roupeiro';categoriaEscolhidaAntesLogin=categoria;
+ if(data.session){mensagem('cadastroMsg','Conta criada! Vinculando ao clube...');await iniciar();}
+ else{mensagem('cadastroMsg','Conta criada. Se o Supabase solicitar confirmação do e-mail, confirme e depois entre com seu e-mail e senha, selecionando Roupeiro e sua categoria.');}
 };
 db.auth.onAuthStateChange((event)=>{if(event==='SIGNED_OUT'){clubeId=null;acessoRegistradoNestaSessao=false;el('app').classList.add('hidden');el('entradaCategoria').classList.add('hidden');el('login').classList.remove('hidden');}});
 window.addEventListener('hashchange',async()=>{if(location.hash==='#/app'){const {data:{user}}=await db.auth.getUser();if(!user){history.replaceState(null,'',location.pathname+location.search+'#/login');el('app').classList.add('hidden');el('login').classList.remove('hidden');}else if(el('app').classList.contains('hidden'))await iniciar();}else if(location.hash!=='#/login'){history.replaceState(null,'',location.pathname+location.search+'#/login');}});
