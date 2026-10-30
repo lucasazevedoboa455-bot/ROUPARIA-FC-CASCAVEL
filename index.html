@@ -12,7 +12,7 @@
 <link rel="apple-touch-icon" href="./app-icon.svg">
 <title>Rouparia FC Cascavel</title>
 <style>
-*{box-sizing:border-box}body{font-family:Arial,sans-serif;background:#f2f2f2;margin:0;color:#111}header{background:#111;color:#f5c400;padding:20px 15px;border-bottom:5px solid #f5c400}header h1{font-size:23px;margin:0}main{padding:15px;max-width:700px;margin:auto}nav{display:flex;gap:6px;flex-wrap:wrap;padding:12px;background:white;border-radius:10px}button{background:#f5c400;border:0;border-radius:7px;padding:11px;font-weight:bold;cursor:pointer}button:disabled{opacity:.5}nav button{flex:1}.card{background:white;padding:15px;border-radius:12px;margin:12px 0}input,select{box-sizing:border-box;width:100%;padding:12px;margin:6px 0 12px;border:1px solid #ccc;border-radius:7px}h2{font-size:19px}.item{padding:10px 0;border-bottom:1px solid #ddd}.small{color:#666;font-size:13px}.msg{padding:10px;border-radius:8px;background:#fff3cd;margin:10px 0;overflow-wrap:anywhere}.hidden{display:none}
+*{box-sizing:border-box}body{font-family:Arial,sans-serif;background:#f2f2f2;margin:0;color:#111}header{background:var(--club-primary,#111);color:var(--club-secondary,#f5c400);padding:20px 15px;border-bottom:5px solid var(--club-secondary,#f5c400)}header h1{font-size:23px;margin:0}main{padding:15px;max-width:700px;margin:auto}nav{display:flex;gap:6px;flex-wrap:wrap;padding:12px;background:white;border-radius:10px}button{background:var(--club-secondary,#f5c400);border:0;border-radius:7px;padding:11px;font-weight:bold;cursor:pointer}button:disabled{opacity:.5}nav button{flex:1}.card{background:white;padding:15px;border-radius:12px;margin:12px 0}input,select{box-sizing:border-box;width:100%;padding:12px;margin:6px 0 12px;border:1px solid #ccc;border-radius:7px}h2{font-size:19px}.item{padding:10px 0;border-bottom:1px solid #ddd}.small{color:#666;font-size:13px}.msg{padding:10px;border-radius:8px;background:#fff3cd;margin:10px 0;overflow-wrap:anywhere}.hidden{display:none}
 </style>
 </head>
 <body>
@@ -20,9 +20,23 @@
 <main>
 <section id="login" class="card">
 <h2>Entrar na rouparia</h2>
-<p>Use o e-mail e a senha cadastrados no Supabase.</p>
+<p>Acesse com seu e-mail e senha.</p>
 <form id="formLogin"><label>E-mail</label><input name="email" type="email" required autocomplete="username"><label>Senha</label><input name="senha" type="password" required autocomplete="current-password"><button type="submit">Entrar</button></form>
 <div id="loginMsg" class="msg hidden"></div>
+<hr>
+<h2>Cadastrar meu clube</h2>
+<p>Crie seu acesso e personalize o aplicativo com as cores do seu clube.</p>
+<form id="formCadastro">
+<label>Nome do clube</label><input name="clube" required maxlength="100" placeholder="Ex.: Futebol Clube Cascavel">
+<label>Seu nome</label><input name="nome" required maxlength="100" placeholder="Nome do responsável">
+<label>E-mail</label><input name="email" type="email" required autocomplete="email" placeholder="voce@email.com">
+<label>Senha (mínimo 8 caracteres)</label><input name="senha" type="password" minlength="8" required autocomplete="new-password">
+<label>Cor principal</label><input name="cor1" type="color" value="#111111">
+<label>Cor secundária</label><input name="cor2" type="color" value="#F5C400">
+<label>Terceira cor</label><input name="cor3" type="color" value="#808080">
+<button type="submit">Criar conta e cadastrar clube</button>
+</form>
+<div id="cadastroMsg" class="msg hidden"></div>
 </section>
 <section id="app" class="hidden">
 <div class="card"><span id="clubName">Seu clube</span> <button onclick="sair()" style="float:right">Sair</button><div id="status" class="small"></div></div>
@@ -48,14 +62,27 @@ function limparMensagem(id){el(id).textContent='';el(id).classList.add('hidden')
 function aba(id){document.querySelectorAll('#app section[id]').forEach(s=>s.classList.add('hidden'));el(id).classList.remove('hidden');}
 async function iniciar(){
  const {data:{user},error}=await db.auth.getUser();
- if(error||!user){el('login').classList.remove('hidden');el('app').classList.add('hidden');return}
- const {data:vinculo,error:ev}=await db.from('usuarios-clube').select('clube_id,perfil').eq('usuario_id',user.id).maybeSingle();
- if(ev||!vinculo){await db.auth.signOut();mensagem('loginMsg','Não encontrei um clube vinculado a este usuário. Confira o vínculo na tabela usuarios-clube do Supabase.');return}
+ if(error||!user){clubeId=null;el('login').classList.remove('hidden');el('app').classList.add('hidden');if(location.hash==='#/app')history.replaceState(null,'',location.pathname+location.search+'#/login');return}
+ let {data:vinculo,error:ev}=await db.from('usuarios-clube').select('clube_id,perfil').eq('usuario_id',user.id).maybeSingle();
+ if(ev){mensagem('loginMsg','Erro ao verificar o clube: '+ev.message);return}
+ if(!vinculo){
+   const meta=user.user_metadata||{};
+   if(!meta.clube_nome){await db.auth.signOut();mensagem('loginMsg','Esta conta ainda não está vinculada a um clube. Faça o cadastro do clube ou fale com o administrador.');return}
+   const {data:novoClube,error:erroClube}=await db.rpc('criar_clube_do_usuario',{p_nome:meta.clube_nome,p_cor_primaria:meta.cor_primaria||'#111111',p_cor_secundaria:meta.cor_secundaria||'#F5C400',p_cor_terciaria:meta.cor_terciaria||'#808080'});
+   if(erroClube){mensagem('loginMsg','Não foi possível concluir o cadastro do clube: '+erroClube.message);return}
+   const resultado=await db.from('usuarios-clube').select('clube_id,perfil').eq('usuario_id',user.id).maybeSingle();
+   vinculo=resultado.data;
+   if(!vinculo){mensagem('loginMsg','Clube criado ('+novoClube+'), mas não consegui confirmar o vínculo. Entre novamente.');return}
+ }
  clubeId=vinculo.clube_id;
- const {data:clube}=await db.from('clubes').select('nome').eq('id',clubeId).maybeSingle();
+ const {data:clube,error:erroNome}=await db.from('clubes').select('nome,cor_primaria,cor_secundaria,cor_terciaria').eq('id',clubeId).maybeSingle();
+ if(erroNome){mensagem('loginMsg','Não foi possível carregar os dados do clube: '+erroNome.message);return}
  el('clubName').textContent=clube?.nome||'Minha rouparia';
  el('status').textContent='Perfil: '+(vinculo.perfil||'usuário');
- el('login').classList.add('hidden');el('app').classList.remove('hidden');await carregar();
+ if(clube){document.documentElement.style.setProperty('--club-primary',clube.cor_primaria||'#111111');document.documentElement.style.setProperty('--club-secondary',clube.cor_secundaria||'#F5C400');document.documentElement.style.setProperty('--club-tertiary',clube.cor_terciaria||'#808080');}
+ el('login').classList.add('hidden');el('app').classList.remove('hidden');
+ if(location.hash!=='#/app')history.replaceState(null,'',location.pathname+location.search+'#/app');
+ await carregar();
 }
 async function carregar(){
  const [a,b,c]=await Promise.all([
@@ -99,6 +126,18 @@ function exportarRelatorio(tipo){
 }
 async function salvar(tabela,dados){const {error}=await db.from(tabela).insert(dados);if(error){mensagem('appMsg','O Supabase bloqueou o salvamento ou houve um erro: '+error.message+'. Precisamos conferir as políticas de gravação.');return false}limparMensagem('appMsg');await carregar();return true}
 el('formLogin').onsubmit=async e=>{e.preventDefault();limparMensagem('loginMsg');const f=new FormData(e.target);const {error}=await db.auth.signInWithPassword({email:f.get('email'),password:f.get('senha')});if(error){mensagem('loginMsg','Não foi possível entrar: '+error.message);return}await iniciar()};
+el('formCadastro').onsubmit=async e=>{
+ e.preventDefault();limparMensagem('cadastroMsg');
+ const f=new FormData(e.target),email=String(f.get('email')).trim(),senha=String(f.get('senha'));
+ if(senha.length<8){mensagem('cadastroMsg','A senha precisa ter pelo menos 8 caracteres.');return}
+ const {data,error}=await db.auth.signUp({email,password:senha,options:{data:{nome_responsavel:String(f.get('nome')).trim(),clube_nome:String(f.get('clube')).trim(),cor_primaria:f.get('cor1'),cor_secundaria:f.get('cor2'),cor_terciaria:f.get('cor3')}}});
+ if(error){mensagem('cadastroMsg','Não foi possível criar a conta: '+error.message);return}
+ if(data.session){mensagem('cadastroMsg','Conta criada! Preparando o clube...');await iniciar();}
+ else{mensagem('cadastroMsg','Conta criada. Confira seu e-mail para confirmar o cadastro. Depois volte aqui e entre com seu e-mail e senha para concluir a criação do clube.');}
+};
+db.auth.onAuthStateChange((event,session)=>{if(event==='SIGNED_IN'&&session)setTimeout(()=>iniciar(),0);if(event==='SIGNED_OUT'){clubeId=null;el('app').classList.add('hidden');el('login').classList.remove('hidden');}});
+window.addEventListener('hashchange',async()=>{if(location.hash==='#/app'){const {data:{user}}=await db.auth.getUser();if(!user){history.replaceState(null,'',location.pathname+location.search+'#/login');el('app').classList.add('hidden');el('login').classList.remove('hidden');}else if(el('app').classList.contains('hidden'))await iniciar();}else if(location.hash!=='#/login'){history.replaceState(null,'',location.pathname+location.search+'#/login');}});
+
 el('formMaterial').onsubmit=async e=>{e.preventDefault();const f=new FormData(e.target);if(await salvar('estoque',{clube_id:clubeId,item:f.get('nome'),categoria:f.get('categoria'),quantidade:Number(f.get('qtd')),tamanho:f.get('tamanho')||null,observacao:f.get('obs')||null}))e.target.reset()};
 el('formJogador').onsubmit=async e=>{e.preventDefault();const f=new FormData(e.target);if(await salvar('jogadores',{clube_id:clubeId,nome:f.get('nome'),numero_camisa:f.get('numero')?Number(f.get('numero')):null}))e.target.reset()};
 el('formLav').onsubmit=async e=>{e.preventDefault();const f=new FormData(e.target);if(await salvar('lavanderia',{clube_id:clubeId,descricao:f.get('nome'),quantidade:Number(f.get('qtd')),status:'pendente'}))e.target.reset()};
