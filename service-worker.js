@@ -1,4 +1,4 @@
-const CACHE_NAME = 'roupeiro-do-brasil-v10';
+const CACHE_NAME = 'roupeiro-do-brasil-v11';
 const APP_FILES = ['./', './index.html', './manifest.json', './app-icon.svg'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_FILES)).then(() => self.skipWaiting()));
