@@ -65,8 +65,10 @@ function selecionarCategoria(id){categoriaSelecionada=id?Number(id):null;}
 function aplicarPermissoesTela(){
  const somenteLeitura=perfilAtual==='diretor';
  document.querySelectorAll('#app form').forEach(f=>{f.closest('.card')?.classList.toggle('hidden',somenteLeitura);});
- if(somenteLeitura){document.querySelectorAll('#app button').forEach(b=>{if(!b.closest('nav') && b.textContent.trim()!=='Sair')b.classList.add('hidden');});}
- else{document.querySelectorAll('#app button').forEach(b=>b.classList.remove('hidden'));}
+ document.querySelectorAll('#listaUniformes button,#listaLav button,#listaEntregas button').forEach(b=>{
+   const acao=b.textContent.trim().toLowerCase();
+   b.classList.toggle('hidden',somenteLeitura || (acao==='excluir' && perfilAtual!=='admin'));
+ });
 }
 async function iniciar(){
  const {data:{user},error}=await db.auth.getUser();
@@ -93,6 +95,7 @@ async function iniciar(){
  if(erroNome){mensagem('loginMsg','Não foi possível carregar os dados do clube: '+erroNome.message);return}
  el('clubName').textContent=clube?.nome||'Minha rouparia';
  el('status').textContent='Perfil: '+(vinculo.perfil||'usuário');
+ const titulo=document.querySelector('header h1');if(titulo)titulo.textContent='⚽ '+(clube?.nome||'ROUPARIA');
  if(clube){document.documentElement.style.setProperty('--club-primary',clube.cor_primaria||'#111111');document.documentElement.style.setProperty('--club-secondary',clube.cor_secundaria||'#F5C400');document.documentElement.style.setProperty('--club-tertiary',clube.cor_terciaria||'#808080');}
  el('login').classList.add('hidden');el('app').classList.remove('hidden');aplicarPermissoesTela();
  if(location.hash!=='#/app')history.replaceState(null,'',location.pathname+location.search+'#/app');
@@ -109,7 +112,7 @@ async function carregar(){
  const u=await db.from('uniformes').select('*').eq('clube_id',clubeId).order('id');if(u.error){mensagem('appMsg','Erro ao carregar uniformes: '+u.error.message);return}uniformes=u.data||[];
  const m=await db.from('movimentacoes').select('*').eq('clube_id',clubeId).order('id',{ascending:false});if(m.error){mensagem('appMsg','Erro ao carregar histórico: '+m.error.message);return}movimentacoes=m.data||[];
  const en=await db.from('entregas_uniformes').select('*').eq('clube_id',clubeId).order('data_entrega',{ascending:false}).order('id',{ascending:false});if(en.error){mensagem('appMsg','Erro ao carregar entregas por jogador: '+en.error.message);return}entregas=en.data||[];
- render();
+ render();aplicarPermissoesTela();
 }
 function render(){
  el('total').textContent=materiais.length;el('totalJog').textContent=jogadores.length;el('totalLav').textContent=lavanderia.reduce((s,x)=>s+(Number(x.quantidade)||0),0);const alertas=[...uniformes.map(x=>({nome:x.descricao+' — tamanho '+x.tamanho,qtd:Number(x.quantidade||0),tipo:'Uniforme'})),...materiais.map(x=>({nome:x.item+(x.tamanho?' — tamanho '+x.tamanho:''),qtd:Number(x.quantidade||0),tipo:'Material'}))].filter(x=>x.qtd<=3).sort((a,b)=>a.qtd-b.qtd);el('alertasEstoque').innerHTML=alertas.length?alertas.map(x=>'<div class="item"><b style="color:#b42318">⚠️ '+esc(x.tipo)+': '+esc(x.nome)+'</b><br>Restam '+x.qtd+' peça(s).</div>').join(''):'<p>✅ Nenhum alerta. Todos os estoques estão acima de 3 peças.</p>';
