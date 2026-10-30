@@ -20,8 +20,8 @@
 <main>
 <section id="login" class="card">
 <h2>Entrar na rouparia</h2>
-<p>Escolha sua categoria e depois entre com seu e-mail e senha.</p>
-<form id="formLogin"><label>Categoria</label><select id="categoriaAntesLogin" name="categoriaAntesLogin"><option value="">Selecione sua categoria</option><option>Profissional</option><option>Sub-20</option><option>Sub-17</option><option>Sub-15</option><option>Sub-13</option></select><label>E-mail</label><input name="email" type="email" required autocomplete="username"><label>Senha</label><input name="senha" type="password" required autocomplete="current-password"><button type="submit">Entrar</button></form>
+<p>Informe sua função e, se for roupeiro, escolha a categoria antes de entrar.</p>
+<form id="formLogin"><label>Qual é sua função no clube?</label><select id="perfilAntesLogin" name="perfilAntesLogin" required><option value="">Selecione sua função</option><option value="admin">Administrador</option><option value="diretor">Diretor</option><option value="roupeiro">Roupeiro</option></select><label>Categoria (para roupeiro)</label><select id="categoriaAntesLogin" name="categoriaAntesLogin"><option value="">Selecione sua categoria</option><option>Profissional</option><option>Sub-20</option><option>Sub-17</option><option>Sub-15</option><option>Sub-13</option></select><label>E-mail</label><input name="email" type="email" required autocomplete="username"><label>Senha</label><input name="senha" type="password" required autocomplete="current-password"><button type="submit">Entrar</button></form>
 <div id="loginMsg" class="msg hidden"></div>
 <hr>
 <h2>Cadastrar meu clube</h2>
@@ -64,7 +64,7 @@ const SUPABASE_URL='https://tcgwafifjtqcgmzfesfk.supabase.co';
 const SUPABASE_KEY='sb_publishable_VQT7oxscxB1yQH1kWj4ipQ_gNhtv3ZJ';
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js').catch(() => {})); }
-let clubeId=null, perfilAtual='admin', usuarioClubeId=null, categoriasClube=[], categoriaSelecionada=null, categoriaEscolhidaAntesLogin='', materiais=[], jogadores=[], uniformes=[], lavanderia=[], cLavanderia=[], movimentacoes=[], entregas=[];
+let clubeId=null, perfilAtual='admin', usuarioClubeId=null, categoriasClube=[], categoriaSelecionada=null, categoriaEscolhidaAntesLogin='', perfilEscolhidoAntesLogin='', materiais=[], jogadores=[], uniformes=[], lavanderia=[], cLavanderia=[], movimentacoes=[], entregas=[];
 const el=id=>document.getElementById(id);
 function mensagem(id,text){el(id).textContent=text;el(id).classList.remove('hidden')}
 function limparMensagem(id){el(id).textContent='';el(id).classList.add('hidden')}
@@ -94,6 +94,7 @@ async function iniciar(){
    if(!vinculo){mensagem('loginMsg','Clube criado ('+novoClube+'), mas não consegui confirmar o vínculo. Entre novamente.');return}
  }
  clubeId=vinculo.clube_id;perfilAtual=vinculo.perfil||'roupeiro';usuarioClubeId=vinculo.id;
+ if(!perfilEscolhidoAntesLogin||perfilEscolhidoAntesLogin!==perfilAtual){el('login').classList.remove('hidden');el('app').classList.add('hidden');mensagem('loginMsg','A função selecionada não corresponde à função liberada para seu usuário. Selecione a função correta ou peça ao administrador para conferir seu acesso.');await db.auth.signOut();return;}
  const cats=await db.from('categorias').select('id,nome').eq('clube_id',clubeId).order('id');
  if(cats.error){mensagem('loginMsg','Erro ao carregar categorias: '+cats.error.message);return}
  categoriasClube=cats.data||[];
@@ -166,7 +167,7 @@ function exportarRelatorio(tipo){
  const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='FC-Cascavel-'+cfg.nome+'.csv';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);limparMensagem('appMsg');
 }
 async function salvar(tabela,dados){const {error}=await db.from(tabela).insert(dados);if(error){mensagem('appMsg','O Supabase bloqueou o salvamento ou houve um erro: '+error.message+'. Precisamos conferir as políticas de gravação.');return false}limparMensagem('appMsg');await carregar();return true}
-el('formLogin').onsubmit=async e=>{e.preventDefault();limparMensagem('loginMsg');const f=new FormData(e.target);categoriaEscolhidaAntesLogin=String(f.get('categoriaAntesLogin')||'').trim();const {error}=await db.auth.signInWithPassword({email:f.get('email'),password:f.get('senha')});if(error){mensagem('loginMsg','Não foi possível entrar: '+error.message);return}await iniciar()};
+el('formLogin').onsubmit=async e=>{e.preventDefault();limparMensagem('loginMsg');const f=new FormData(e.target);perfilEscolhidoAntesLogin=String(f.get('perfilAntesLogin')||'').trim();categoriaEscolhidaAntesLogin=String(f.get('categoriaAntesLogin')||'').trim();if(!perfilEscolhidoAntesLogin){mensagem('loginMsg','Selecione sua função no clube antes de entrar.');return;}const {error}=await db.auth.signInWithPassword({email:f.get('email'),password:f.get('senha')});if(error){mensagem('loginMsg','Não foi possível entrar: '+error.message);return}await iniciar()};
 el('formCadastro').onsubmit=async e=>{
  e.preventDefault();limparMensagem('cadastroMsg');
  const f=new FormData(e.target),email=String(f.get('email')).trim(),senha=String(f.get('senha'));
