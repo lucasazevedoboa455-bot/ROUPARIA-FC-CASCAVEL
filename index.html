@@ -38,6 +38,14 @@
 </form>
 <div id="cadastroMsg" class="msg hidden"></div>
 </section>
+<section id="entradaCategoria" class="card hidden">
+<h2>Escolha sua categoria</h2>
+<p>Selecione a equipe em que você vai trabalhar hoje.</p>
+<label for="categoriaEntrada">Categoria</label>
+<select id="categoriaEntrada" required><option value="">Carregando categorias...</option></select>
+<button type="button" onclick="entrarNaCategoria()">Entrar na rouparia</button>
+<div id="categoriaEntradaMsg" class="msg hidden"></div>
+</section>
 <section id="app" class="hidden">
 <div class="card"><span id="clubName">Seu clube</span> <button onclick="sair()" style="float:right">Sair</button><div id="status" class="small"></div></div>
 <div class="card" id="categoriaPainel"><label for="categoriaAtual">Categoria da equipe</label><select id="categoriaAtual" onchange="selecionarCategoria(this.value)"><option value="">Carregando categorias...</option></select><div class="small">Os dados e permissões respeitam as categorias vinculadas ao seu perfil.</div></div>
@@ -56,12 +64,13 @@ const SUPABASE_URL='https://tcgwafifjtqcgmzfesfk.supabase.co';
 const SUPABASE_KEY='sb_publishable_VQT7oxscxB1yQH1kWj4ipQ_gNhtv3ZJ';
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js').catch(() => {})); }
-let clubeId=null, perfilAtual='admin', categoriasClube=[], categoriaSelecionada=null, materiais=[], jogadores=[], uniformes=[], lavanderia=[], cLavanderia=[], movimentacoes=[], entregas=[];
+let clubeId=null, perfilAtual='admin', usuarioClubeId=null, categoriasClube=[], categoriaSelecionada=null, materiais=[], jogadores=[], uniformes=[], lavanderia=[], cLavanderia=[], movimentacoes=[], entregas=[];
 const el=id=>document.getElementById(id);
 function mensagem(id,text){el(id).textContent=text;el(id).classList.remove('hidden')}
 function limparMensagem(id){el(id).textContent='';el(id).classList.add('hidden')}
 function aba(id){document.querySelectorAll('#app section[id]').forEach(s=>s.classList.add('hidden'));el(id).classList.remove('hidden');}
 function selecionarCategoria(id){categoriaSelecionada=id?Number(id):null;}
+function entrarNaCategoria(){const id=Number(el('categoriaEntrada').value);if(!id||!categoriasClube.some(c=>Number(c.id)===id)){mensagem('categoriaEntradaMsg','Escolha uma categoria válida.');return;}categoriaSelecionada=id;el('categoriaAtual').value=String(id);el('entradaCategoria').classList.add('hidden');el('app').classList.remove('hidden');history.replaceState(null,'',location.pathname+location.search+'#/app');carregar();}
 function aplicarPermissoesTela(){
  const somenteLeitura=perfilAtual==='diretor';
  document.querySelectorAll('#app form').forEach(f=>{f.closest('.card')?.classList.toggle('hidden',somenteLeitura);});
@@ -73,21 +82,27 @@ function aplicarPermissoesTela(){
 async function iniciar(){
  const {data:{user},error}=await db.auth.getUser();
  if(error||!user){clubeId=null;el('login').classList.remove('hidden');el('app').classList.add('hidden');if(location.hash==='#/app')history.replaceState(null,'',location.pathname+location.search+'#/login');return}
- let {data:vinculo,error:ev}=await db.from('usuarios-clube').select('clube_id,perfil').eq('usuario_id',user.id).maybeSingle();
+ let {data:vinculo,error:ev}=await db.from('usuarios-clube').select('id,clube_id,perfil').eq('usuario_id',user.id).maybeSingle();
  if(ev){mensagem('loginMsg','Erro ao verificar o clube: '+ev.message);return}
  if(!vinculo){
    const meta=user.user_metadata||{};
    if(!meta.clube_nome){await db.auth.signOut();mensagem('loginMsg','Esta conta ainda não está vinculada a um clube. Faça o cadastro do clube ou fale com o administrador.');return}
    const {data:novoClube,error:erroClube}=await db.rpc('criar_clube_do_usuario',{p_nome:meta.clube_nome,p_cor_primaria:meta.cor_primaria||'#111111',p_cor_secundaria:meta.cor_secundaria||'#F5C400',p_cor_terciaria:meta.cor_terciaria||'#808080'});
    if(erroClube){mensagem('loginMsg','Não foi possível concluir o cadastro do clube: '+erroClube.message);return}
-   const resultado=await db.from('usuarios-clube').select('clube_id,perfil').eq('usuario_id',user.id).maybeSingle();
+   const resultado=await db.from('usuarios-clube').select('id,clube_id,perfil').eq('usuario_id',user.id).maybeSingle();
    vinculo=resultado.data;
    if(!vinculo){mensagem('loginMsg','Clube criado ('+novoClube+'), mas não consegui confirmar o vínculo. Entre novamente.');return}
  }
- clubeId=vinculo.clube_id;perfilAtual=vinculo.perfil||'roupeiro';
+ clubeId=vinculo.clube_id;perfilAtual=vinculo.perfil||'roupeiro';usuarioClubeId=vinculo.id;
  const cats=await db.from('categorias').select('id,nome').eq('clube_id',clubeId).order('id');
  if(cats.error){mensagem('loginMsg','Erro ao carregar categorias: '+cats.error.message);return}
  categoriasClube=cats.data||[];
+ if(perfilAtual==='roupeiro'){
+   const links=await db.from('usuarios-categorias').select('categoria_id').eq('usuario_clube_id',usuarioClubeId);
+   if(links.error){mensagem('loginMsg','Erro ao consultar suas categorias: '+links.error.message);return;}
+   const ids=new Set((links.data||[]).map(x=>Number(x.categoria_id)));
+   categoriasClube=categoriasClube.filter(c=>ids.has(Number(c.id)));
+ }
  const seletor=el('categoriaAtual');seletor.innerHTML=categoriasClube.map(c=>'<option value="'+Number(c.id)+'">'+esc(c.nome)+'</option>').join('')||'<option value="">Nenhuma categoria cadastrada</option>';
  if(!categoriaSelecionada||!categoriasClube.some(c=>Number(c.id)===Number(categoriaSelecionada)))categoriaSelecionada=categoriasClube[0]?.id||null;
  seletor.value=categoriaSelecionada||'';
@@ -97,7 +112,16 @@ async function iniciar(){
  el('status').textContent='Perfil: '+(vinculo.perfil||'usuário');
  const titulo=document.querySelector('header h1');if(titulo)titulo.textContent='⚽ '+(clube?.nome||'ROUPARIA');
  if(clube){document.documentElement.style.setProperty('--club-primary',clube.cor_primaria||'#111111');document.documentElement.style.setProperty('--club-secondary',clube.cor_secundaria||'#F5C400');document.documentElement.style.setProperty('--club-tertiary',clube.cor_terciaria||'#808080');}
- el('login').classList.add('hidden');el('app').classList.remove('hidden');aplicarPermissoesTela();
+ el('login').classList.add('hidden');
+ if(perfilAtual==='roupeiro'){
+   const entrada=el('categoriaEntrada');const opcoes=categoriasClube.map(c=>'<option value="'+Number(c.id)+'">'+esc(c.nome)+'</option>').join('');
+   entrada.classList.remove('hidden');el('app').classList.add('hidden');
+   el('categoriaEntrada').querySelector('select').innerHTML='<option value="">Selecione sua categoria</option>'+opcoes;
+   if(categoriasClube.length===0){mensagem('categoriaEntradaMsg','Seu usuário ainda não tem categoria vinculada. Peça ao administrador para liberar seu acesso.');el('categoriaEntrada').querySelector('button').disabled=true;}
+   else{el('categoriaEntrada').querySelector('button').disabled=false;}
+   return;
+ }
+ el('entradaCategoria').classList.add('hidden');el('app').classList.remove('hidden');aplicarPermissoesTela();
  if(location.hash!=='#/app')history.replaceState(null,'',location.pathname+location.search+'#/app');
  await carregar();
 }
@@ -152,7 +176,7 @@ el('formCadastro').onsubmit=async e=>{
  if(data.session){mensagem('cadastroMsg','Conta criada! Preparando o clube...');await iniciar();}
  else{mensagem('cadastroMsg','Conta criada. Confira seu e-mail para confirmar o cadastro. Depois volte aqui e entre com seu e-mail e senha para concluir a criação do clube.');}
 };
-db.auth.onAuthStateChange((event)=>{if(event==='SIGNED_OUT'){clubeId=null;el('app').classList.add('hidden');el('login').classList.remove('hidden');}});
+db.auth.onAuthStateChange((event)=>{if(event==='SIGNED_OUT'){clubeId=null;el('app').classList.add('hidden');el('entradaCategoria').classList.add('hidden');el('login').classList.remove('hidden');}});
 window.addEventListener('hashchange',async()=>{if(location.hash==='#/app'){const {data:{user}}=await db.auth.getUser();if(!user){history.replaceState(null,'',location.pathname+location.search+'#/login');el('app').classList.add('hidden');el('login').classList.remove('hidden');}else if(el('app').classList.contains('hidden'))await iniciar();}else if(location.hash!=='#/login'){history.replaceState(null,'',location.pathname+location.search+'#/login');}});
 
 el('formMaterial').onsubmit=async e=>{e.preventDefault();const f=new FormData(e.target);if(await salvar('estoque',{clube_id:clubeId,categoria_id:categoriaSelecionada,item:f.get('nome'),categoria:f.get('categoria'),quantidade:Number(f.get('qtd')),tamanho:f.get('tamanho')||null,observacao:f.get('obs')||null}))e.target.reset()};
