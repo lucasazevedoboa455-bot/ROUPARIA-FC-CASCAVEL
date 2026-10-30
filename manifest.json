@@ -1,7 +1,7 @@
 {
-  "name": "Rouparia FC Cascavel",
-  "short_name": "Rouparia FCC",
-  "description": "Controle de estoque, uniformes, jogadores, entregas e lavanderia do Futebol Clube Cascavel.",
+  "name": "Roupeiros Brasil",
+  "short_name": "Roupeiros Brasil",
+  "description": "Controle de estoque, uniformes, jogadores, entregas e lavanderia para clubes de futebol.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
