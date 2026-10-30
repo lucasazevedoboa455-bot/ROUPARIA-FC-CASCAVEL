@@ -56,6 +56,12 @@
 </section>
 <section id="app" class="hidden">
 <div class="card"><span id="clubName">Seu clube</span> <button onclick="sair()" style="float:right">Sair</button><div id="status" class="small"></div></div>
+<div class="card hidden" id="sandboxPagamentoCard">
+ <h2>🧪 Teste técnico PagBank (Sandbox)</h2>
+ <p class="small">Somente ambiente de testes. Não é uma cobrança real e não altera o acesso nem os pagamentos de produção.</p>
+ <button type="button" id="gerarCheckoutSandbox">Gerar link de teste de R$ 30,00</button>
+ <p id="sandboxPagamentoMsg" class="small" aria-live="polite">Use apenas para validar o checkout de testes.</p>
+</div>
 <div class="card" id="notificacoesCard">
  <h2>🔔 Notificações</h2>
  <p class="small">Ative para receber avisos da rouparia mesmo quando o aplicativo estiver fechado.</p>
@@ -133,6 +139,19 @@ function aplicarPermissoesTela(){
    b.classList.toggle('hidden',somenteLeitura || (acao==='excluir' && perfilAtual!=='admin'));
  });
 }
+async function gerarCheckoutSandbox(){
+ const botao=el('gerarCheckoutSandbox'),msg=el('sandboxPagamentoMsg');
+ botao.disabled=true;msg.textContent='Gerando checkout no ambiente de testes...';
+ try{
+  const {data,error}=await db.functions.invoke('criar-pagamento-sandbox');
+  if(error)throw new Error(error.message||'Falha ao chamar a função Sandbox.');
+  if(!data||!data.checkout_url)throw new Error(data?.error||'O PagBank Sandbox não retornou um link de checkout.');
+  msg.textContent='Checkout Sandbox criado. Este link é apenas de teste. Não use cartão real.';
+  const link=document.createElement('a');link.href=data.checkout_url;link.target='_blank';link.rel='noopener noreferrer';link.textContent='Abrir checkout de teste';link.style.display='inline-block';link.style.marginTop='8px';link.style.fontWeight='bold';
+  const antigo=msg.parentElement.querySelector('.sandbox-link');if(antigo)antigo.remove();link.className='sandbox-link';msg.insertAdjacentElement('afterend',link);
+ }catch(e){msg.textContent='Não foi possível criar o checkout Sandbox: '+(e.message||'erro desconhecido');}
+ finally{botao.disabled=false;}
+}
 async function solicitarStatusPagamento(){
  const {data,error}=await db.functions.invoke('criar-pagamento');
  if(error)return {error:error.message||'Não foi possível consultar a cobrança.'};
@@ -209,7 +228,8 @@ async function iniciar(){
  seletor.value=categoriaSelecionada||'';
  const {data:clube,error:erroNome}=await db.from('clubes').select('nome,cor_primaria,cor_secundaria,cor_terciaria').eq('id',clubeId).maybeSingle();
  if(erroNome){mensagem('loginMsg','Não foi possível carregar os dados do clube: '+erroNome.message);return}
- el('clubName').textContent=clube?.nome||'Minha rouparia';
+ el('sandboxPagamentoCard').classList.toggle('hidden',perfilAtual!=='admin');
+el('clubName').textContent=clube?.nome||'Minha rouparia';
  el('status').textContent='Perfil: '+(vinculo.perfil||'usuário');
  const nomeExibicao=String(clube?.nome||'Meu clube').trim();const titulo=el('nomeClubeTopo');if(titulo)titulo.textContent='⚽ '+nomeExibicao;document.title=nomeExibicao;const metaApp=document.querySelector('meta[name="apple-mobile-web-app-title"]');if(metaApp)metaApp.setAttribute('content',nomeExibicao);
  if(clube){document.documentElement.style.setProperty('--club-primary',clube.cor_primaria||'#009739');document.documentElement.style.setProperty('--club-secondary',clube.cor_secundaria||'#FFDF00');document.documentElement.style.setProperty('--club-tertiary',clube.cor_terciaria||'#002776');}
@@ -322,6 +342,7 @@ function exportarRelatorio(tipo){
  const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='FC-Cascavel-'+cfg.nome+'.csv';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);limparMensagem('appMsg');
 }
 async function salvar(tabela,dados){const {error}=await db.from(tabela).insert(dados);if(error){mensagem('appMsg','O Supabase bloqueou o salvamento ou houve um erro: '+error.message+'. Precisamos conferir as políticas de gravação.');return false}limparMensagem('appMsg');await carregar();return true}
+el('gerarCheckoutSandbox').onclick=gerarCheckoutSandbox;
 el('formLogin').onsubmit=async e=>{e.preventDefault();limparMensagem('loginMsg');const f=new FormData(e.target);perfilEscolhidoAntesLogin=String(f.get('perfilAntesLogin')||'').trim();categoriaEscolhidaAntesLogin=String(f.get('categoriaAntesLogin')||'').trim();if(!perfilEscolhidoAntesLogin){mensagem('loginMsg','Selecione sua função no clube antes de entrar.');return;}const {error}=await db.auth.signInWithPassword({email:f.get('email'),password:f.get('senha')});if(error){mensagem('loginMsg','Não foi possível entrar: '+error.message);return}await iniciar()};
 el('formCadastro').onsubmit=async e=>{
  e.preventDefault();limparMensagem('cadastroMsg');
