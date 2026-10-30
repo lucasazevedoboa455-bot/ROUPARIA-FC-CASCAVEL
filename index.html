@@ -69,7 +69,7 @@ const el=id=>document.getElementById(id);
 function mensagem(id,text){el(id).textContent=text;el(id).classList.remove('hidden')}
 function limparMensagem(id){el(id).textContent='';el(id).classList.add('hidden')}
 function aba(id){document.querySelectorAll('#app section[id]').forEach(s=>s.classList.add('hidden'));el(id).classList.remove('hidden');}
-function selecionarCategoria(id){categoriaSelecionada=id?Number(id):null;if(perfilAtual==='roupeiro'&&categoriaSelecionada){const entrada=el('categoriaEntrada');if(!entrada.classList.contains('hidden'))return;carregar();}}
+function selecionarCategoria(id){categoriaSelecionada=id?Number(id):null;if(perfilAtual==='roupeiro'&&categoriaSelecionada){const entrada=el('categoriaEntrada');if(!entrada.classList.contains('hidden'))return;carregar();}else if(perfilAtual==='diretor'){carregar();}}
 function entrarNaCategoria(){const id=Number(el('categoriaEntradaSelect').value);if(!id||!categoriasClube.some(c=>Number(c.id)===id)){mensagem('categoriaEntradaMsg','Escolha uma categoria válida.');return;}categoriaSelecionada=id;el('categoriaAtual').value=String(id);el('entradaCategoria').classList.add('hidden');el('app').classList.remove('hidden');history.replaceState(null,'',location.pathname+location.search+'#/app');carregar();}
 function aplicarPermissoesTela(){
  const somenteLeitura=perfilAtual==='diretor';
@@ -104,8 +104,14 @@ async function iniciar(){
    const ids=new Set((links.data||[]).map(x=>Number(x.categoria_id)));
    categoriasClube=categoriasClube.filter(c=>ids.has(Number(c.id)));
  }
- const seletor=el('categoriaAtual');seletor.innerHTML=categoriasClube.map(c=>'<option value="'+Number(c.id)+'">'+esc(c.nome)+'</option>').join('')||'<option value="">Nenhuma categoria cadastrada</option>';
- if(!categoriaSelecionada||!categoriasClube.some(c=>Number(c.id)===Number(categoriaSelecionada)))categoriaSelecionada=categoriasClube[0]?.id||null;
+ const seletor=el('categoriaAtual');
+ if(perfilAtual==='diretor'){
+   categoriaSelecionada=null;
+   seletor.innerHTML='<option value="">Todas as categorias</option>'+categoriasClube.map(c=>'<option value="'+Number(c.id)+'">'+esc(c.nome)+'</option>').join('');
+ }else{
+   seletor.innerHTML=categoriasClube.map(c=>'<option value="'+Number(c.id)+'">'+esc(c.nome)+'</option>').join('')||'<option value="">Nenhuma categoria cadastrada</option>';
+   if(!categoriaSelecionada||!categoriasClube.some(c=>Number(c.id)===Number(categoriaSelecionada)))categoriaSelecionada=categoriasClube[0]?.id||null;
+ }
  seletor.value=categoriaSelecionada||'';
  const {data:clube,error:erroNome}=await db.from('clubes').select('nome,cor_primaria,cor_secundaria,cor_terciaria').eq('id',clubeId).maybeSingle();
  if(erroNome){mensagem('loginMsg','Não foi possível carregar os dados do clube: '+erroNome.message);return}
@@ -126,7 +132,7 @@ async function iniciar(){
  await carregar();
 }
 async function carregar(){
- const filtrarCategoria=q=>perfilAtual==='roupeiro'&&categoriaSelecionada?q.eq('categoria_id',categoriaSelecionada):q;
+ const filtrarCategoria=q=>categoriaSelecionada?q.eq('categoria_id',categoriaSelecionada):q;
  const [a,b,c]=await Promise.all([
  filtrarCategoria(db.from('estoque').select('*').eq('clube_id',clubeId)).order('id'),
  filtrarCategoria(db.from('jogadores').select('*').eq('clube_id',clubeId)).order('id'),
