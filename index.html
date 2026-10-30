@@ -20,8 +20,8 @@
 <main>
 <section id="login" class="card">
 <h2>Entrar na rouparia</h2>
-<p>Acesse com seu e-mail e senha.</p>
-<form id="formLogin"><label>E-mail</label><input name="email" type="email" required autocomplete="username"><label>Senha</label><input name="senha" type="password" required autocomplete="current-password"><button type="submit">Entrar</button></form>
+<p>Escolha sua categoria e depois entre com seu e-mail e senha.</p>
+<form id="formLogin"><label>Categoria</label><select id="categoriaAntesLogin" name="categoriaAntesLogin"><option value="">Selecione sua categoria</option><option>Profissional</option><option>Sub-20</option><option>Sub-17</option><option>Sub-15</option><option>Sub-13</option></select><label>E-mail</label><input name="email" type="email" required autocomplete="username"><label>Senha</label><input name="senha" type="password" required autocomplete="current-password"><button type="submit">Entrar</button></form>
 <div id="loginMsg" class="msg hidden"></div>
 <hr>
 <h2>Cadastrar meu clube</h2>
@@ -64,7 +64,7 @@ const SUPABASE_URL='https://tcgwafifjtqcgmzfesfk.supabase.co';
 const SUPABASE_KEY='sb_publishable_VQT7oxscxB1yQH1kWj4ipQ_gNhtv3ZJ';
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js').catch(() => {})); }
-let clubeId=null, perfilAtual='admin', usuarioClubeId=null, categoriasClube=[], categoriaSelecionada=null, materiais=[], jogadores=[], uniformes=[], lavanderia=[], cLavanderia=[], movimentacoes=[], entregas=[];
+let clubeId=null, perfilAtual='admin', usuarioClubeId=null, categoriasClube=[], categoriaSelecionada=null, categoriaEscolhidaAntesLogin='', materiais=[], jogadores=[], uniformes=[], lavanderia=[], cLavanderia=[], movimentacoes=[], entregas=[];
 const el=id=>document.getElementById(id);
 function mensagem(id,text){el(id).textContent=text;el(id).classList.remove('hidden')}
 function limparMensagem(id){el(id).textContent='';el(id).classList.add('hidden')}
@@ -114,15 +114,11 @@ async function iniciar(){
  if(clube){document.documentElement.style.setProperty('--club-primary',clube.cor_primaria||'#111111');document.documentElement.style.setProperty('--club-secondary',clube.cor_secundaria||'#F5C400');document.documentElement.style.setProperty('--club-tertiary',clube.cor_terciaria||'#808080');}
  el('login').classList.add('hidden');
  if(perfilAtual==='roupeiro'){
-   const entrada=el('entradaCategoria');const seletorEntrada=el('categoriaEntradaSelect');const botaoEntrada=entrada.querySelector('button');
-   const opcoes=categoriasClube.map(c=>'<option value="'+Number(c.id)+'">'+esc(c.nome)+'</option>').join('');
-   entrada.classList.remove('hidden');el('app').classList.add('hidden');
-   seletorEntrada.innerHTML='<option value="">Selecione sua categoria</option>'+opcoes;
-   seletorEntrada.value='';
-   limparMensagem('categoriaEntradaMsg');
-   if(categoriasClube.length===0){mensagem('categoriaEntradaMsg','Seu usuário ainda não tem categoria vinculada. Peça ao administrador para liberar seu acesso.');botaoEntrada.disabled=true;}
-   else{botaoEntrada.disabled=false;}
-   return;
+   if(!categoriaEscolhidaAntesLogin){el('login').classList.remove('hidden');el('app').classList.add('hidden');mensagem('loginMsg','Selecione sua categoria antes de entrar.');await db.auth.signOut();return;}
+   const categoriaAutorizada=categoriasClube.find(c=>String(c.nome).toLowerCase()===categoriaEscolhidaAntesLogin.toLowerCase());
+   if(!categoriaAutorizada){el('login').classList.remove('hidden');el('app').classList.add('hidden');mensagem('loginMsg','Seu usuário não tem acesso à categoria '+categoriaEscolhidaAntesLogin+'. Peça ao administrador para liberar.');await db.auth.signOut();return;}
+   categoriaSelecionada=Number(categoriaAutorizada.id);
+   el('categoriaAtual').value=String(categoriaSelecionada);
  }
  el('entradaCategoria').classList.add('hidden');el('app').classList.remove('hidden');aplicarPermissoesTela();
  if(location.hash!=='#/app')history.replaceState(null,'',location.pathname+location.search+'#/app');
@@ -170,7 +166,7 @@ function exportarRelatorio(tipo){
  const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='FC-Cascavel-'+cfg.nome+'.csv';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);limparMensagem('appMsg');
 }
 async function salvar(tabela,dados){const {error}=await db.from(tabela).insert(dados);if(error){mensagem('appMsg','O Supabase bloqueou o salvamento ou houve um erro: '+error.message+'. Precisamos conferir as políticas de gravação.');return false}limparMensagem('appMsg');await carregar();return true}
-el('formLogin').onsubmit=async e=>{e.preventDefault();limparMensagem('loginMsg');const f=new FormData(e.target);const {error}=await db.auth.signInWithPassword({email:f.get('email'),password:f.get('senha')});if(error){mensagem('loginMsg','Não foi possível entrar: '+error.message);return}await iniciar()};
+el('formLogin').onsubmit=async e=>{e.preventDefault();limparMensagem('loginMsg');const f=new FormData(e.target);categoriaEscolhidaAntesLogin=String(f.get('categoriaAntesLogin')||'').trim();const {error}=await db.auth.signInWithPassword({email:f.get('email'),password:f.get('senha')});if(error){mensagem('loginMsg','Não foi possível entrar: '+error.message);return}await iniciar()};
 el('formCadastro').onsubmit=async e=>{
  e.preventDefault();limparMensagem('cadastroMsg');
  const f=new FormData(e.target),email=String(f.get('email')).trim(),senha=String(f.get('senha'));
