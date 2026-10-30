@@ -41,8 +41,8 @@
 <section id="entradaCategoria" class="card hidden">
 <h2>Escolha sua categoria</h2>
 <p>Selecione a equipe em que você vai trabalhar hoje.</p>
-<label for="categoriaEntrada">Categoria</label>
-<select id="categoriaEntrada" required><option value="">Carregando categorias...</option></select>
+<label for="categoriaEntradaSelect">Categoria</label>
+<select id="categoriaEntradaSelect" required><option value="">Carregando categorias...</option></select>
 <button type="button" onclick="entrarNaCategoria()">Entrar na rouparia</button>
 <div id="categoriaEntradaMsg" class="msg hidden"></div>
 </section>
@@ -70,7 +70,7 @@ function mensagem(id,text){el(id).textContent=text;el(id).classList.remove('hidd
 function limparMensagem(id){el(id).textContent='';el(id).classList.add('hidden')}
 function aba(id){document.querySelectorAll('#app section[id]').forEach(s=>s.classList.add('hidden'));el(id).classList.remove('hidden');}
 function selecionarCategoria(id){categoriaSelecionada=id?Number(id):null;if(perfilAtual==='roupeiro'&&categoriaSelecionada){const entrada=el('categoriaEntrada');if(!entrada.classList.contains('hidden'))return;carregar();}}
-function entrarNaCategoria(){const id=Number(el('categoriaEntrada').value);if(!id||!categoriasClube.some(c=>Number(c.id)===id)){mensagem('categoriaEntradaMsg','Escolha uma categoria válida.');return;}categoriaSelecionada=id;el('categoriaAtual').value=String(id);el('entradaCategoria').classList.add('hidden');el('app').classList.remove('hidden');history.replaceState(null,'',location.pathname+location.search+'#/app');carregar();}
+function entrarNaCategoria(){const id=Number(el('categoriaEntradaSelect').value);if(!id||!categoriasClube.some(c=>Number(c.id)===id)){mensagem('categoriaEntradaMsg','Escolha uma categoria válida.');return;}categoriaSelecionada=id;el('categoriaAtual').value=String(id);el('entradaCategoria').classList.add('hidden');el('app').classList.remove('hidden');history.replaceState(null,'',location.pathname+location.search+'#/app');carregar();}
 function aplicarPermissoesTela(){
  const somenteLeitura=perfilAtual==='diretor';
  document.querySelectorAll('#app form').forEach(f=>{f.closest('.card')?.classList.toggle('hidden',somenteLeitura);});
@@ -114,11 +114,14 @@ async function iniciar(){
  if(clube){document.documentElement.style.setProperty('--club-primary',clube.cor_primaria||'#111111');document.documentElement.style.setProperty('--club-secondary',clube.cor_secundaria||'#F5C400');document.documentElement.style.setProperty('--club-tertiary',clube.cor_terciaria||'#808080');}
  el('login').classList.add('hidden');
  if(perfilAtual==='roupeiro'){
-   const entrada=el('categoriaEntrada');const opcoes=categoriasClube.map(c=>'<option value="'+Number(c.id)+'">'+esc(c.nome)+'</option>').join('');
+   const entrada=el('entradaCategoria');const seletorEntrada=el('categoriaEntradaSelect');const botaoEntrada=entrada.querySelector('button');
+   const opcoes=categoriasClube.map(c=>'<option value="'+Number(c.id)+'">'+esc(c.nome)+'</option>').join('');
    entrada.classList.remove('hidden');el('app').classList.add('hidden');
-   el('categoriaEntrada').querySelector('select').innerHTML='<option value="">Selecione sua categoria</option>'+opcoes;
-   if(categoriasClube.length===0){mensagem('categoriaEntradaMsg','Seu usuário ainda não tem categoria vinculada. Peça ao administrador para liberar seu acesso.');el('categoriaEntrada').querySelector('button').disabled=true;}
-   else{el('categoriaEntrada').querySelector('button').disabled=false;}
+   seletorEntrada.innerHTML='<option value="">Selecione sua categoria</option>'+opcoes;
+   seletorEntrada.value='';
+   limparMensagem('categoriaEntradaMsg');
+   if(categoriasClube.length===0){mensagem('categoriaEntradaMsg','Seu usuário ainda não tem categoria vinculada. Peça ao administrador para liberar seu acesso.');botaoEntrada.disabled=true;}
+   else{botaoEntrada.disabled=false;}
    return;
  }
  el('entradaCategoria').classList.add('hidden');el('app').classList.remove('hidden');aplicarPermissoesTela();
