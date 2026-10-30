@@ -37,6 +37,15 @@
 </form>
 <div id="cadastroMsg" class="msg hidden"></div>
 </section>
+<section id="pagamentoObrigatorio" class="card hidden">
+<h2>🔐 Ative seu acesso ao Roupeiro do Brasil</h2>
+<p>Para novos cadastros, a taxa é de <b>R$ 30,00</b>, paga uma única vez. Os usuários cadastrados antes do início da cobrança continuam isentos.</p>
+<p id="pagamentoMsg" class="msg">Preparando pagamento...</p>
+<button type="button" id="abrirCheckout" disabled>Continuar para pagamento</button>
+<button type="button" id="verificarPagamento">Já paguei — verificar acesso</button>
+<button type="button" onclick="sair()">Sair</button>
+<p class="small">O acesso é liberado automaticamente depois que o PagBank confirmar o pagamento.</p>
+</section>
 <section id="entradaCategoria" class="card hidden">
 <h2>Escolha sua categoria</h2>
 <p>Selecione a equipe em que você vai trabalhar hoje.</p>
@@ -109,6 +118,7 @@ async function ativarNotificacoes(){
 
 if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js').catch(() => {})); }
 let clubeId=null, perfilAtual='admin', usuarioClubeId=null, categoriasClube=[], categoriaSelecionada=null, categoriaEscolhidaAntesLogin='', perfilEscolhidoAntesLogin='', materiais=[], jogadores=[], uniformes=[], lavanderia=[], cLavanderia=[], movimentacoes=[], entregas=[], acessoRegistradoNestaSessao=false;
+let pagamentoAtual=null;
 const el=id=>document.getElementById(id);
 function mensagem(id,text){el(id).textContent=text;el(id).classList.remove('hidden')}
 function limparMensagem(id){el(id).textContent='';el(id).classList.add('hidden')}
@@ -123,6 +133,38 @@ function aplicarPermissoesTela(){
    b.classList.toggle('hidden',somenteLeitura || (acao==='excluir' && perfilAtual!=='admin'));
  });
 }
+async function solicitarStatusPagamento(){
+ const {data,error}=await db.functions.invoke('criar-pagamento');
+ if(error)return {error:error.message||'Não foi possível consultar a cobrança.'};
+ return data||{error:'O servidor não retornou o status do pagamento.'};
+}
+function mostrarPagamentoObrigatorio(resultado){
+ pagamentoAtual=resultado;
+ el('login').classList.add('hidden');
+ el('app').classList.add('hidden');
+ el('entradaCategoria').classList.add('hidden');
+ el('pagamentoObrigatorio').classList.remove('hidden');
+ if(resultado.checkout_url){
+  el('pagamentoMsg').textContent='Sua taxa única de R$ 30,00 está pendente. Abra o checkout do PagBank para pagar.';
+  el('abrirCheckout').disabled=false;
+ }else{
+  el('pagamentoMsg').textContent=resultado.error||'Não foi possível gerar o link de pagamento. Tente novamente.';
+  el('abrirCheckout').disabled=true;
+ }
+}
+el('abrirCheckout').onclick=()=>{
+ if(pagamentoAtual?.checkout_url)window.open(pagamentoAtual.checkout_url,'_blank','noopener,noreferrer');
+};
+el('verificarPagamento').onclick=async()=>{
+ const botao=el('verificarPagamento');botao.disabled=true;
+ el('pagamentoMsg').textContent='Consultando o PagBank...';
+ const resultado=await solicitarStatusPagamento();
+ botao.disabled=false;
+ if(resultado.error){el('pagamentoMsg').textContent=resultado.error;return;}
+ if(resultado.paid){el('pagamentoObrigatorio').classList.add('hidden');await iniciar();return;}
+ mostrarPagamentoObrigatorio(resultado);
+ el('pagamentoMsg').textContent='Ainda não recebemos a confirmação. Se acabou de pagar, aguarde alguns instantes e tente novamente.';
+};
 async function iniciar(){
  const {data:{user},error}=await db.auth.getUser();
  if(error||!user){clubeId=null;el('login').classList.remove('hidden');el('app').classList.add('hidden');if(location.hash==='#/app')history.replaceState(null,'',location.pathname+location.search+'#/login');return}
@@ -143,6 +185,10 @@ async function iniciar(){
  }
  clubeId=vinculo.clube_id;perfilAtual=vinculo.perfil||'roupeiro';usuarioClubeId=vinculo.id;
  if(!perfilEscolhidoAntesLogin||perfilEscolhidoAntesLogin!==perfilAtual){el('login').classList.remove('hidden');el('app').classList.add('hidden');mensagem('loginMsg','A função selecionada não corresponde à função liberada para seu usuário. Selecione a função correta ou peça ao administrador para conferir seu acesso.');await db.auth.signOut();return;}
+ const cobranca=await solicitarStatusPagamento();
+ if(cobranca.error){mostrarPagamentoObrigatorio({error:'Não foi possível validar o pagamento: '+cobranca.error});return;}
+ if(cobranca.required&&!cobranca.paid){mostrarPagamentoObrigatorio(cobranca);return;}
+ el('pagamentoObrigatorio').classList.add('hidden');
  const cats=await db.from('categorias').select('id,nome').eq('clube_id',clubeId).order('id');
  if(cats.error){mensagem('loginMsg','Erro ao carregar categorias: '+cats.error.message);return}
  categoriasClube=cats.data||[];
@@ -289,7 +335,7 @@ el('formCadastro').onsubmit=async e=>{
  if(data.session){mensagem('cadastroMsg','Conta criada! Vinculando ao clube...');await iniciar();}
  else{mensagem('cadastroMsg','Conta criada. Se o Supabase solicitar confirmação do e-mail, confirme e depois entre com seu e-mail e senha, selecionando Roupeiro e sua categoria.');}
 };
-db.auth.onAuthStateChange((event)=>{if(event==='SIGNED_OUT'){clubeId=null;acessoRegistradoNestaSessao=false;el('app').classList.add('hidden');el('entradaCategoria').classList.add('hidden');el('login').classList.remove('hidden');}});
+db.auth.onAuthStateChange((event)=>{if(event==='SIGNED_OUT'){clubeId=null;acessoRegistradoNestaSessao=false;pagamentoAtual=null;el('app').classList.add('hidden');el('entradaCategoria').classList.add('hidden');el('pagamentoObrigatorio').classList.add('hidden');el('login').classList.remove('hidden');}});
 window.addEventListener('hashchange',async()=>{if(location.hash==='#/app'){const {data:{user}}=await db.auth.getUser();if(!user){history.replaceState(null,'',location.pathname+location.search+'#/login');el('app').classList.add('hidden');el('login').classList.remove('hidden');}else if(el('app').classList.contains('hidden'))await iniciar();}else if(location.hash!=='#/login'){history.replaceState(null,'',location.pathname+location.search+'#/login');}});
 
 el('formMaterial').onsubmit=async e=>{e.preventDefault();const f=new FormData(e.target);if(await salvar('estoque',{clube_id:clubeId,categoria_id:categoriaSelecionada,item:f.get('nome'),categoria:f.get('categoria'),quantidade:Number(f.get('qtd')),tamanho:f.get('tamanho')||null,observacao:f.get('obs')||null}))e.target.reset()};
