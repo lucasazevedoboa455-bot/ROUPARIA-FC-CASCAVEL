@@ -17,7 +17,7 @@
 </style>
 </head>
 <body>
-<header><h1>⚽ ROUPEIRO DO BRASIL</h1><p>Controle de rouparia do seu clube</p></header>
+<header><h1 id="nomeClubeTopo">⚽ ROUPEIRO DO BRASIL</h1><p>Controle de rouparia do seu clube</p></header>
 <main>
 <section id="login" class="card">
 <h2>Entrar na rouparia</h2>
@@ -118,7 +118,7 @@ async function iniciar(){
  if(erroNome){mensagem('loginMsg','Não foi possível carregar os dados do clube: '+erroNome.message);return}
  el('clubName').textContent=clube?.nome||'Minha rouparia';
  el('status').textContent='Perfil: '+(vinculo.perfil||'usuário');
- const titulo=document.querySelector('header h1');if(titulo)titulo.textContent='⚽ '+(clube?.nome||'Meu clube');
+ const nomeExibicao=String(clube?.nome||'Meu clube').trim();const titulo=el('nomeClubeTopo');if(titulo)titulo.textContent='⚽ '+nomeExibicao;document.title=nomeExibicao;const metaApp=document.querySelector('meta[name="apple-mobile-web-app-title"]');if(metaApp)metaApp.setAttribute('content',nomeExibicao);
  if(clube){document.documentElement.style.setProperty('--club-primary',clube.cor_primaria||'#009739');document.documentElement.style.setProperty('--club-secondary',clube.cor_secundaria||'#FFDF00');document.documentElement.style.setProperty('--club-tertiary',clube.cor_terciaria||'#002776');}
  el('login').classList.add('hidden');
  if(perfilAtual==='roupeiro'){
