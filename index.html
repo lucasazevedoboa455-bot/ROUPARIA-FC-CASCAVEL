@@ -177,7 +177,7 @@ async function iniciar(){
  }
  el('entradaCategoria').classList.add('hidden');el('app').classList.remove('hidden');aplicarPermissoesTela();
  if(location.hash!=='#/app')history.replaceState(null,'',location.pathname+location.search+'#/app');
- if(perfilAtual==='admin'){el('abaAtividadesBtn').classList.remove('hidden');el('abaCodigoBtn').classList.remove('hidden');await carregarCodigoClube();}else{el('abaAtividadesBtn').classList.add('hidden');el('abaCodigoBtn').classList.add('hidden');}
+ if(perfilAtual==='admin'){el('abaAtividadesBtn').classList.remove('hidden');el('abaCodigoBtn').classList.remove('hidden');el('abaCodigoBtn').style.display='inline-block';await carregarCodigoClube();}else{el('abaAtividadesBtn').classList.add('hidden');el('abaCodigoBtn').classList.add('hidden');el('abaCodigoBtn').style.display='none';}
  if(!acessoRegistradoNestaSessao){await registrarAcesso();acessoRegistradoNestaSessao=true;}
  await carregar();
 }
