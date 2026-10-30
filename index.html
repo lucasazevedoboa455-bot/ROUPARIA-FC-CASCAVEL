@@ -6,17 +6,17 @@
 <meta name="theme-color" content="#111111">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
-<meta name="apple-mobile-web-app-title" content="Rouparia FCC">
+<meta name="apple-mobile-web-app-title" content="Roupeiros Brasil">
 <link rel="manifest" href="./manifest.json">
 <link rel="icon" type="image/svg+xml" href="./app-icon.svg">
 <link rel="apple-touch-icon" href="./app-icon.svg">
-<title>Rouparia FC Cascavel</title>
+<title>Roupeiros Brasil</title>
 <style>
 *{box-sizing:border-box}body{font-family:Arial,sans-serif;background:#f2f2f2;margin:0;color:#111}header{background:var(--club-primary,#111);color:var(--club-secondary,#f5c400);padding:20px 15px;border-bottom:5px solid var(--club-secondary,#f5c400)}header h1{font-size:23px;margin:0}main{padding:15px;max-width:700px;margin:auto}nav{display:flex;gap:6px;flex-wrap:wrap;padding:12px;background:white;border-radius:10px}button{background:var(--club-secondary,#f5c400);border:0;border-radius:7px;padding:11px;font-weight:bold;cursor:pointer}button:disabled{opacity:.5}nav button{flex:1}.card{background:white;padding:15px;border-radius:12px;margin:12px 0}input,select{box-sizing:border-box;width:100%;padding:12px;margin:6px 0 12px;border:1px solid #ccc;border-radius:7px}h2{font-size:19px}.item{padding:10px 0;border-bottom:1px solid #ddd}.small{color:#666;font-size:13px}.msg{padding:10px;border-radius:8px;background:#fff3cd;margin:10px 0;overflow-wrap:anywhere}.hidden{display:none}
 </style>
 </head>
 <body>
-<header><h1>⚽ ROUPARIA FC CASCAVEL</h1><p>Controle de uniformes e materiais</p></header>
+<header><h1>⚽ ROUPEIROS BRASIL</h1><p>Controle de rouparia do seu clube</p></header>
 <main>
 <section id="login" class="card">
 <h2>Entrar na rouparia</h2>
@@ -25,7 +25,7 @@
 <div id="loginMsg" class="msg hidden"></div>
 <hr>
 <h2>Cadastrar meu clube</h2>
-<p>Crie seu acesso e personalize o aplicativo com as cores do seu clube.</p>
+<p>Crie seu acesso, informe o nome do seu clube e personalize o aplicativo com as cores da sua equipe.</p>
 <form id="formCadastro">
 <label>Nome do clube</label><input name="clube" required maxlength="100" placeholder="Ex.: Futebol Clube Cascavel">
 <label>Seu nome</label><input name="nome" required maxlength="100" placeholder="Nome do responsável">
@@ -117,7 +117,7 @@ async function iniciar(){
  if(erroNome){mensagem('loginMsg','Não foi possível carregar os dados do clube: '+erroNome.message);return}
  el('clubName').textContent=clube?.nome||'Minha rouparia';
  el('status').textContent='Perfil: '+(vinculo.perfil||'usuário');
- const titulo=document.querySelector('header h1');if(titulo)titulo.textContent='⚽ '+(clube?.nome||'ROUPARIA');
+ const titulo=document.querySelector('header h1');if(titulo)titulo.textContent='⚽ ROUPEIROS BRASIL';
  if(clube){document.documentElement.style.setProperty('--club-primary',clube.cor_primaria||'#111111');document.documentElement.style.setProperty('--club-secondary',clube.cor_secundaria||'#F5C400');document.documentElement.style.setProperty('--club-tertiary',clube.cor_terciaria||'#808080');}
  el('login').classList.add('hidden');
  if(perfilAtual==='roupeiro'){
