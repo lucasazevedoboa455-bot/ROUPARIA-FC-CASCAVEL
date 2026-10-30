@@ -49,6 +49,12 @@
 </section>
 <section id="app" class="hidden">
 <div class="card"><span id="clubName">Seu clube</span> <button onclick="sair()" style="float:right">Sair</button><div id="status" class="small"></div></div>
+<div class="card" id="notificacoesCard">
+ <h2>🔔 Notificações</h2>
+ <p class="small">Ative para receber avisos da rouparia mesmo quando o aplicativo estiver fechado.</p>
+ <button type="button" id="ativarNotificacoes" onclick="ativarNotificacoes()">Ativar notificações neste celular</button>
+ <div id="notificacoesMsg" class="small" aria-live="polite">As notificações ainda precisam ser ativadas neste aparelho.</div>
+</div>
 <div class="card" id="categoriaPainel"><label for="categoriaAtual">Categoria da equipe</label><select id="categoriaAtual" onchange="selecionarCategoria(this.value)"><option value="">Carregando categorias...</option></select><div class="small">Os dados e permissões respeitam as categorias vinculadas ao seu perfil.</div></div>
 <nav><button onclick="aba('inicio')">Início</button><button onclick="aba('estoque')">Estoque</button><button onclick="aba('jogadores')">Jogadores</button><button onclick="aba('uniformes')">Uniformes</button><button onclick="aba('lavanderia')">Lavanderia</button><button onclick="aba('movimentacoes')">Saídas/Devoluções</button><button onclick="aba('relatorios')">Relatórios</button><button onclick="aba('entregas')">Entregas por jogador</button></nav>
 <section id="inicio"><div class="card"><h2>Resumo da rouparia</h2><p>Materiais cadastrados: <b id="total">0</b></p><p>Jogadores cadastrados: <b id="totalJog">0</b></p><p>Peças na lavanderia: <b id="totalLav">0</b></p></div><div class="card"><h2>⚠️ Alertas de estoque</h2><p class="small">Itens com 3 peças ou menos precisam de atenção.</p><div id="alertasEstoque">Carregando alertas...</div></div><div class="card"><p>Os dados são carregados do Supabase e separados pelo clube vinculado ao seu usuário.</p></div></section>
@@ -64,6 +70,44 @@
 const SUPABASE_URL='https://tcgwafifjtqcgmzfesfk.supabase.co';
 const SUPABASE_KEY='sb_publishable_VQT7oxscxB1yQH1kWj4ipQ_gNhtv3ZJ';
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+const VAPID_PUBLIC_KEY='BPvLyQly43WfI_6bvMrJ2kYbsyOVu6YOLYeMLIbuzhcfksGT3rQSH3rETinnh8oqwlTz0dczSg2IIPgBYS0jBn4';
+function base64ParaUint8Array(base64String){
+ const padding='='.repeat((4-base64String.length%4)%4);
+ const raw=atob((base64String+padding).replace(/-/g,'+').replace(/_/g,'/'));
+ return Uint8Array.from([...raw].map(c=>c.charCodeAt(0)));
+}
+async function ativarNotificacoes(){
+ const botao=el('ativarNotificacoes');
+ const msg=el('notificacoesMsg');
+ if(!('serviceWorker' in navigator)||!('PushManager' in window)||!('Notification' in window)){
+  msg.textContent='Este navegador não oferece suporte a notificações push. No iPhone, adicione o app à Tela de Início e abra por lá.';
+  return;
+ }
+ if(!clubeId){msg.textContent='Entre no clube antes de ativar as notificações.';return;}
+ botao.disabled=true;msg.textContent='Solicitando autorização...';
+ try{
+  const permissao=await Notification.requestPermission();
+  if(permissao!=='granted'){msg.textContent='Permissão não concedida. Você pode liberar nas configurações do navegador.';return;}
+  const registro=await navigator.serviceWorker.ready;
+  let inscricao=await registro.pushManager.getSubscription();
+  if(!inscricao){
+   inscricao=await registro.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:base64ParaUint8Array(VAPID_PUBLIC_KEY)});
+  }
+  const dados=inscricao.toJSON();
+  const {data:{user},error:erroUsuario}=await db.auth.getUser();
+  if(erroUsuario||!user)throw new Error('Sua sessão expirou. Entre novamente.');
+  const {error}=await db.from('push_subscriptions').upsert({
+   user_id:user.id,clube_id:clubeId,endpoint:dados.endpoint,
+   p256dh:dados.keys?.p256dh,auth:dados.keys?.auth,
+   user_agent:navigator.userAgent,updated_at:new Date().toISOString()
+  },{onConflict:'user_id,clube_id,endpoint'});
+  if(error)throw error;
+  msg.textContent='Este celular está autorizado para receber notificações. O envio será ativado após concluir a configuração do servidor.';
+ }catch(e){
+  msg.textContent='Não foi possível ativar: '+(e.message||'erro desconhecido');
+ }finally{botao.disabled=false;}
+}
+
 if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js').catch(() => {})); }
 let clubeId=null, perfilAtual='admin', usuarioClubeId=null, categoriasClube=[], categoriaSelecionada=null, categoriaEscolhidaAntesLogin='', perfilEscolhidoAntesLogin='', materiais=[], jogadores=[], uniformes=[], lavanderia=[], cLavanderia=[], movimentacoes=[], entregas=[];
 const el=id=>document.getElementById(id);
