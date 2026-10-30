@@ -1,4 +1,4 @@
-const CACHE_NAME = 'rouparia-fcc-v1';
+const CACHE_NAME = 'roupeiros-brasil-v2';
 const APP_FILES = ['./', './index.html', './manifest.json', './app-icon.svg'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_FILES)).then(() => self.skipWaiting()));
