@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#111111">
+<meta name="theme-color" content="#009739">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="Roupeiros Brasil">
@@ -31,9 +31,9 @@
 <label>Seu nome</label><input name="nome" required maxlength="100" placeholder="Nome do responsável">
 <label>E-mail</label><input name="email" type="email" required autocomplete="email" placeholder="voce@email.com">
 <label>Senha (mínimo 8 caracteres)</label><input name="senha" type="password" minlength="8" required autocomplete="new-password">
-<label>Cor principal</label><input name="cor1" type="color" value="#111111">
-<label>Cor secundária</label><input name="cor2" type="color" value="#F5C400">
-<label>Terceira cor</label><input name="cor3" type="color" value="#808080">
+<label>Cor principal</label><input name="cor1" type="color" value="#009739">
+<label>Cor secundária</label><input name="cor2" type="color" value="#FFDF00">
+<label>Terceira cor</label><input name="cor3" type="color" value="#002776">
 <button type="submit">Criar conta e cadastrar clube</button>
 </form>
 <div id="cadastroMsg" class="msg hidden"></div>
@@ -87,7 +87,7 @@ async function iniciar(){
  if(!vinculo){
    const meta=user.user_metadata||{};
    if(!meta.clube_nome){await db.auth.signOut();mensagem('loginMsg','Esta conta ainda não está vinculada a um clube. Faça o cadastro do clube ou fale com o administrador.');return}
-   const {data:novoClube,error:erroClube}=await db.rpc('criar_clube_do_usuario',{p_nome:meta.clube_nome,p_cor_primaria:meta.cor_primaria||'#111111',p_cor_secundaria:meta.cor_secundaria||'#F5C400',p_cor_terciaria:meta.cor_terciaria||'#808080'});
+   const {data:novoClube,error:erroClube}=await db.rpc('criar_clube_do_usuario',{p_nome:meta.clube_nome,p_cor_primaria:meta.cor_primaria||'#009739',p_cor_secundaria:meta.cor_secundaria||'#FFDF00',p_cor_terciaria:meta.cor_terciaria||'#002776'});
    if(erroClube){mensagem('loginMsg','Não foi possível concluir o cadastro do clube: '+erroClube.message);return}
    const resultado=await db.from('usuarios-clube').select('id,clube_id,perfil').eq('usuario_id',user.id).maybeSingle();
    vinculo=resultado.data;
@@ -118,7 +118,7 @@ async function iniciar(){
  el('clubName').textContent=clube?.nome||'Minha rouparia';
  el('status').textContent='Perfil: '+(vinculo.perfil||'usuário');
  const titulo=document.querySelector('header h1');if(titulo)titulo.textContent='⚽ ROUPEIROS BRASIL';
- if(clube){document.documentElement.style.setProperty('--club-primary',clube.cor_primaria||'#111111');document.documentElement.style.setProperty('--club-secondary',clube.cor_secundaria||'#F5C400');document.documentElement.style.setProperty('--club-tertiary',clube.cor_terciaria||'#808080');}
+ if(clube){document.documentElement.style.setProperty('--club-primary',clube.cor_primaria||'#009739');document.documentElement.style.setProperty('--club-secondary',clube.cor_secundaria||'#FFDF00');document.documentElement.style.setProperty('--club-tertiary',clube.cor_terciaria||'#002776');}
  el('login').classList.add('hidden');
  if(perfilAtual==='roupeiro'){
    if(!categoriaEscolhidaAntesLogin){el('login').classList.remove('hidden');el('app').classList.add('hidden');mensagem('loginMsg','Selecione sua categoria antes de entrar.');await db.auth.signOut();return;}
