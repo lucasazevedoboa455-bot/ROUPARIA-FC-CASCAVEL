@@ -135,7 +135,7 @@ el('formCadastro').onsubmit=async e=>{
  if(data.session){mensagem('cadastroMsg','Conta criada! Preparando o clube...');await iniciar();}
  else{mensagem('cadastroMsg','Conta criada. Confira seu e-mail para confirmar o cadastro. Depois volte aqui e entre com seu e-mail e senha para concluir a criação do clube.');}
 };
-db.auth.onAuthStateChange((event,session)=>{if(event==='SIGNED_IN'&&session)setTimeout(()=>iniciar(),0);if(event==='SIGNED_OUT'){clubeId=null;el('app').classList.add('hidden');el('login').classList.remove('hidden');}});
+db.auth.onAuthStateChange((event)=>{if(event==='SIGNED_OUT'){clubeId=null;el('app').classList.add('hidden');el('login').classList.remove('hidden');}});
 window.addEventListener('hashchange',async()=>{if(location.hash==='#/app'){const {data:{user}}=await db.auth.getUser();if(!user){history.replaceState(null,'',location.pathname+location.search+'#/login');el('app').classList.add('hidden');el('login').classList.remove('hidden');}else if(el('app').classList.contains('hidden'))await iniciar();}else if(location.hash!=='#/login'){history.replaceState(null,'',location.pathname+location.search+'#/login');}});
 
 el('formMaterial').onsubmit=async e=>{e.preventDefault();const f=new FormData(e.target);if(await salvar('estoque',{clube_id:clubeId,item:f.get('nome'),categoria:f.get('categoria'),quantidade:Number(f.get('qtd')),tamanho:f.get('tamanho')||null,observacao:f.get('obs')||null}))e.target.reset()};
