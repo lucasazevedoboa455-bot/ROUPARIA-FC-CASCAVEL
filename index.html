@@ -143,7 +143,7 @@ function entrarNaCategoria(){const id=Number(el('categoriaEntradaSelect').value)
 function aplicarPermissoesTela(){
  const admin=perfilAtual==='admin',director=perfilAtual==='diretor';
  const staff=['treinador','preparador_fisico','fisioterapeuta','preparador_goleiros','analista'].includes(perfilAtual);
- const navIds=['abaAcompanhamentoBtn','abaFisioBtn','abaPreparadorBtn','abaGoleirosBtn','abaTreinadorBtn','abaVideosBtn','abaEquipeBtn','abaAtividadesBtn','abaCodigoBtn'];
+ const navIds=['abaAcompanhamentoBtn','abaFisioBtn','abaPreparadorBtn','abaGoleirosBtn','abaTreinadorBtn','abaVideosBtn','abaProgramacaoBtn','abaEquipeBtn','abaAtividadesBtn','abaCodigoBtn'];
  navIds.forEach(id=>el(id)?.classList.add('hidden'));
  if(admin)navIds.forEach(id=>el(id)?.classList.remove('hidden'));
  else if(director)['abaAcompanhamentoBtn','abaVideosBtn'].forEach(id=>el(id).classList.remove('hidden'));
@@ -152,9 +152,10 @@ function aplicarPermissoesTela(){
  else if(perfilAtual==='fisioterapeuta')el('abaFisioBtn').classList.remove('hidden');
  else if(perfilAtual==='preparador_goleiros'){el('abaGoleirosBtn').classList.remove('hidden');el('abaVideosBtn').classList.remove('hidden');}
  else if(perfilAtual==='analista')el('abaVideosBtn').classList.remove('hidden');
+ el('abaProgramacaoBtn').classList.remove('hidden');
  if(staff||director){
   document.querySelectorAll('#app nav button').forEach(b=>{if(!navIds.includes(b.id))b.classList.add('hidden')});
-  document.querySelectorAll('#app > section[id]').forEach(s=>{if(!['inicio','acompanhamento','videos'].includes(s.id))s.classList.add('hidden')});
+  document.querySelectorAll('#app > section[id]').forEach(s=>{if(!['inicio','acompanhamento','videos','programacao'].includes(s.id))s.classList.add('hidden')});
   if(staff)el('inicio').classList.add('hidden');
  }
  if(director)document.querySelectorAll('#app form').forEach(form=>form.closest('.card')?.classList.add('hidden'));
@@ -169,9 +170,9 @@ function aplicarPermissoesTela(){
   if(perfilAtual==='fisioterapeuta')el('acompTipo').value='fisioterapia';
   if(perfilAtual==='preparador_goleiros')el('acompTipo').value='goleiros';
  }
- const vf=el('formVideoCard');if(vf)vf.classList.toggle('hidden',!(admin||perfilAtual==='analista'||perfilAtual==='preparador_goleiros'));if(perfilAtual==='preparador_goleiros'){el('videoTipo').value='goleiros';el('videoTipo').disabled=true;}else el('videoTipo').disabled=false;
-}
-le('hidden',!(admin||perfilAtual==='preparador_fisico'));if(perfilAtual==='preparador_goleiros'){el('videoTipo').value='goleiros';el('videoTipo').disabled=true;}else el('videoTipo').disabled=false;
+ const vf=el('formVideoCard');if(vf)vf.classList.toggle('hidden',!(admin||perfilAtual==='analista'||perfilAtual==='preparador_goleiros'));
+ if(perfilAtual==='preparador_goleiros'){el('videoTipo').value='goleiros';el('videoTipo').disabled=true;}else el('videoTipo').disabled=false;
+ const pf=el('formProgramacaoCard');if(pf)pf.classList.toggle('hidden',!(admin||perfilAtual==='preparador_fisico'));
 }
 async function gerarCheckoutSandbox(){
  const botao=el('gerarCheckoutSandbox'),msg=el('sandboxPagamentoMsg');
