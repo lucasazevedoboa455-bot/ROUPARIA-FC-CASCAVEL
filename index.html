@@ -370,7 +370,7 @@ async function carregarProgramacao(){
  const semanaEl=el('programacaoSemana'),diaEl=el('programacaoDia');
  if(!semanaEl.value)semanaEl.value=segundaDaSemana(dataISOHoje());
  const semana=segundaDaSemana(semanaEl.value);semanaEl.value=semana;
- if(!diaEl.value)diaEl.value=semana;
+ if(!diaEl.value||diaEl.value<semana||diaEl.value>dataSemanaOffset(semana,6))diaEl.value=semana;
  diaEl.min=semana;diaEl.max=dataSemanaOffset(semana,6);
  const categoria=el('programacaoCategoria');
  if(categoria.options.length<=1)categoria.innerHTML='<option value="">Todas as categorias</option>'+categoriasClube.map(x=>'<option value="'+Number(x.id)+'">'+esc(x.nome)+'</option>').join('');
@@ -420,7 +420,7 @@ el('formProgramacao').onsubmit=async e=>{
  if(dia<semana||dia>dataSemanaOffset(semana,6)){mensagem('programacaoMsg','A data escolhida não pertence à semana selecionada.');return;}
  if(cat&&!categoriasClube.some(x=>Number(x.id)===Number(cat))){mensagem('programacaoMsg','Selecione uma categoria válida.');return;}
  const {data:{user}}=await db.auth.getUser();if(!user){mensagem('programacaoMsg','Sua sessão expirou. Entre novamente.');return;}
- const dados={clube_id:clubeId,categoria_id:cat?Number(cat):null,semana_inicio:semana,dia,horario,atividade:String(f.get('atividade')).trim(),duracao_minutos:f.get('duracao')?Number(f.get('duracao')):null,local:String(f.get('local')||'').trim()||null,observacoes:String(f.get('observacoes')||'').trim()||null,criado_por:user.id};
+ const dados={clube_id:clubeId,categoria_id:cat?Number(cat):null,semana_inicio:semana,dia,horario,atividade:String(f.get('atividade')).trim(),duracao_minutos:f.get('duracao')?Number(f.get('duracao')):null,local:String(f.get('local')||'').trim()||null,observacoes:String(f.get('observacoes')||'').trim()||null};
  const btn=e.target.querySelector('button[type="submit"]');btn.disabled=true;
  const {error}=await db.from('programacao_semanal').insert(dados);
  btn.disabled=false;
