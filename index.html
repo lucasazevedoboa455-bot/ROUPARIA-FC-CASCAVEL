@@ -332,6 +332,7 @@ async function carregarAcompanhamento(){
  if(!clubeId||!['admin','diretor','treinador','preparador_fisico','fisioterapeuta'].includes(perfilAtual))return;
  const day=el('acompFiltroData')?.value||new Date().toISOString().slice(0,10);
  if(el('acompData')&&!el('acompData').value)el('acompData').value=new Date().toISOString().slice(0,10);
+ if(el('acompFiltroData')&&!el('acompFiltroData').value)el('acompFiltroData').value=new Date().toISOString().slice(0,10);
  el('acompJogador').innerHTML='<option value="">Escolha o jogador</option>'+jogadores.map(j=>'<option value="'+Number(j.id)+'">'+esc(j.nome)+' — camisa '+esc(j.numero_camisa??'—')+'</option>').join('');
  const {data,error}=await db.from('acompanhamento_atletas').select('*').eq('clube_id',clubeId).eq('data_treino',day).order('horario');
  if(error){el('listaAcompanhamento').textContent='Erro ao carregar: '+error.message;return;}
