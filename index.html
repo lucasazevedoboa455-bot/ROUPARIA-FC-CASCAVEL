@@ -397,7 +397,7 @@ async function excluirVideoTreino(id){
 el('formVideoTreino').onsubmit=async e=>{
  e.preventDefault();
  if(!['admin','analista','preparador_goleiros'].includes(perfilAtual)){mensagem('videoMsg','Seu perfil não pode publicar vídeos.');return;}
- const f=new FormData(e.target),file=f.get('arquivo'),cat=Number(f.get('categoria')),tipo=String(f.get('tipo')||'treino');
+ const f=new FormData(e.target),file=f.get('arquivo'),cat=Number(f.get('categoria')),tipo=perfilAtual==='preparador_goleiros'?'goleiros':String(f.get('tipo')||'treino');
  if(!(file instanceof File)||!file.size){mensagem('videoMsg','Escolha um arquivo de vídeo.');return;}
  if(file.size>262144000){mensagem('videoMsg','O vídeo ultrapassa o limite de 250 MB.');return;}
  if(!['video/mp4','video/quicktime','video/webm'].includes(file.type)){mensagem('videoMsg','Formato não aceito. Use MP4, MOV ou WEBM.');return;}
@@ -412,7 +412,7 @@ el('formVideoTreino').onsubmit=async e=>{
   const ids=[...el('videoJogadores').selectedOptions].map(x=>Number(x.value)).filter(Number.isFinite);
   const {error}=await db.from('videos_treinos').insert({clube_id:clubeId,categoria_id:cat,titulo:String(f.get('titulo')).trim(),descricao:String(f.get('descricao')||'').trim()||null,data_treino:f.get('data'),storage_path:path,tipo:tipo,jogadores_ids:ids,publicado_por:user.id});
   if(error){await db.storage.from('videos-treinos').remove([path]);throw error;}
-  mensagem('videoMsg','Vídeo publicado com sucesso!');e.target.reset();e.target.elements.data.value=new Date().toISOString().slice(0,10);await carregarVideos();
+  mensagem('videoMsg','Vídeo publicado com sucesso!');e.target.reset();e.target.elements.data.value=new Date().toISOString().slice(0,10);if(perfilAtual==='preparador_goleiros')el('videoTipo').value='goleiros';await carregarVideos();
  }catch(err){mensagem('videoMsg','Não foi possível publicar: '+(err.message||'erro desconhecido'));}
  finally{btn.disabled=false;}
 };
