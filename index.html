@@ -169,7 +169,7 @@ function aplicarPermissoesTela(){
   if(perfilAtual==='fisioterapeuta')el('acompTipo').value='fisioterapia';
   if(perfilAtual==='preparador_goleiros')el('acompTipo').value='goleiros';
  }
- const vf=el('formVideoCard');if(vf)vf.classList.toggle('hidden',!(admin||perfilAtual==='analista'||perfilAtual==='preparador_goleiros'));
+ const vf=el('formVideoCard');if(vf)vf.classList.toggle('hidden',!(admin||perfilAtual==='analista'||perfilAtual==='preparador_goleiros'));if(perfilAtual==='preparador_goleiros'){el('videoTipo').value='goleiros';el('videoTipo').disabled=true;}else el('videoTipo').disabled=false;
 }
 async function gerarCheckoutSandbox(){
  const botao=el('gerarCheckoutSandbox'),msg=el('sandboxPagamentoMsg');
