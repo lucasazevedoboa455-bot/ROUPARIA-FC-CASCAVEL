@@ -352,6 +352,69 @@ async function carregar(){
 
  await carregarAcompanhamento();render();aplicarPermissoesTela();
 }
+
+async function carregarVideos(){
+ if(!clubeId||!['admin','diretor','analista','treinador'].includes(perfilAtual))return;
+ const catHtml=categoriasClube.map(x=>'<option value="'+Number(x.id)+'">'+esc(x.nome)+'</option>').join('');
+ const cat=el('videoCategoria'),filter=el('filtroVideosCategoria');
+ if(cat.options.length<=1)cat.innerHTML='<option value="">Selecione a categoria</option>'+catHtml;
+ if(filter.options.length<=1)filter.innerHTML='<option value="">Todas as categorias</option>'+catHtml;
+ el('videoJogadores').innerHTML=jogadores.map(j=>'<option value="'+Number(j.id)+'">'+esc(j.nome)+' — camisa '+esc(j.numero_camisa??'—')+'</option>').join('');
+ if(!el('formVideoTreino').elements.data.value)el('formVideoTreino').elements.data.value=new Date().toISOString().slice(0,10);
+ const box=el('listaVideos');box.textContent='Carregando vídeos...';
+ let q=db.from('videos_treinos').select('*').eq('clube_id',clubeId).order('data_treino',{ascending:false}).order('created_at',{ascending:false});
+ if(filter.value)q=q.eq('categoria_id',Number(filter.value));
+ const {data,error}=await q;
+ if(error){box.textContent='Não foi possível carregar os vídeos: '+error.message;return;}
+ if(!data?.length){box.textContent='Nenhum vídeo publicado ainda.';return;}
+ const cats=new Map(categoriasClube.map(x=>[Number(x.id),x.nome]));
+ const players=new Map(jogadores.map(x=>[Number(x.id),x.nome]));
+ const {data:{user}}=await db.auth.getUser();
+ const cards=await Promise.all(data.map(async v=>{
+  const {data:signed,error:signError}=await db.storage.from('videos-treinos').createSignedUrl(v.storage_path,3600);
+  const names=(v.jogadores_ids||[]).map(id=>players.get(Number(id))).filter(Boolean).join(', ');
+  const canDelete=perfilAtual==='admin'||(perfilAtual==='analista'&&v.publicado_por===user?.id);
+  const remove=canDelete?'<button type="button" onclick="excluirVideoTreino(\''+v.id+'\')">Excluir vídeo</button>':'';
+  const player=signed?.signedUrl?'<video controls playsinline preload="metadata" style="width:100%;max-height:420px;border-radius:10px;background:#111" src="'+esc(signed.signedUrl)+'"></video>':'<p class="small">Não foi possível abrir o vídeo: '+esc(signError?.message||'link indisponível')+'</p>';
+  return '<article class="item"><b>'+esc(v.titulo)+'</b><br><span class="small">'+esc(cats.get(Number(v.categoria_id))||'Categoria')+' · '+esc(v.data_treino)+'</span>'+(v.descricao?'<p>'+esc(v.descricao)+'</p>':'')+(names?'<p class="small">Jogadores: '+esc(names)+'</p>':'')+player+remove+'</article>';
+ }));
+ box.innerHTML=cards.join('');
+}
+async function excluirVideoTreino(id){
+ if(!confirm('Excluir este vídeo?'))return;
+ const {data,error}=await db.from('videos_treinos').select('id,storage_path').eq('id',id).maybeSingle();
+ if(error||!data){mensagem('videoMsg','Não foi possível localizar o vídeo: '+(error?.message||''));return;}
+ const del=await db.from('videos_treinos').delete().eq('id',id);
+ if(del.error){mensagem('videoMsg','Não foi possível excluir: '+del.error.message);return;}
+ const rm=await db.storage.from('videos-treinos').remove([data.storage_path]);
+ if(rm.error)mensagem('videoMsg','Registro excluído, mas o arquivo permaneceu no armazenamento: '+rm.error.message);
+ else mensagem('videoMsg','Vídeo excluído.');
+ await carregarVideos();
+}
+el('formVideoTreino').onsubmit=async e=>{
+ e.preventDefault();
+ if(!['admin','analista'].includes(perfilAtual)){mensagem('videoMsg','Somente analistas e administradores podem publicar vídeos.');return;}
+ const f=new FormData(e.target),file=f.get('arquivo'),cat=Number(f.get('categoria'));
+ if(!(file instanceof File)||!file.size){mensagem('videoMsg','Escolha um arquivo de vídeo.');return;}
+ if(file.size>262144000){mensagem('videoMsg','O vídeo ultrapassa o limite de 250 MB.');return;}
+ if(!['video/mp4','video/quicktime','video/webm'].includes(file.type)){mensagem('videoMsg','Formato não aceito. Use MP4, MOV ou WEBM.');return;}
+ if(!categoriasClube.some(x=>Number(x.id)===cat)){mensagem('videoMsg','Escolha uma categoria válida.');return;}
+ const {data:{user}}=await db.auth.getUser();if(!user){mensagem('videoMsg','Sua sessão expirou. Entre novamente.');return;}
+ const ext=file.type==='video/quicktime'?'mov':file.type==='video/webm'?'webm':'mp4';
+ const path=clubeId+'/'+cat+'/'+crypto.randomUUID()+'.'+ext;
+ const btn=e.target.querySelector('button[type="submit"]');btn.disabled=true;mensagem('videoMsg','Enviando vídeo. Mantenha esta tela aberta...');
+ try{
+  const up=await db.storage.from('videos-treinos').upload(path,file,{contentType:file.type,upsert:false});
+  if(up.error)throw up.error;
+  const ids=[...el('videoJogadores').selectedOptions].map(x=>Number(x.value)).filter(Number.isFinite);
+  const {error}=await db.from('videos_treinos').insert({clube_id:clubeId,categoria_id:cat,titulo:String(f.get('titulo')).trim(),descricao:String(f.get('descricao')||'').trim()||null,data_treino:f.get('data'),storage_path:path,jogadores_ids:ids,publicado_por:user.id});
+  if(error){await db.storage.from('videos-treinos').remove([path]);throw error;}
+  mensagem('videoMsg','Vídeo publicado com sucesso!');e.target.reset();e.target.elements.data.value=new Date().toISOString().slice(0,10);await carregarVideos();
+ }catch(err){mensagem('videoMsg','Não foi possível publicar: '+(err.message||'erro desconhecido'));}
+ finally{btn.disabled=false;}
+};
+el('filtroVideosCategoria').addEventListener('change',carregarVideos);
+
 async function carregarAcompanhamento(){
  if(!clubeId||!['admin','diretor','treinador','preparador_fisico','fisioterapeuta','preparador_goleiros'].includes(perfilAtual))return;
  const day=el('acompFiltroData')?.value||new Date().toISOString().slice(0,10);
