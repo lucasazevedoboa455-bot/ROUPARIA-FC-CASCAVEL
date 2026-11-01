@@ -1662,6 +1662,107 @@ button:hover{background:#e3e9ef!important;color:#263442!important;box-shadow:non
 @media (min-width: 681px) {
   #app nav.menu-inferior { display: none !important; }
 }
+
+/* SOBRESCRITA FINAL: prevalece sobre estilos antigos do aplicativo */
+@media (max-width: 680px) {
+  body:has(#app:not(.hidden)) #app nav.menu-principal {
+    display: none !important;
+    position: static !important;
+  }
+  body:has(#app:not(.hidden)) #app nav.menu-inferior {
+    display: flex !important;
+    position: fixed !important;
+    top: auto !important;
+    bottom: calc(8px + env(safe-area-inset-bottom)) !important;
+    left: 8px !important;
+    right: 8px !important;
+    width: auto !important;
+    max-width: none !important;
+    z-index: 99999 !important;
+    flex-wrap: nowrap !important;
+    justify-content: flex-start !important;
+    gap: 2px !important;
+    margin: 0 !important;
+    padding: 7px 4px !important;
+    overflow-x: auto !important;
+    background: #ffffff !important;
+    border: 1px solid #dce2e8 !important;
+    border-radius: 15px !important;
+    box-shadow: 0 5px 20px rgba(25,40,55,.14) !important;
+  }
+  body:has(#app:not(.hidden)) #app nav.menu-inferior button {
+    display: flex !important;
+    position: static !important;
+    flex: 0 0 65px !important;
+    min-width: 65px !important;
+    min-height: 48px !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 3px !important;
+    padding: 5px 2px !important;
+    background: transparent !important;
+    color: #526477 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    font-size: 18px !important;
+  }
+  body:has(#app:not(.hidden)) #app nav.menu-inferior button span {
+    display: block !important;
+    color: #526477 !important;
+    font-size: 9px !important;
+    font-weight: 700 !important;
+  }
+  body:has(#app:not(.hidden)) main {
+    padding-bottom: calc(105px + env(safe-area-inset-bottom)) !important;
+  }
+}
+/* Painel interno pós-login em tema claro */
+body:has(#app:not(.hidden)) {
+  background: #f3f5f7 !important;
+  color: #263442 !important;
+}
+body:has(#app:not(.hidden)) #app,
+body:has(#app:not(.hidden)) #app .dashboard,
+body:has(#app:not(.hidden)) #app .dashboard-content,
+body:has(#app:not(.hidden)) #app .dashboard-grid,
+body:has(#app:not(.hidden)) #app .dashboard-insights,
+body:has(#app:not(.hidden)) #app .dashboard-panel,
+body:has(#app:not(.hidden)) #app .central-panel,
+body:has(#app:not(.hidden)) #app .painel-diretor {
+  background-color: #f3f5f7 !important;
+  color: #263442 !important;
+}
+body:has(#app:not(.hidden)) #app .card,
+body:has(#app:not(.hidden)) #app .dashboard-tile,
+body:has(#app:not(.hidden)) #app .insight-metric,
+body:has(#app:not(.hidden)) #app .insight-panel,
+body:has(#app:not(.hidden)) #app .central-panel,
+body:has(#app:not(.hidden)) #app .painel-diretor,
+body:has(#app:not(.hidden)) #app .diretor-metricas > div {
+  background: #ffffff !important;
+  background-image: none !important;
+  color: #263442 !important;
+  border: 1px solid #e0e5eb !important;
+  box-shadow: 0 4px 16px rgba(30,45,60,.06) !important;
+}
+body:has(#app:not(.hidden)) #app h2,
+body:has(#app:not(.hidden)) #app h3,
+body:has(#app:not(.hidden)) #app .dashboard-tile b,
+body:has(#app:not(.hidden)) #app .diretor-metricas b {
+  color: #344456 !important;
+}
+body:has(#app:not(.hidden)) #app .dashboard-tile small,
+body:has(#app:not(.hidden)) #app .diretor-metricas small,
+body:has(#app:not(.hidden)) #app .small {
+  color: #687585 !important;
+}
+body:has(#app:not(.hidden)) #app .tile-icon {
+  background: #edf1f5 !important;
+  color: #526477 !important;
+  box-shadow: none !important;
+}
+
 </style>
 
 </head>
