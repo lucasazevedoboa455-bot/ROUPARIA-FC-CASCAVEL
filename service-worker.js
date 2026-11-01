@@ -1,5 +1,5 @@
-const CACHE_NAME = 'gestao-inteligente-futebol-v35';
-const APP_FILES = ['./', './index.html', './manifest.json', './app-icon.svg'];
+const CACHE_NAME = 'gestao-inteligente-futebol-v36';
+const APP_FILES = ['./', './index.html', './manifest.json', './app-icon.svg', './cobra-fc-cascavel.svg'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_FILES)).then(() => self.skipWaiting()));
 });
