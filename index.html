@@ -1364,10 +1364,10 @@ function entrarNaCategoria(){const id=Number(el('categoriaEntradaSelect').value)
 function aplicarPermissoesTela(){
  const admin=perfilAtual==='admin',director=perfilAtual==='diretor';
  const staff=['treinador','preparador_fisico','fisioterapeuta','preparador_goleiros','analista'].includes(perfilAtual);
- const navIds=['navUsuariosAppBtn','abaAcompanhamentoBtn','abaFisioBtn','abaPreparadorBtn','abaGoleirosBtn','abaTreinadorBtn','abaVideosBtn','abaProgramacaoBtn','abaEquipeBtn','abaAtividadesBtn','abaCodigoBtn'];
+ const navIds=['navCentralGestaoBtn','navUsuariosAppBtn','abaAcompanhamentoBtn','abaFisioBtn','abaPreparadorBtn','abaGoleirosBtn','abaTreinadorBtn','abaVideosBtn','abaProgramacaoBtn','abaEquipeBtn','abaAtividadesBtn','abaCodigoBtn'];
  navIds.forEach(id=>el(id)?.classList.add('hidden'));
  if(admin)navIds.forEach(id=>el(id)?.classList.remove('hidden'));
- else if(director)['abaAcompanhamentoBtn','abaVideosBtn','abaEquipeBtn'].forEach(id=>el(id).classList.remove('hidden'));
+ else if(director)['navCentralGestaoBtn','abaAcompanhamentoBtn','abaVideosBtn','abaEquipeBtn'].forEach(id=>el(id).classList.remove('hidden'));
  else if(perfilAtual==='treinador')['abaTreinadorBtn','abaVideosBtn'].forEach(id=>el(id).classList.remove('hidden'));
  else if(perfilAtual==='preparador_fisico')el('abaPreparadorBtn').classList.remove('hidden');
  else if(perfilAtual==='fisioterapeuta')el('abaFisioBtn').classList.remove('hidden');
@@ -1378,7 +1378,7 @@ function aplicarPermissoesTela(){
  el('abaProgramacaoBtn').classList.remove('hidden');el('dockProgramacaoBtn')?.classList.remove('hidden');
  if(staff||director){
   const navDiretor=['navInicioBtn','navEstoqueBtn','navJogadoresBtn','navUniformesBtn','navLavanderiaBtn','navMovimentacoesBtn','navRelatoriosBtn','navEntregasBtn'];document.querySelectorAll('#app nav.menu-principal button').forEach(b=>{if(!navIds.includes(b.id)&&!['navNotificacoesBtn','navPerfilBtn','abaViagensBtn','abaChatBtn','abaHistoricoBtn'].includes(b.id)&&!(director&&navDiretor.includes(b.id)))b.classList.add('hidden')});
-  document.querySelectorAll('#app > section[id]').forEach(s=>{if(!['inicio','acompanhamento','videos','programacao','notificacoes','perfil','viagens','chatClube','historico'].includes(s.id)&&!(director&&['estoque','jogadores','uniformes','lavanderia','movimentacoes','relatorios','entregas','equipe'].includes(s.id)))s.classList.add('hidden')});
+  document.querySelectorAll('#app > section[id]').forEach(s=>{if(!['inicio','centralGestao','acompanhamento','videos','programacao','notificacoes','perfil','viagens','chatClube','historico'].includes(s.id)&&!(director&&['estoque','jogadores','uniformes','lavanderia','movimentacoes','relatorios','entregas','equipe'].includes(s.id)))s.classList.add('hidden')});
   if(staff){
    el('navInicioBtn')?.classList.remove('hidden');
    el('inicio')?.classList.remove('hidden');
