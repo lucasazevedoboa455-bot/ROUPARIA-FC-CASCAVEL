@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#009739">
+<meta name="description" content="Roupeiro do Brasil: gestão de rouparia, uniformes, estoque e equipe de futebol.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Roupeiro do Brasil | Gestão de Rouparia">
+<meta property="og:description" content="Seu time. Sua rouparia. Tudo organizado. Acesse o Roupeiro do Brasil.">
+<meta name="application-name" content="Roupeiro do Brasil">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="Roupeiro do Brasil">
@@ -14,14 +19,47 @@
 <style>
 :root{--club-primary:#009739;--club-secondary:#FFDF00;--club-tertiary:#002776}
 *{box-sizing:border-box}body{font-family:Arial,sans-serif;background:#f2f2f2;margin:0;color:#111}header{background:var(--club-primary,#009739);color:var(--club-secondary,#FFDF00);padding:20px 15px;border-bottom:5px solid var(--club-secondary,#FFDF00)}header h1{font-size:23px;margin:0}main{padding:15px;max-width:700px;margin:auto}nav{display:flex;gap:6px;flex-wrap:wrap;padding:12px;background:white;border-radius:10px}button{background:var(--club-secondary,#FFDF00);border:0;border-radius:7px;padding:11px;font-weight:bold;cursor:pointer}button:disabled{opacity:.5}nav button{flex:1}.card{background:white;padding:15px;border-radius:12px;margin:12px 0}input,select{box-sizing:border-box;width:100%;padding:12px;margin:6px 0 12px;border:1px solid #ccc;border-radius:7px}h2{font-size:19px}.item{padding:10px 0;border-bottom:1px solid #ddd}.small{color:#666;font-size:13px}.msg{padding:10px;border-radius:8px;background:#fff3cd;margin:10px 0;overflow-wrap:anywhere}.hidden{display:none}
+
+/* Identidade visual Roupeiro do Brasil */
+:root{--br-green:#087b3b;--br-green-dark:#075b32;--br-yellow:#ffd629;--br-blue:#073b83;--br-ink:#14251d;--br-muted:#607267;--br-surface:#fff;--br-bg:#f3f8f4}
+html{min-height:100%;background:var(--br-bg)}
+body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;background:radial-gradient(ellipse at 12% 0%,rgba(255,214,41,.17),transparent 34%),linear-gradient(180deg,#f5faf6 0%,#edf4ef 100%);color:var(--br-ink);min-height:100vh}
+.brand-header{position:relative;display:flex;align-items:center;gap:14px;padding:22px max(18px,calc((100% - 980px)/2));background:linear-gradient(115deg,var(--br-green-dark),var(--br-green) 62%,#0a6840);color:#fff;border:0;border-bottom:5px solid var(--br-yellow);box-shadow:0 8px 24px rgba(5,65,35,.16);overflow:hidden}
+.brand-header:after{content:"";position:absolute;width:240px;height:240px;border:28px solid rgba(255,255,255,.055);border-radius:50%;right:-75px;top:-145px}
+.brand-mark{width:54px;height:54px;display:grid;place-items:center;flex:none;border-radius:17px;background:var(--br-yellow);color:var(--br-blue);font-size:29px;box-shadow:0 5px 14px rgba(0,0,0,.15)}
+.brand-copy{position:relative;z-index:1}.brand-header h1{font-size:clamp(20px,4vw,27px);font-weight:900;letter-spacing:.045em;margin:0;color:#fff}.brand-header p{font-size:10px;letter-spacing:.15em;font-weight:800;margin:5px 0 0;color:#e6f6e9}
+.brand-stars{margin-left:auto;position:relative;z-index:1;width:38px;height:38px;border:2px solid var(--br-yellow);border-radius:50%;display:grid;place-items:center;color:var(--br-yellow);font-weight:900;font-size:12px}
+main{max-width:980px;padding:26px 16px 48px}
+#login{max-width:560px;margin:28px auto;padding:clamp(22px,5vw,38px);border:1px solid #e0eae2;border-radius:22px;background:rgba(255,255,255,.97);box-shadow:0 18px 55px rgba(17,62,35,.10)}
+.welcome-block{margin-bottom:24px}.welcome-kicker{display:inline-block;padding:7px 11px;border-radius:999px;background:#e8f5eb;color:var(--br-green-dark);font-size:10px;font-weight:900;letter-spacing:.13em}
+.welcome-block h2{font-size:clamp(23px,5vw,31px);line-height:1.15;letter-spacing:-.035em;color:#153b27;margin:15px 0 9px}.welcome-block p{font-size:14px;line-height:1.6;color:var(--br-muted);margin:0}
+#formLogin,#formCadastro{background:#f8fbf8;border:1px solid #e8efe9;border-radius:16px;padding:18px;margin:14px 0}
+#formLogin p{font-size:13px;color:var(--br-muted);line-height:1.5;margin-top:0}
+label{display:block;font-size:13px;font-weight:750;color:#284b36;margin:10px 0 3px}
+input,select,textarea{font:inherit;color:#1d3025;background:#fff;border:1px solid #d5e2d8;border-radius:10px;padding:13px 14px;min-height:46px;outline:none;transition:border-color .18s,box-shadow .18s}
+input:focus,select:focus,textarea:focus{border-color:var(--br-green);box-shadow:0 0 0 3px rgba(8,123,59,.12)}
+button{background:var(--br-green);color:#fff;border:0;border-radius:10px;padding:12px 17px;font-size:14px;font-weight:800;box-shadow:0 3px 8px rgba(8,92,47,.13);transition:transform .15s,filter .15s}
+button:hover{filter:brightness(1.06);transform:translateY(-1px)}
+#formLogin button[type=submit],#formCadastro button[type=submit]{width:100%;min-height:49px;margin-top:10px;background:linear-gradient(100deg,var(--br-green-dark),var(--br-green));color:#fff}
+#formCadastro{background:#fff}
+#formCadastro button[type=submit]{background:linear-gradient(100deg,var(--br-blue),#0b5caa)}
+#login hr{border:0;border-top:1px solid #e6eee8;margin:25px 0}
+#login>h2{font-size:20px;color:#153b27}
+.card{border:1px solid #e2ebe4;border-radius:16px;box-shadow:0 5px 18px rgba(23,66,39,.055);padding:18px}
+nav{border:1px solid #e2ebe4;border-radius:14px;box-shadow:0 4px 14px rgba(23,66,39,.05)}
+nav button{background:#e8f3eb;color:#14532f;box-shadow:none}
+nav button:hover{background:var(--br-yellow);color:#183d28}
+.msg{border:1px solid #f0dfa0;border-radius:10px}
+.small{color:var(--br-muted)}
+@media(max-width:520px){.brand-header{padding:17px 15px;gap:11px}.brand-mark{width:46px;height:46px;border-radius:14px;font-size:25px}.brand-header p{font-size:8px;letter-spacing:.1em}.brand-stars{width:32px;height:32px;font-size:10px}main{padding:16px 11px 34px}#login{margin:14px auto;padding:20px 15px;border-radius:18px}#formLogin,#formCadastro{padding:14px}}
+
 </style>
 </head>
 <body>
-<header><h1 id="nomeClubeTopo">⚽ ROUPEIRO DO BRASIL</h1><p>Controle de rouparia do seu clube</p></header>
+<header class="brand-header"><div class="brand-mark" aria-hidden="true">⚽</div><div class="brand-copy"><h1 id="nomeClubeTopo">ROUPEIRO DO BRASIL</h1><p>GESTÃO DE ROUPARIA • FUTEBOL BRASILEIRO</p></div><span class="brand-stars" aria-hidden="true">BR</span></header>
 <main>
 <section id="login" class="card">
-<h2>Entrar na rouparia</h2>
-<p>Informe sua função e, se for roupeiro, escolha a categoria antes de entrar.</p>
+<div class="welcome-block"><span class="welcome-kicker">BEM-VINDO AO SEU CLUBE</span><h2>Seu time. Sua rouparia. Tudo organizado.</h2><p>Acesse sua área de trabalho com segurança e acompanhe a rotina da equipe.</p></div>
 <form id="formLogin"><p>Entre com seu e-mail e senha. Sua função será identificada automaticamente.</p><label>Categoria (somente para roupeiro)</label><select id="categoriaAntesLogin" name="categoriaAntesLogin"><option value="">Selecione sua categoria</option><option>Profissional</option><option>Sub-20</option><option>Sub-17</option><option>Sub-15</option><option>Sub-13</option></select><label>E-mail</label><input name="email" type="email" required autocomplete="username"><label>Senha</label><input name="senha" type="password" required autocomplete="current-password"><button type="submit">Entrar</button></form>
 <div id="loginMsg" class="msg hidden"></div>
 <hr>
