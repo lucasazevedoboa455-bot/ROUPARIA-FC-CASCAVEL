@@ -1543,7 +1543,128 @@ button:hover{background:#e3e9ef!important;color:#263442!important;box-shadow:non
 }
 @media(min-width:681px){#app nav.menu-inferior{display:none!important}}
 </style>
-\n</head>
+\n
+<style id="ajuste-menu-inferior-e-painel-claro-2026-11-01">
+/* Menu inferior no celular: evita que a navegação cubra títulos e textos */
+@media (max-width: 680px) {
+  body:has(#app:not(.hidden)) #app nav.menu-principal {
+    display: none !important;
+  }
+  body:has(#app:not(.hidden)) #app nav.menu-inferior {
+    display: flex !important;
+    position: fixed !important;
+    left: 8px !important;
+    right: 8px !important;
+    top: auto !important;
+    bottom: calc(8px + env(safe-area-inset-bottom)) !important;
+    width: auto !important;
+    max-width: none !important;
+    box-sizing: border-box !important;
+    z-index: 10000 !important;
+    flex-wrap: nowrap !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+    gap: 3px !important;
+    margin: 0 !important;
+    padding: 7px 5px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    background: rgba(255,255,255,.98) !important;
+    border: 1px solid #e1e6ec !important;
+    border-radius: 16px !important;
+    box-shadow: 0 6px 22px rgba(28,42,56,.12) !important;
+    backdrop-filter: blur(14px) !important;
+  }
+  body:has(#app:not(.hidden)) #app nav.menu-inferior button {
+    display: flex !important;
+    position: static !important;
+    flex: 0 0 66px !important;
+    min-width: 66px !important;
+    min-height: 48px !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 3px !important;
+    margin: 0 !important;
+    padding: 5px 2px !important;
+    border: 0 !important;
+    border-radius: 9px !important;
+    background: transparent !important;
+    color: #526477 !important;
+    box-shadow: none !important;
+    font-size: 18px !important;
+    line-height: 1.1 !important;
+  }
+  body:has(#app:not(.hidden)) #app nav.menu-inferior button span {
+    display: block !important;
+    color: inherit !important;
+    font-size: 9px !important;
+    font-weight: 700 !important;
+    white-space: nowrap !important;
+  }
+  body:has(#app:not(.hidden)) main {
+    padding-bottom: calc(100px + env(safe-area-inset-bottom)) !important;
+  }
+}
+/* Painel após o login: tons claros, texto legível e sem blocos pretos */
+#app,
+#app #inicio,
+#app .dashboard-grid,
+#app .dashboard-insights,
+#app .dashboard-panel,
+#app .insight-panel,
+#app .central-panel,
+#app .painel-diretor,
+#app .diretor-metricas > div {
+  background-color: #f5f7f9 !important;
+  color: #263442 !important;
+  border-color: #e2e7ec !important;
+}
+#app .card,
+#app .dashboard-tile,
+#app .insight-metric,
+#app .insight-panel,
+#app .central-panel,
+#app .painel-diretor,
+#app .diretor-metricas > div,
+#app .jogador-card,
+#app .usuario-app-card {
+  background: #ffffff !important;
+  background-image: none !important;
+  color: #263442 !important;
+  border: 1px solid #e2e7ec !important;
+  box-shadow: 0 4px 16px rgba(35,52,69,.055) !important;
+}
+#app .dashboard-tile b,
+#app .insight-metric b,
+#app .insight-panel h3,
+#app .central-panel h3,
+#app .painel-diretor h2,
+#app .diretor-metricas b,
+#app .card h2,
+#app .card h3 {
+  color: #344456 !important;
+}
+#app .dashboard-tile small,
+#app .insight-metric small,
+#app .insight-panel p,
+#app .central-panel p,
+#app .painel-diretor .small,
+#app .diretor-metricas small {
+  color: #687585 !important;
+}
+#app .tile-icon,
+#app .insights-symbol {
+  background: #edf1f5 !important;
+  color: #526477 !important;
+  box-shadow: none !important;
+}
+@media (min-width: 681px) {
+  #app nav.menu-inferior { display: none !important; }
+}
+</style>
+
+</head>
 <body>
 <header class="brand-header"><div class="brand-mark" aria-hidden="true">⚽</div><div class="brand-copy"><h1 id="nomeClubeTopo">GESTÃO INTELIGENTE DO FUTEBOL</h1><p>GESTÃO COMPLETA PARA O FUTEBOL</p></div><span class="brand-stars" aria-hidden="true">BR</span></header>
 <main>
