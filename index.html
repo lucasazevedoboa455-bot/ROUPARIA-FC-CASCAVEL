@@ -557,6 +557,37 @@ body:has(#app:not(.hidden)) #app section[id]:not(#inicio){
  body:has(#app:not(.hidden)) main{padding-bottom:10px!important}
 }
 @media(min-width:681px){#app nav.menu-inferior{display:none!important}}
+
+/* Menu principal no topo, logo abaixo da identificação do clube */
+@media(max-width:680px){
+ body:has(#app:not(.hidden)) #app nav.menu-principal{
+  display:flex!important;flex-wrap:nowrap!important;align-items:center!important;
+  gap:8px!important;margin:12px 0 18px!important;padding:9px!important;
+  overflow-x:auto!important;overflow-y:hidden!important;white-space:nowrap!important;
+  -webkit-overflow-scrolling:touch;scrollbar-width:thin;
+  position:sticky!important;top:0!important;z-index:80!important;
+  border:1px solid rgba(201,166,83,.45)!important;border-radius:15px!important;
+  background:rgba(17,38,29,.97)!important;
+  box-shadow:0 7px 20px rgba(10,30,20,.16)!important;
+  backdrop-filter:blur(12px);
+ }
+ body:has(#app:not(.hidden)) #app nav.menu-principal button{
+  display:inline-flex!important;flex:0 0 auto!important;align-items:center!important;
+  justify-content:center!important;min-height:39px!important;padding:9px 13px!important;
+  border:1px solid rgba(255,255,255,.13)!important;border-radius:10px!important;
+  background:rgba(255,255,255,.09)!important;color:#f7e6b5!important;
+  font-size:11px!important;font-weight:800!important;white-space:nowrap!important;
+  box-shadow:none!important;
+ }
+ body:has(#app:not(.hidden)) #app nav.menu-principal button:active{
+  background:#d1ad59!important;color:#14291e!important;
+ }
+ body:has(#app:not(.hidden)) #app nav.menu-inferior{display:none!important}
+ body:has(#app:not(.hidden)) main{padding-bottom:32px!important}
+}
+@media(min-width:681px){
+ body:has(#app:not(.hidden)) #app nav.menu-inferior{display:none!important}
+}
 </style>
 </head>
 <body>
@@ -610,6 +641,7 @@ body:has(#app:not(.hidden)) #app section[id]:not(#inicio){
 </section>
 <section id="app" class="hidden">
 <div class="card club-top-card"><div class="club-top-identity"><div id="escudoClube" class="escudo-clube"><span id="escudoIniciaisClube">⚽</span><img id="escudoOficialClube" class="escudo-oficial-clube hidden" src="https://fccascavel.com.br/?jet_download=871af73d62c5112a9ba3ee49ee1aafab4f57ee38" alt="Escudo oficial do Futebol Clube Cascavel" referrerpolicy="no-referrer" onload="this.classList.remove('hidden');document.getElementById('escudoIniciaisClube').classList.add('hidden')" onerror="this.classList.add('hidden');document.getElementById('escudoIniciaisClube').classList.remove('hidden')"></div><div class="club-title-wrap"><div class="club-title-line"><span id="clubName">Seu clube</span></div><div id="status" class="small"></div></div></div><button onclick="sair()" class="btn-sair">Sair</button></div>
+<nav class="menu-principal"><button id="navInicioBtn" onclick="aba('inicio')">Início</button><button id="navEstoqueBtn" onclick="aba('estoque')">Estoque</button><button id="navJogadoresBtn" onclick="aba('jogadores')">Jogadores</button><button id="navUniformesBtn" onclick="aba('uniformes')">Uniformes</button><button id="navLavanderiaBtn" onclick="aba('lavanderia')">Lavanderia</button><button id="navMovimentacoesBtn" onclick="aba('movimentacoes')">Saídas/Devoluções</button><button id="navRelatoriosBtn" onclick="aba('relatorios')">Relatórios</button><button id="navEntregasBtn" onclick="aba('entregas')">Entregas por jogador</button><button id="abaAcompanhamentoBtn" class="hidden" onclick="abrirAreaAcompanhamento(null)">Relatórios de campo e equipe</button><button id="abaFisioBtn" class="hidden" onclick="abrirAreaAcompanhamento('fisioterapia')">Fisioterapia / DM</button><button id="abaPreparadorBtn" class="hidden" onclick="abrirAreaAcompanhamento('transicao')">Preparação física</button><button id="abaGoleirosBtn" class="hidden" onclick="abrirAreaAcompanhamento('goleiros')">Preparação de goleiros</button><button id="abaTreinadorBtn" class="hidden" onclick="abrirAreaAcompanhamento('campo')">Treinos de campo</button><button id="abaVideosBtn" class="hidden" onclick="aba('videos')">Vídeos dos treinos</button><button id="abaProgramacaoBtn" class="hidden" onclick="aba('programacao')">📅 Programação semanal</button><button id="abaEquipeBtn" class="hidden" onclick="aba('equipe')">Equipe e acessos</button><button id="abaAtividadesBtn" class="hidden" onclick="aba('atividades')">Atividades</button><button id="abaCodigoBtn" class="hidden" onclick="aba('codigoClube')">Código do clube</button><button id="navNotificacoesBtn" onclick="aba('notificacoes')">🔔 Notificações</button><button id="abaViagensBtn" onclick="aba('viagens')">🚌 Viagens</button><button id="abaChatBtn" onclick="aba('chatClube')">💬 Chat do clube</button><button id="abaHistoricoBtn" onclick="aba('historico')">🕘 Histórico</button><button id="navPerfilBtn" onclick="aba('perfil')">👤 Perfil</button></nav>
 <div class="card hidden" id="sandboxPagamentoCard">
  <h2>🧪 Teste técnico PagBank (Sandbox)</h2>
  <p class="small">Somente ambiente de testes. Não é uma cobrança real e não altera o acesso nem os pagamentos de produção.</p>
@@ -623,7 +655,7 @@ body:has(#app:not(.hidden)) #app section[id]:not(#inicio){
  <div id="notificacoesMsg" class="small" aria-live="polite">As notificações ainda precisam ser ativadas neste aparelho.</div>
 </div>
 <div class="card" id="categoriaPainel"><label for="categoriaAtual">Categoria da equipe</label><select id="categoriaAtual" onchange="selecionarCategoria(this.value)"><option value="">Carregando categorias...</option></select><div class="small">Os dados e permissões respeitam as categorias vinculadas ao seu perfil.</div></div>
-<nav class="menu-principal"><button id="navInicioBtn" onclick="aba('inicio')">Início</button><button id="navEstoqueBtn" onclick="aba('estoque')">Estoque</button><button id="navJogadoresBtn" onclick="aba('jogadores')">Jogadores</button><button id="navUniformesBtn" onclick="aba('uniformes')">Uniformes</button><button id="navLavanderiaBtn" onclick="aba('lavanderia')">Lavanderia</button><button id="navMovimentacoesBtn" onclick="aba('movimentacoes')">Saídas/Devoluções</button><button id="navRelatoriosBtn" onclick="aba('relatorios')">Relatórios</button><button id="navEntregasBtn" onclick="aba('entregas')">Entregas por jogador</button><button id="abaAcompanhamentoBtn" class="hidden" onclick="abrirAreaAcompanhamento(null)">Relatórios de campo e equipe</button><button id="abaFisioBtn" class="hidden" onclick="abrirAreaAcompanhamento('fisioterapia')">Fisioterapia / DM</button><button id="abaPreparadorBtn" class="hidden" onclick="abrirAreaAcompanhamento('transicao')">Preparação física</button><button id="abaGoleirosBtn" class="hidden" onclick="abrirAreaAcompanhamento('goleiros')">Preparação de goleiros</button><button id="abaTreinadorBtn" class="hidden" onclick="abrirAreaAcompanhamento('campo')">Treinos de campo</button><button id="abaVideosBtn" class="hidden" onclick="aba('videos')">Vídeos dos treinos</button><button id="abaProgramacaoBtn" class="hidden" onclick="aba('programacao')">📅 Programação semanal</button><button id="abaEquipeBtn" class="hidden" onclick="aba('equipe')">Equipe e acessos</button><button id="abaAtividadesBtn" class="hidden" onclick="aba('atividades')">Atividades</button><button id="abaCodigoBtn" class="hidden" onclick="aba('codigoClube')">Código do clube</button><button id="navNotificacoesBtn" onclick="aba('notificacoes')">🔔 Notificações</button><button id="abaViagensBtn" onclick="aba('viagens')">🚌 Viagens</button><button id="abaChatBtn" onclick="aba('chatClube')">💬 Chat do clube</button><button id="abaHistoricoBtn" onclick="aba('historico')">🕘 Histórico</button><button id="navPerfilBtn" onclick="aba('perfil')">👤 Perfil</button></nav>
+
 <section id="inicio"><div class="dashboard-heading"><div><span class="dashboard-kicker">VISÃO GERAL DO CLUBE</span><h2>Painel principal</h2><p>Organização e acompanhamento da rotina do futebol.</p></div><span class="dashboard-live">● Atualizado</span></div><div class="dashboard-grid"><button class="dashboard-tile" onclick="aba('estoque')"><span class="tile-icon">▤</span><span><b>Estoque</b><small><strong id="dashEstoque">0</strong> itens cadastrados</small></span><span class="tile-arrow">›</span></button><button class="dashboard-tile" onclick="aba('jogadores')"><span class="tile-icon">⚽</span><span><b>Jogadores</b><small><strong id="dashJogadores">0</strong> atletas</small></span><span class="tile-arrow">›</span></button><button class="dashboard-tile" onclick="aba('uniformes')"><span class="tile-icon">👕</span><span><b>Uniformes</b><small><strong id="dashUniformes">0</strong> modelos cadastrados</small></span><span class="tile-arrow">›</span></button><button class="dashboard-tile" onclick="aba('lavanderia')"><span class="tile-icon">🧺</span><span><b>Lavanderia</b><small><strong id="dashLavanderia">0</strong> peças pendentes</small></span><span class="tile-arrow">›</span></button><button id="tileComissaoBtn" class="dashboard-tile" onclick="aba('equipe')"><span class="tile-icon">👥</span><span><b>Comissão técnica</b><small>Equipe e funções</small></span><span class="tile-arrow">›</span></button><button class="dashboard-tile" onclick="aba('relatorios')"><span class="tile-icon">▥</span><span><b>Relatórios</b><small>Dados e movimentações</small></span><span class="tile-arrow">›</span></button></div><section class="dashboard-insights" aria-label="Indicadores do clube">
 <div class="insights-head"><div><span class="dashboard-kicker">INDICADORES DO CLUBE</span><h3>Resumo de desempenho operacional</h3><p>Indicadores calculados com os registros da categoria selecionada.</p></div><span class="insights-symbol">▥</span></div>
 <div class="insights-metrics">
