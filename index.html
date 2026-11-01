@@ -211,6 +211,69 @@ nav button{flex:initial;min-height:43px;padding:10px 12px;font-size:12px;line-he
 .jogador-detalhes b{color:#183e2d;font-size:13px;margin-left:4px}
 .jogador-acoes{display:flex;gap:8px;margin-top:12px}
 @media(max-width:520px){.jogador-card{padding:13px}.jogador-foto{width:66px;height:66px}.jogador-dados>b{font-size:15px}}
+
+/* Painel principal, notificações, diretor e navegação móvel */
+.club-top-card{display:flex;align-items:center;justify-content:space-between;gap:14px;background:linear-gradient(115deg,#102b23,#1b513b)!important;color:#fff;border:0!important}
+.club-top-identity{display:flex;align-items:center;gap:13px;min-width:0}
+#clubName{font-size:18px;font-weight:850;color:#fff}
+#status{color:#dce9df!important}
+.escudo-clube{width:54px;height:60px;flex:none;display:grid;place-items:center;clip-path:polygon(50% 0,95% 12%,88% 72%,50% 100%,12% 72%,5% 12%);background:linear-gradient(145deg,var(--club-secondary,#FFDF00),#fff);color:var(--club-tertiary,#002776);font-size:17px;font-weight:950;border:0}
+.btn-sair{background:#e8d49e;color:#183a2b}
+.dashboard-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:12px 2px 18px}
+.dashboard-heading h2{margin:5px 0;font-size:25px;color:#153d2c}
+.dashboard-heading p{margin:0;color:#708076;font-size:13px}
+.dashboard-kicker{font-size:10px;font-weight:900;letter-spacing:.15em;color:#9b7a35}
+.dashboard-live{font-size:11px;font-weight:800;color:#287348;background:#e8f4eb;padding:7px 10px;border-radius:99px;white-space:nowrap}
+.dashboard-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin-bottom:18px}
+.dashboard-tile{display:flex;align-items:center;gap:12px;text-align:left;min-height:105px;padding:17px;background:#fff;color:#193c2c;border:1px solid #e2eae3;box-shadow:0 6px 20px rgba(16,43,35,.055);border-radius:16px}
+.dashboard-tile>span:nth-child(2){display:flex;flex-direction:column;gap:5px;min-width:0;flex:1}
+.dashboard-tile b{font-size:14px;color:#173d2d}
+.dashboard-tile small{font-size:11px;color:#78877d;line-height:1.4}
+.dashboard-tile small strong{color:#1b6842;font-size:15px}
+.tile-icon{width:43px;height:43px;flex:none;display:grid;place-items:center;border-radius:13px;background:#edf4ee;color:#1a6441;font-size:22px}
+.tile-arrow{font-size:25px;color:#9b8248}
+.dashboard-tile:hover{background:#fbfcf8;border-color:#d7c38c}
+.painel-diretor{background:linear-gradient(125deg,#102b23,#1d5039)!important;color:#fff;border:0!important}
+.painel-diretor h2{color:#fff;margin:4px 0}
+.painel-diretor .dashboard-kicker{color:#e5cb8c}
+.painel-diretor-head{display:flex;justify-content:space-between;align-items:center}
+.painel-diretor .tile-icon{background:rgba(255,255,255,.13);color:#f2d991}
+.diretor-metricas{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin:18px 0}
+.diretor-metricas>div{padding:13px;border-radius:12px;background:rgba(255,255,255,.1)}
+.diretor-metricas small{display:block;color:#d6e3d9;font-size:11px}
+.diretor-metricas b{display:block;font-size:24px;color:#fff;margin-top:4px}
+.painel-diretor .small{color:#dbe7de}
+.notification-item{width:100%;display:flex;align-items:center;gap:12px;text-align:left;background:#fff;color:#1d382a;border:1px solid #e5ebe5;border-radius:13px;padding:14px;margin:8px 0;box-shadow:none}
+.notification-item:hover{background:#f7faf6}
+.notification-icon{width:42px;height:42px;display:grid;place-items:center;border-radius:12px;background:#edf4ee;font-size:20px;flex:none}
+.notification-item.atencao .notification-icon{background:#fff2d7}
+.notification-copy{display:flex;flex-direction:column;gap:4px;flex:1;min-width:0}
+.notification-copy b{font-size:13px;color:#193d2c}
+.notification-copy small{font-size:12px;color:#718078;line-height:1.45}
+.notification-empty{text-align:center;padding:35px 15px;color:#68786d}
+.notification-empty>span{display:grid;place-items:center;margin:0 auto 10px;width:48px;height:48px;border-radius:50%;background:#e8f4eb;color:#237347;font-size:25px}
+.notification-empty b{display:block;color:#1d4b34}
+.notification-empty p{font-size:13px}
+.comunicados-card{border-left:4px solid #c9a653}
+.perfil-identidade{display:flex;align-items:center;gap:13px;padding-bottom:16px;border-bottom:1px solid #e7ede7;margin-bottom:8px}
+.perfil-avatar{width:52px;height:52px;display:grid;place-items:center;border-radius:16px;background:#e8f1e9;color:#1c6240;font-size:22px;font-weight:900}
+.perfil-identidade>b{color:#173d2d}
+.perfil-linha{display:flex;justify-content:space-between;gap:14px;padding:13px 0;border-bottom:1px solid #edf0ed;font-size:13px}
+.perfil-linha span{color:#748178}.perfil-linha b{text-align:right;color:#244b35}
+.menu-inferior{display:none}
+@media(max-width:680px){
+ .dashboard-heading{align-items:flex-start}.dashboard-heading h2{font-size:22px}
+ .dashboard-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ .dashboard-tile{min-height:105px;padding:12px;gap:9px}
+ .tile-icon{width:36px;height:36px;font-size:19px}
+ .dashboard-tile b{font-size:12px}.dashboard-tile small{font-size:10px}
+ .diretor-metricas{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #app nav.menu-principal{display:none!important}
+ #app nav.menu-inferior{position:fixed;display:flex;left:9px;right:9px;bottom:8px;top:auto;z-index:120;justify-content:space-around;gap:3px;padding:7px 5px calc(7px + env(safe-area-inset-bottom));border:1px solid #dfe7df;border-radius:17px;background:rgba(255,255,255,.97);box-shadow:0 8px 28px rgba(12,35,25,.2);backdrop-filter:blur(14px)}
+ #app nav.menu-inferior button{display:flex;flex:1;min-width:0;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:6px 2px;background:transparent;color:#28523a;box-shadow:none;border:0;font-size:19px;line-height:1.1}
+ #app nav.menu-inferior button span{font-size:9px;font-weight:800}
+ .club-top-card{padding:13px!important}.escudo-clube{width:45px;height:51px;font-size:14px}
+}
 </style>
 </head>
 <body>
@@ -263,7 +326,7 @@ nav button{flex:initial;min-height:43px;padding:10px 12px;font-size:12px;line-he
 <div id="categoriaEntradaMsg" class="msg hidden"></div>
 </section>
 <section id="app" class="hidden">
-<div class="card"><span id="clubName">Seu clube</span> <button onclick="sair()" style="float:right">Sair</button><div id="status" class="small"></div></div>
+<div class="card club-top-card"><div class="club-top-identity"><div id="escudoClube" class="escudo-clube">⚽</div><div><span id="clubName">Seu clube</span><div id="status" class="small"></div></div></div><button onclick="sair()" class="btn-sair">Sair</button></div>
 <div class="card hidden" id="sandboxPagamentoCard">
  <h2>🧪 Teste técnico PagBank (Sandbox)</h2>
  <p class="small">Somente ambiente de testes. Não é uma cobrança real e não altera o acesso nem os pagamentos de produção.</p>
@@ -277,8 +340,8 @@ nav button{flex:initial;min-height:43px;padding:10px 12px;font-size:12px;line-he
  <div id="notificacoesMsg" class="small" aria-live="polite">As notificações ainda precisam ser ativadas neste aparelho.</div>
 </div>
 <div class="card" id="categoriaPainel"><label for="categoriaAtual">Categoria da equipe</label><select id="categoriaAtual" onchange="selecionarCategoria(this.value)"><option value="">Carregando categorias...</option></select><div class="small">Os dados e permissões respeitam as categorias vinculadas ao seu perfil.</div></div>
-<nav><button onclick="aba('inicio')">Início</button><button onclick="aba('estoque')">Estoque</button><button onclick="aba('jogadores')">Jogadores</button><button onclick="aba('uniformes')">Uniformes</button><button onclick="aba('lavanderia')">Lavanderia</button><button onclick="aba('movimentacoes')">Saídas/Devoluções</button><button onclick="aba('relatorios')">Relatórios</button><button onclick="aba('entregas')">Entregas por jogador</button><button id="abaAcompanhamentoBtn" class="hidden" onclick="abrirAreaAcompanhamento(null)">Relatórios de campo e equipe</button><button id="abaFisioBtn" class="hidden" onclick="abrirAreaAcompanhamento('fisioterapia')">Fisioterapia / DM</button><button id="abaPreparadorBtn" class="hidden" onclick="abrirAreaAcompanhamento('transicao')">Preparação física</button><button id="abaGoleirosBtn" class="hidden" onclick="abrirAreaAcompanhamento('goleiros')">Preparação de goleiros</button><button id="abaTreinadorBtn" class="hidden" onclick="abrirAreaAcompanhamento('campo')">Treinos de campo</button><button id="abaVideosBtn" class="hidden" onclick="aba('videos')">Vídeos dos treinos</button><button id="abaProgramacaoBtn" class="hidden" onclick="aba('programacao')">📅 Programação semanal</button><button id="abaEquipeBtn" class="hidden" onclick="aba('equipe')">Equipe e acessos</button><button id="abaAtividadesBtn" class="hidden" onclick="aba('atividades')">Atividades</button><button id="abaCodigoBtn" class="hidden" onclick="aba('codigoClube')">Código do clube</button></nav>
-<section id="inicio"><div class="card"><h2>Resumo da rouparia</h2><p>Materiais cadastrados: <b id="total">0</b></p><p>Jogadores cadastrados: <b id="totalJog">0</b></p><p>Peças na lavanderia: <b id="totalLav">0</b></p></div><div class="card"><h2>⚠️ Alertas de estoque</h2><p class="small">Itens com 3 peças ou menos precisam de atenção.</p><div id="alertasEstoque">Carregando alertas...</div></div><div class="card"><p>Os dados são carregados do Supabase e separados pelo clube vinculado ao seu usuário.</p></div></section>
+<nav class="menu-principal"><button onclick="aba('inicio')">Início</button><button onclick="aba('estoque')">Estoque</button><button onclick="aba('jogadores')">Jogadores</button><button onclick="aba('uniformes')">Uniformes</button><button onclick="aba('lavanderia')">Lavanderia</button><button onclick="aba('movimentacoes')">Saídas/Devoluções</button><button onclick="aba('relatorios')">Relatórios</button><button onclick="aba('entregas')">Entregas por jogador</button><button id="abaAcompanhamentoBtn" class="hidden" onclick="abrirAreaAcompanhamento(null)">Relatórios de campo e equipe</button><button id="abaFisioBtn" class="hidden" onclick="abrirAreaAcompanhamento('fisioterapia')">Fisioterapia / DM</button><button id="abaPreparadorBtn" class="hidden" onclick="abrirAreaAcompanhamento('transicao')">Preparação física</button><button id="abaGoleirosBtn" class="hidden" onclick="abrirAreaAcompanhamento('goleiros')">Preparação de goleiros</button><button id="abaTreinadorBtn" class="hidden" onclick="abrirAreaAcompanhamento('campo')">Treinos de campo</button><button id="abaVideosBtn" class="hidden" onclick="aba('videos')">Vídeos dos treinos</button><button id="abaProgramacaoBtn" class="hidden" onclick="aba('programacao')">📅 Programação semanal</button><button id="abaEquipeBtn" class="hidden" onclick="aba('equipe')">Equipe e acessos</button><button id="abaAtividadesBtn" class="hidden" onclick="aba('atividades')">Atividades</button><button id="abaCodigoBtn" class="hidden" onclick="aba('codigoClube')">Código do clube</button><button id="navNotificacoesBtn" onclick="aba('notificacoes')">🔔 Notificações</button><button id="navPerfilBtn" onclick="aba('perfil')">👤 Perfil</button></nav><nav class="menu-inferior"><button onclick="aba('inicio')">⌂<span>Início</span></button><button onclick="aba('estoque')">▤<span>Estoque</span></button><button onclick="aba('jogadores')">⚽<span>Jogadores</span></button><button onclick="aba('notificacoes')">🔔<span>Notificações</span></button><button onclick="aba('perfil')">👤<span>Perfil</span></button></nav>
+<section id="inicio"><div class="dashboard-heading"><div><span class="dashboard-kicker">VISÃO GERAL DO CLUBE</span><h2>Painel principal</h2><p>Organização e acompanhamento da rotina do futebol.</p></div><span class="dashboard-live">● Atualizado</span></div><div class="dashboard-grid"><button class="dashboard-tile" onclick="aba('estoque')"><span class="tile-icon">▤</span><span><b>Estoque</b><small><strong id="dashEstoque">0</strong> itens cadastrados</small></span><span class="tile-arrow">›</span></button><button class="dashboard-tile" onclick="aba('jogadores')"><span class="tile-icon">⚽</span><span><b>Jogadores</b><small><strong id="dashJogadores">0</strong> atletas</small></span><span class="tile-arrow">›</span></button><button class="dashboard-tile" onclick="aba('uniformes')"><span class="tile-icon">👕</span><span><b>Uniformes</b><small><strong id="dashUniformes">0</strong> modelos cadastrados</small></span><span class="tile-arrow">›</span></button><button class="dashboard-tile" onclick="aba('lavanderia')"><span class="tile-icon">🧺</span><span><b>Lavanderia</b><small><strong id="dashLavanderia">0</strong> peças pendentes</small></span><span class="tile-arrow">›</span></button><button class="dashboard-tile" onclick="aba('equipe')"><span class="tile-icon">👥</span><span><b>Comissão técnica</b><small>Equipe e funções</small></span><span class="tile-arrow">›</span></button><button class="dashboard-tile" onclick="aba('relatorios')"><span class="tile-icon">▥</span><span><b>Relatórios</b><small>Dados e movimentações</small></span><span class="tile-arrow">›</span></button></div><div id="painelDiretor" class="card painel-diretor hidden"><div class="painel-diretor-head"><div><span class="dashboard-kicker">GESTÃO DO CLUBE</span><h2>Painel do diretor</h2></div><span class="tile-icon">📊</span></div><div class="diretor-metricas"><div><small>Jogadores</small><b id="diretorJogadores">0</b></div><div><small>Itens de estoque</small><b id="diretorEstoque">0</b></div><div><small>Uniformes</small><b id="diretorUniformes">0</b></div><div><small>Devoluções pendentes</small><b id="diretorPendencias">0</b></div></div><div id="diretorResumo" class="small">Resumo atualizado com os dados do clube.</div></div><div class="card"><h2>Resumo da rouparia</h2><p>Materiais cadastrados: <b id="total">0</b></p><p>Jogadores cadastrados: <b id="totalJog">0</b></p><p>Peças na lavanderia: <b id="totalLav">0</b></p></div><div class="card"><h2>⚠️ Alertas de estoque</h2><p class="small">Itens com 3 peças ou menos precisam de atenção.</p><div id="alertasEstoque">Carregando alertas...</div></div><div class="card"><p>Os dados são carregados do Supabase e separados pelo clube vinculado ao seu usuário.</p></div></section><section id="notificacoes" class="hidden"><div class="dashboard-heading"><div><span class="dashboard-kicker">CENTRAL DO CLUBE</span><h2>Central de notificações</h2><p>Avisos e pendências para acompanhar.</p></div><button type="button" onclick="carregarCentralNotificacoes()">Atualizar</button></div><div id="listaNotificacoes" class="card">Carregando avisos...</div><div class="card comunicados-card"><h3>📣 Comunicados do diretor</h3><p class="small">Este espaço está reservado para comunicados oficiais do clube. A publicação e o envio automático aos membros serão ativados em uma próxima etapa, com armazenamento seguro no Supabase.</p></div></section><section id="perfil" class="hidden"><div class="dashboard-heading"><div><span class="dashboard-kicker">CONTA E ACESSO</span><h2>Meu perfil</h2><p>Informações do seu acesso ao clube.</p></div></div><div class="card perfil-card"><div id="perfilResumo">Carregando perfil...</div><button type="button" onclick="sair()">Sair da conta</button></div></section>
 <section id="estoque" class="hidden"><div class="card"><h2>Cadastrar material</h2><form id="formMaterial"><label>Nome do material</label><input name="nome" placeholder="Ex.: Camisa de jogo" required><label>Categoria</label><select name="categoria"><option>Camisa</option><option>Calção</option><option>Meia</option><option>Uniforme de goleiro</option><option>Coletes</option><option>Treino</option><option>Outro</option></select><label>Quantidade</label><input name="qtd" type="number" min="0" value="0" required><label>Tamanho (opcional)</label><input name="tamanho" placeholder="Ex.: M"><label>Observação (opcional)</label><input name="obs"><button type="submit">Salvar material</button></form></div><div class="card"><h2>Materiais cadastrados</h2><div id="listaMateriais">Carregando...</div></div></section>
 <section id="jogadores" class="hidden"><div class="card"><h2>Cadastrar jogador</h2><form id="formJogador"><label>Nome do jogador</label><input name="nome" required placeholder="Nome completo"><label>Número da camisa</label><input name="numero" type="number" min="0" placeholder="Número"><label>Posição do jogador</label><select name="posicao" required><option value="">Selecione a posição</option><option value="Goleiro">Goleiro (GOL)</option><option value="Zagueiro">Zagueiro (ZAG)</option><option value="Lateral direito">Lateral direito (LD)</option><option value="Lateral esquerdo">Lateral esquerdo (LE)</option><option value="Volante">Volante (VOL)</option><option value="Meio-campista">Meio-campista (MEI)</option><option value="Ponta direita">Ponta direita (ATA)</option><option value="Ponta esquerda">Ponta esquerda (ATA)</option><option value="Centroavante">Centroavante (ATA)</option></select><label>Tamanho da chuteira</label><select name="chuteira"><option value="">Selecione o tamanho</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option><option value="32">32</option><option value="33">33</option><option value="34">34</option><option value="35">35</option><option value="36">36</option><option value="37">37</option><option value="38">38</option><option value="39">39</option><option value="40">40</option><option value="41">41</option><option value="42">42</option><option value="43">43</option><option value="44">44</option><option value="45">45</option><option value="46">46</option></select><label>Foto do jogador (opcional)</label><input name="foto" id="fotoJogador" type="file" accept="image/*,.heic,.heif" onchange="mostrarPreviaFotoJogador(this)" oninput="mostrarPreviaFotoJogador(this)"><div style="display:flex;align-items:center;gap:12px;margin:10px 0"><img id="previaFotoJogador" alt="Prévia da foto do jogador" style="width:88px;height:88px;object-fit:cover;border-radius:50%;background:#eee;display:none"><span id="textoPreviaFoto" class="small">Escolha uma foto da galeria para ver a prévia aqui.</span></div><p class="small">JPG, PNG ou WEBP. Máximo de 5 MB.</p><button type="submit">Salvar jogador</button></form></div><div class="card"><h2>Jogadores cadastrados</h2><div id="listaJogadores">Carregando...</div></div></section>
 <section id="uniformes" class="hidden"><div class="card"><h2>Cadastrar uniforme</h2><form id="formUniforme"><label>Descrição</label><input name="descricao" required placeholder="Ex.: Camisa de jogo amarela"><label>Tamanho</label><select name="tamanho" required><option value="">Escolha o tamanho</option><option>PP</option><option>P</option><option>M</option><option>G</option><option>GG</option><option>XG</option><option>Infantil 8</option><option>Infantil 10</option><option>Infantil 12</option><option>Infantil 14</option><option>Único</option></select><label>Quantidade</label><input name="quantidade" type="number" min="0" value="0" required><button type="submit">Salvar uniforme</button></form></div><div class="card"><h2>Uniformes cadastrados</h2><div id="listaUniformes">Carregando...</div></div></section>
@@ -344,7 +407,7 @@ let pagamentoAtual=null;
 const el=id=>document.getElementById(id);
 function mensagem(id,text){el(id).textContent=text;el(id).classList.remove('hidden')}
 function limparMensagem(id){el(id).textContent='';el(id).classList.add('hidden')}
-function aba(id){document.querySelectorAll('#app section[id]').forEach(s=>s.classList.add('hidden'));el(id).classList.remove('hidden');if(id==='atividades')carregarAtividades();if(id==='equipe')carregarEquipe();if(id==='acompanhamento')carregarAcompanhamento();if(id==='videos')carregarVideos();if(id==='programacao')carregarProgramacao();}
+function aba(id){document.querySelectorAll('#app section[id]').forEach(s=>s.classList.add('hidden'));el(id).classList.remove('hidden');if(id==='atividades')carregarAtividades();if(id==='equipe')carregarEquipe();if(id==='acompanhamento')carregarAcompanhamento();if(id==='videos')carregarVideos();if(id==='programacao')carregarProgramacao();if(id==='notificacoes')carregarCentralNotificacoes();if(id==='perfil')carregarPerfil();}
 function abrirAreaAcompanhamento(tipo){tipoAcompanhamentoFiltro=tipo;const titulos={campo:'⚽ Treinos de campo',transicao:'🏃 Preparação física e transição',fisioterapia:'🏥 Fisioterapia e DM',goleiros:'🧤 Preparação de goleiros'};el('tituloAcompanhamento').textContent=tipo?titulos[tipo]:'📋 Relatórios de campo e equipe';aba('acompanhamento');carregarAcompanhamento();}
 function selecionarCategoria(id){categoriaSelecionada=id?Number(id):null;if(perfilAtual==='roupeiro'&&categoriaSelecionada){const entrada=el('categoriaEntrada');if(!entrada.classList.contains('hidden'))return;carregar();}else if(perfilAtual==='diretor'){carregar();}}
 function entrarNaCategoria(){const id=Number(el('categoriaEntradaSelect').value);if(!id||!categoriasClube.some(c=>Number(c.id)===id)){mensagem('categoriaEntradaMsg','Escolha uma categoria válida.');return;}categoriaSelecionada=id;el('categoriaAtual').value=String(id);el('entradaCategoria').classList.add('hidden');el('app').classList.remove('hidden');history.replaceState(null,'',location.pathname+location.search+'#/app');carregar();}
@@ -362,11 +425,11 @@ function aplicarPermissoesTela(){
  else if(perfilAtual==='analista')el('abaVideosBtn').classList.remove('hidden');
  el('abaProgramacaoBtn').classList.remove('hidden');
  if(staff||director){
-  document.querySelectorAll('#app nav button').forEach(b=>{if(!navIds.includes(b.id))b.classList.add('hidden')});
-  document.querySelectorAll('#app > section[id]').forEach(s=>{if(!['inicio','acompanhamento','videos','programacao'].includes(s.id))s.classList.add('hidden')});
+  document.querySelectorAll('#app nav.menu-principal button').forEach(b=>{if(!navIds.includes(b.id)&&!['navNotificacoesBtn','navPerfilBtn'].includes(b.id)&&!(director&&[''].includes(b.id)))b.classList.add('hidden')});
+  document.querySelectorAll('#app > section[id]').forEach(s=>{if(!['inicio','acompanhamento','videos','programacao','notificacoes','perfil'].includes(s.id)&&!(director&&['estoque','jogadores','uniformes','lavanderia','movimentacoes','relatorios','entregas'].includes(s.id)))s.classList.add('hidden')});
   if(staff)el('inicio').classList.add('hidden');
  }
- if(director)document.querySelectorAll('#app form').forEach(form=>form.closest('.card')?.classList.add('hidden'));
+ if(director){document.querySelectorAll('#app form').forEach(form=>form.closest('.card')?.classList.add('hidden'));el('painelDiretor')?.classList.remove('hidden');}
  const af=el('formAcompanhamento');
  if(af){
   const canEdit=admin||['treinador','preparador_fisico','fisioterapeuta','preparador_goleiros'].includes(perfilAtual);
@@ -481,6 +544,7 @@ async function iniciar(){
  if(erroNome){mensagem('loginMsg','Não foi possível carregar os dados do clube: '+erroNome.message);return}
  el('sandboxPagamentoCard').classList.toggle('hidden',perfilAtual!=='admin');
 el('clubName').textContent=clube?.nome||'Minha rouparia';
+ const iniciais=String(clube?.nome||'FC').trim().split(/\\s+/).filter(Boolean).slice(0,2).map(p=>p[0]).join('').toUpperCase();el('escudoClube').textContent=iniciais||'FC';el('escudoClube').title='Identidade visual de '+(clube?.nome||'seu clube');
  el('status').textContent='Perfil: '+(vinculo.perfil||'usuário');
  const nomeExibicao=String(clube?.nome||'Meu clube').trim();const titulo=el('nomeClubeTopo');if(titulo)titulo.textContent='⚽ '+nomeExibicao;document.title=nomeExibicao;const metaApp=document.querySelector('meta[name="apple-mobile-web-app-title"]');if(metaApp)metaApp.setAttribute('content',nomeExibicao);
  if(clube){document.documentElement.style.setProperty('--club-primary',clube.cor_primaria||'#009739');document.documentElement.style.setProperty('--club-secondary',clube.cor_secundaria||'#FFDF00');document.documentElement.style.setProperty('--club-tertiary',clube.cor_terciaria||'#002776');}
@@ -743,7 +807,45 @@ function render(){
  el('entregaUniforme').innerHTML='<option value="">Escolha o uniforme</option>'+uniformes.map(x=>'<option value="'+Number(x.id)+'">'+esc(x.descricao)+' — tam. '+esc(x.tamanho)+' (estoque cadastrado: '+Number(x.quantidade||0)+')</option>').join('');
  el('listaEntregas').innerHTML=entregas.map(x=>{const qtd=Number(x.quantidade||0),devolvida=Number(x.quantidade_devolvida||0),pendente=Math.max(0,qtd-devolvida);return '<div class="item"><b>'+esc(x.jogador_nome)+'</b> — camisa '+esc(x.numero_camisa??'—')+'<br>'+esc(x.descricao_uniforme)+' — tamanho '+esc(x.tamanho)+' — '+qtd+' peça(s)<br><span class="small">Entrega: '+esc(x.data_entrega||'')+(x.observacao?' · '+esc(x.observacao):'')+'</span><br><b>'+ (pendente>0?'Com jogador: '+pendente+' peça(s)':'✅ Todas as peças devolvidas')+'</b>'+(pendente>0?' <button type="button" onclick="registrarDevolucao('+Number(x.id)+')">Registrar devolução</button>':'')+'</div>'}).join('')||'Nenhuma entrega registrada.';
  el('listaMov').innerHTML=movimentacoes.map(x=>'<div class="item"><b>'+esc(x.tipo==='saida'?'Saída / entrega':x.tipo==='devolucao'?'Devolução / retorno':x.tipo)+'</b> — '+Number(x.quantidade||0)+' peça(s)<br>'+esc(x.observacao||'Sem observação')+'<br><span class="small">'+esc(x.created_at?new Date(x.created_at).toLocaleString('pt-BR'):'')+'</span></div>').join('')||'Nenhuma movimentação registrada.';
+ atualizarPainelPrincipal();
 }
+
+function atualizarPainelPrincipal(){
+ const set=(id,v)=>{if(el(id))el(id).textContent=String(v)};
+ set('dashEstoque',materiais.length);set('dashJogadores',jogadores.length);set('dashUniformes',uniformes.length);set('dashLavanderia',lavanderia.reduce((n,x)=>n+Number(x.quantidade||0),0));
+ const pendencias=entregas.reduce((n,x)=>n+Math.max(0,Number(x.quantidade||0)-Number(x.quantidade_devolvida||0)),0);
+ set('diretorJogadores',jogadores.length);set('diretorEstoque',materiais.length);set('diretorUniformes',uniformes.length);set('diretorPendencias',pendencias);
+ const p=el('painelDiretor');if(p)p.classList.toggle('hidden',perfilAtual!=='diretor');
+ const resumo=el('diretorResumo');if(resumo)resumo.textContent=pendencias+' peça(s) ainda estão com jogadores; '+lavanderia.length+' registro(s) aguardam retorno da lavanderia.';
+}
+async function carregarCentralNotificacoes(){
+ const box=el('listaNotificacoes');if(!box)return;
+ if(!clubeId){box.textContent='Entre no clube para ver os avisos.';return;}
+ const avisos=[];
+ const baixos=[...materiais.map(x=>({nome:x.item,qtd:Number(x.quantidade||0),tipo:'Material'})),...uniformes.map(x=>({nome:x.descricao+' — '+x.tamanho,qtd:Number(x.quantidade||0),tipo:'Uniforme'}))].filter(x=>x.qtd<=3);
+ baixos.forEach(x=>avisos.push({icone:'⚠️',titulo:'Estoque baixo: '+x.nome,descricao:x.tipo+' com '+x.qtd+' peça(s) disponível(is).',destino:'estoque',nivel:'atencao'}));
+ const pecasLav=lavanderia.reduce((n,x)=>n+Number(x.quantidade||0),0);
+ if(pecasLav)avisos.push({icone:'🧺',titulo:'Itens na lavanderia',descricao:pecasLav+' peça(s) aguardam retorno.',destino:'lavanderia',nivel:'normal'});
+ const pendentes=entregas.reduce((n,x)=>n+Math.max(0,Number(x.quantidade||0)-Number(x.quantidade_devolvida||0)),0);
+ if(pendentes)avisos.push({icone:'👕',titulo:'Devoluções pendentes',descricao:pendentes+' peça(s) ainda estão com jogadores.',destino:'entregas',nivel:'atencao'});
+ try{
+  const semana=segundaDaSemana(dataISOHoje());
+  const {data,error}=await db.from('programacao_arquivos').select('nome_arquivo,criado_em').eq('clube_id',clubeId).eq('semana_inicio',semana).maybeSingle();
+  if(!error&&data)avisos.push({icone:'📅',titulo:'Programação semanal disponível',descricao:'Arquivo '+data.nome_arquivo+' enviado para esta semana.',destino:'programacao',nivel:'normal'});
+  else if(!error)avisos.push({icone:'📅',titulo:'Programação semanal',descricao:'Ainda não há arquivo enviado para esta semana.',destino:'programacao',nivel:'normal'});
+ }catch(e){}
+ if(!avisos.length){box.innerHTML='<div class="notification-empty"><span>✓</span><b>Tudo em dia!</b><p>Não há pendências para mostrar agora.</p></div>';return;}
+ box.innerHTML=avisos.map(a=>'<button type="button" class="notification-item '+a.nivel+'" onclick="aba(\''+a.destino+'\')"><span class="notification-icon">'+a.icone+'</span><span class="notification-copy"><b>'+esc(a.titulo)+'</b><small>'+esc(a.descricao)+'</small></span><span class="tile-arrow">›</span></button>').join('');
+}
+async function carregarPerfil(){
+ const box=el('perfilResumo');if(!box)return;
+ const {data:{user}}=await db.auth.getUser();
+ const nome=String(user?.user_metadata?.nome_responsavel||user?.email||'Usuário');
+ const perfis={admin:'Administrador',diretor:'Diretor',roupeiro:'Roupeiro',treinador:'Treinador',preparador_fisico:'Preparador físico',fisioterapeuta:'Fisioterapeuta',preparador_goleiros:'Preparador de goleiros',analista:'Analista'};
+ const cat=categoriasClube.find(c=>Number(c.id)===Number(categoriaSelecionada));
+ box.innerHTML='<div class="perfil-identidade"><div class="perfil-avatar">'+esc(nome.trim().slice(0,1).toUpperCase())+'</div><div><b>'+esc(nome)+'</b><div class="small">'+esc(user?.email||'')+'</div></div></div><div class="perfil-linha"><span>Clube</span><b>'+esc(el('clubName').textContent)+'</b></div><div class="perfil-linha"><span>Função</span><b>'+esc(perfis[perfilAtual]||perfilAtual)+'</b></div><div class="perfil-linha"><span>Categoria</span><b>'+esc(cat?.nome||(categoriaSelecionada?'Categoria selecionada':'Todas as categorias'))+'</b></div>';
+}
+
 function mostrarPreviaFotoJogador(input){
  const img=document.getElementById('previaFotoJogador');
  const txt=document.getElementById('textoPreviaFoto');
