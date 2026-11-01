@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 560" role="img" aria-labelledby="title desc">
+<title id="title">Cobra dourada do Futebol Clube Cascavel</title>
+<desc id="desc">Ilustração esportiva de uma naja preta com detalhes amarelo-dourados.</desc>
+<defs>
+  <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff2a1"/><stop offset=".32" stop-color="#f6d34b"/><stop offset=".68" stop-color="#c89412"/><stop offset="1" stop-color="#fff0a0"/></linearGradient>
+  <linearGradient id="black" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#35383b"/><stop offset=".45" stop-color="#090a0b"/><stop offset="1" stop-color="#202326"/></linearGradient>
+  <linearGradient id="belly" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#a9780b"/><stop offset=".48" stop-color="#ffe16b"/><stop offset="1" stop-color="#b17b0b"/></linearGradient>
+  <radialGradient id="eyeGlow"><stop offset="0" stop-color="#fff7b7"/><stop offset=".45" stop-color="#f5c92e"/><stop offset="1" stop-color="#b27b06"/></radialGradient>
+  <pattern id="scales" width="24" height="20" patternUnits="userSpaceOnUse"><path d="M1 10 Q6 1 12 2 Q18 1 23 10 Q18 18 12 18 Q6 18 1 10Z" fill="none" stroke="#d8aa2c" stroke-width="1.4" opacity=".36"/><path d="M6 9 Q12 4 18 9" fill="none" stroke="#fff0a0" stroke-width=".8" opacity=".2"/></pattern>
+  <clipPath id="hoodClip"><path d="M250 385 C211 348 130 292 103 220 C70 133 118 57 204 40 Q250 28 296 40 C382 57 430 133 397 220 C370 292 289 348 250 385Z"/></clipPath>
+</defs>
+<path d="M238 438 C151 425 104 466 124 513 C145 562 263 573 345 548 C411 528 393 473 326 458 C289 450 270 459 250 475" fill="none" stroke="#070809" stroke-width="48" stroke-linecap="round"/>
+<path d="M238 438 C151 425 104 466 124 513 C145 562 263 573 345 548 C411 528 393 473 326 458 C289 450 270 459 250 475" fill="none" stroke="url(#gold)" stroke-width="5.5" stroke-linecap="round"/>
+<path d="M142 501 C188 538 287 548 354 516" fill="none" stroke="#d9aa25" stroke-width="2.5" opacity=".8"/>
+<path d="M250 385 C211 348 130 292 103 220 C70 133 118 57 204 40 Q250 28 296 40 C382 57 430 133 397 220 C370 292 289 348 250 385Z" fill="url(#black)" stroke="url(#gold)" stroke-width="9" stroke-linejoin="round"/>
+<g clip-path="url(#hoodClip)"><rect x="75" y="35" width="350" height="330" fill="url(#scales)"/><path d="M119 91 C80 170 140 267 220 326 M381 91 C420 170 360 267 280 326" fill="none" stroke="#d8aa2c" stroke-width="4" opacity=".65"/><path d="M145 70 Q250 12 355 70" fill="none" stroke="#f6d34b" stroke-width="3" opacity=".5"/></g>
+<path d="M194 214 C192 298 204 371 250 438 C296 371 308 298 306 214Z" fill="url(#black)" stroke="#d4a522" stroke-width="6"/>
+<path d="M224 231 C225 305 231 370 250 410 C269 370 275 305 276 231Z" fill="url(#belly)" stroke="#f8df75" stroke-width="2.5"/>
+<g fill="none" stroke="#6e4b08" stroke-width="3" opacity=".75"><path d="M221 264 Q250 278 279 264"/><path d="M224 292 Q250 307 276 292"/><path d="M229 321 Q250 336 271 321"/><path d="M235 350 Q250 363 265 350"/><path d="M241 378 Q250 387 259 378"/></g>
+<path d="M154 135 Q250 76 346 135 L331 205 Q250 256 169 205Z" fill="url(#black)" stroke="url(#gold)" stroke-width="7" stroke-linejoin="round"/>
+<path d="M169 144 Q204 111 236 132 Q213 161 175 163Z M331 144 Q296 111 264 132 Q287 161 325 163Z" fill="#050607" stroke="#d7a91f" stroke-width="2"/>
+<path d="M183 153 Q207 132 231 151 Q207 170 183 153Z M269 151 Q293 132 317 153 Q293 170 269 151Z" fill="url(#eyeGlow)"/>
+<ellipse cx="207" cy="151" rx="3.7" ry="10" fill="#090909"/><ellipse cx="293" cy="151" rx="3.7" ry="10" fill="#090909"/>
+<path d="M211 177 Q250 192 289 177 L278 213 Q250 229 222 213Z" fill="#111315" stroke="#b98a17" stroke-width="2.5"/>
+<path d="M238 190 L250 195 L262 190" fill="none" stroke="#e5bb39" stroke-width="2.5" stroke-linecap="round"/>
+<circle cx="230" cy="185" r="3" fill="#f2d04d"/><circle cx="270" cy="185" r="3" fill="#f2d04d"/>
+<path d="M204 211 Q250 242 296 211 Q282 239 250 244 Q218 239 204 211Z" fill="#090607" stroke="#e0b22d" stroke-width="3"/>
+<path d="M218 215 L229 239 L234 219Z M282 215 L271 239 L266 219Z" fill="#fff0bf" stroke="#b58a1a" stroke-width="1"/>
+<path d="M250 240 Q258 259 250 270 Q242 259 250 240Z" fill="#d8a624" opacity=".9"/>
+<path d="M132 207 Q147 267 198 308 M368 207 Q353 267 302 308" fill="none" stroke="#f0cb4b" stroke-width="3" opacity=".8"/>
+<path d="M250 18 L250 5 M87 112 L70 103 M413 112 L430 103" stroke="#e3b52b" stroke-width="4" stroke-linecap="round" opacity=".85"/>
+</svg>
