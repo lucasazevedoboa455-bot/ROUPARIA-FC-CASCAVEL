@@ -1436,7 +1436,70 @@ button:focus-visible{
   filter:none!important;
 }
 </style>
-</head>
+
+<style id="tema-claro-final-v44">
+:root{
+ color-scheme:light;
+ --ui-bg:#f4f6f7;--ui-card:#ffffff;--ui-ink:#263445;
+ --ui-muted:#687585;--ui-line:#e2e7ec;--ui-soft:#eef1f4;
+ --ui-accent:#34495e;
+}
+html,body{background:var(--ui-bg)!important;color:var(--ui-ink)!important}
+body{background:linear-gradient(180deg,#f8f9fa 0%,#eef1f4 100%)!important;font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif!important}
+.brand-header{
+ background:linear-gradient(110deg,#ffffff,#f1f4f6)!important;color:#263445!important;
+ border:0!important;border-bottom:1px solid #dfe5ea!important;
+ box-shadow:0 4px 18px rgba(35,52,69,.06)!important;
+}
+.brand-header h1{color:#263445!important}
+.brand-header p{color:#687585!important}
+.brand-mark{background:#e9edf1!important;color:#34495e!important;box-shadow:none!important}
+.brand-stars{border-color:#cbd4dc!important;color:#536579!important}
+main{padding-bottom:110px!important}
+.card,#login,#formLogin,#formCadastro{
+ background:#fff!important;border:1px solid var(--ui-line)!important;
+ box-shadow:0 5px 20px rgba(35,52,69,.045)!important;color:var(--ui-ink)!important;
+}
+h2,h3,.card h2,label{color:#344456!important}
+.welcome-block,#app>.card:first-child{
+ background:linear-gradient(110deg,#f0f3f5,#e9eef2)!important;
+ color:#263445!important;border:1px solid #e0e6eb!important;box-shadow:none!important;
+}
+.welcome-block h2,.welcome-block p,#app>.card:first-child #clubName{color:#263445!important}
+.welcome-block .welcome-kicker{background:#e3e9ee!important;color:#46596d!important}
+#app>.card:first-child .small,#app>.card:first-child #status{color:#647486!important}
+button,button:not(nav.menu-principal button),input[type=button],input[type=submit]{
+ background:#eef1f4!important;background-image:none!important;color:#344456!important;
+ border:1px solid #dfe5ea!important;box-shadow:none!important;filter:none!important;
+}
+button:hover,input[type=button]:hover,input[type=submit]:hover{
+ background:#e4e9ee!important;color:#263445!important;transform:none!important;box-shadow:none!important;
+}
+button:focus-visible{outline:3px solid #c5d0da!important;outline-offset:2px}
+nav.menu-principal{
+ background:rgba(255,255,255,.98)!important;border:1px solid #dfe5ea!important;
+ box-shadow:0 5px 20px rgba(35,52,69,.10)!important;
+}
+nav.menu-principal button{
+ background:#f0f2f5!important;color:#344456!important;border:1px solid #e2e7ec!important;
+}
+nav.menu-principal button:hover{background:#e5eaf0!important;color:#263445!important}
+input,select,textarea{background:#fff!important;color:#263445!important;border-color:#d7dfe6!important}
+.small{color:#687585!important}
+.msg{background:#f5f7f9!important;border-color:#e1e6eb!important;color:#405164!important}
+@media(max-width:680px){
+ main{padding-bottom:120px!important}
+ #app nav.menu-principal{
+  position:fixed!important;left:10px!important;right:10px!important;bottom:8px!important;top:auto!important;
+  width:auto!important;max-width:none!important;display:flex!important;flex-wrap:nowrap!important;
+  overflow-x:auto!important;overscroll-behavior-x:contain!important;gap:7px!important;
+  padding:9px!important;border-radius:15px!important;background:rgba(255,255,255,.98)!important;
+  z-index:1000!important;backdrop-filter:blur(14px)!important;
+ }
+ #app nav.menu-principal button{flex:0 0 auto!important;min-width:104px!important;min-height:44px!important;font-size:12px!important}
+}
+</style>
+\n</head>
 <body>
 <header class="brand-header"><div class="brand-mark" aria-hidden="true">⚽</div><div class="brand-copy"><h1 id="nomeClubeTopo">GESTÃO INTELIGENTE DO FUTEBOL</h1><p>GESTÃO COMPLETA PARA O FUTEBOL</p></div><span class="brand-stars" aria-hidden="true">BR</span></header>
 <main>
