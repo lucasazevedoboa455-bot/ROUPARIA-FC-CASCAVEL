@@ -350,6 +350,26 @@ body:has(#app:not(.hidden)) #app .perfil-linha b{color:#242424}
 #escudoIniciaisClube{display:grid;place-items:center;width:54px;height:60px;clip-path:polygon(50% 0,95% 12%,88% 72%,50% 100%,12% 72%,5% 12%);background:linear-gradient(145deg,var(--club-secondary,#FFDF00),#fff);color:var(--club-tertiary,#002776);font-size:17px;font-weight:950}
 #escudoIniciaisClube.hidden{display:none!important}
 
+
+/* Campo ampliado para comportar elencos maiores */
+.campo-tatico-jogadores{width:100%;min-height:310px;padding:24px 20px;border-radius:20px}
+.campo-tatico-jogadores:before{inset:12px}
+.campo-tatico-jogadores:after{top:12px;bottom:12px}
+.campo-linha-central{width:82px;height:82px}
+.campo-linha-jogadores{min-height:258px;align-content:space-around;gap:12px}
+.campo-setor{min-height:100px;gap:9px}
+.campo-setor-titulo{font-size:10px}
+.campo-atletas{gap:5px}
+.campo-atleta{font-size:9px;padding:4px 6px}
+@media(max-width:600px){
+ .campo-tatico-jogadores{min-height:390px;padding:20px 12px}
+ .campo-linha-jogadores{grid-template-columns:repeat(2,minmax(0,1fr));min-height:340px;gap:12px 8px;align-content:space-around}
+ .campo-setor{min-height:145px}
+ .campo-setor-titulo{font-size:9px}
+ .campo-atleta{font-size:8px;padding:3px 5px}
+ .campo-atleta-numero{min-width:15px;height:15px;font-size:8px}
+}
+
 </style>
 </head>
 <body>
