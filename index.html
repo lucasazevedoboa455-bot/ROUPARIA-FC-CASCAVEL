@@ -1084,6 +1084,24 @@ a{color:#2457e6!important}
 }
 /* O tema do Futebol Clube Cascavel permanece preto, grafite e amarelo. */
 
+
+/* CARTÃO DE PERFIL FCC — naja preta e dourada, sem cobrir os dados */
+#app.tema-fc-cascavel .perfil-card{
+ position:relative!important;overflow:hidden!important;
+ background:linear-gradient(145deg,#fff 0%,#faf9f4 100%)!important;
+ border:1px solid #dfcf91!important;border-top:3px solid #d6ad24!important;
+ box-shadow:0 9px 24px rgba(34,30,18,.09)!important;
+}
+#app.tema-fc-cascavel .perfil-identidade{gap:12px;min-width:0}
+#app.tema-fc-cascavel .perfil-nome{flex:1;min-width:0;overflow-wrap:anywhere}
+#app.tema-fc-cascavel .perfil-cobra-fcc{
+ display:block;width:94px;height:104px;flex:none;object-fit:contain;
+ margin-left:auto;filter:drop-shadow(0 5px 8px rgba(80,58,0,.2));
+}
+@media(max-width:520px){
+ #app.tema-fc-cascavel .perfil-cobra-fcc{width:76px;height:86px;margin-right:-3px}
+}
+
 </style>
 </head>
 <body>
@@ -1228,7 +1246,7 @@ async function ativarNotificacoes(){
  }finally{botao.disabled=false;}
 }
 
-if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js?v=32', { updateViaCache: 'none' }).catch(() => {})); }
+if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js?v=36', { updateViaCache: 'none' }).catch(() => {})); }
 let clubeId=null, perfilAtual='admin', usuarioClubeId=null, categoriasClube=[], categoriaSelecionada=null, categoriaEscolhidaAntesLogin='', perfilEscolhidoAntesLogin='', materiais=[], jogadores=[], uniformes=[], lavanderia=[], cLavanderia=[], movimentacoes=[], entregas=[], acessoRegistradoNestaSessao=false, tipoAcompanhamentoFiltro=null;
 let pagamentoAtual=null,programacaoCategoriaSelecionada=null,canalNotificacoesProgramacao=null,usuarioCanalNotificacoes=null;
 const el=id=>document.getElementById(id);
@@ -1773,7 +1791,8 @@ async function carregarPerfil(){
  const nome=String(user?.user_metadata?.nome_responsavel||user?.email||'Usuário');
  const perfis={admin:'Administrador',diretor:'Diretor',roupeiro:'Roupeiro',treinador:'Treinador',preparador_fisico:'Preparador físico',fisioterapeuta:'Fisioterapeuta',preparador_goleiros:'Preparador de goleiros',analista:'Analista'};
  const cat=categoriasClube.find(c=>Number(c.id)===Number(categoriaSelecionada));
- box.innerHTML='<div class="perfil-identidade"><div class="perfil-avatar">'+esc(nome.trim().slice(0,1).toUpperCase())+'</div><div><b>'+esc(nome)+'</b><div class="small">'+esc(user?.email||'')+'</div></div></div><div class="perfil-linha"><span>Clube</span><b>'+esc(el('clubName').textContent)+'</b></div><div class="perfil-linha"><span>Função</span><b>'+esc(perfis[perfilAtual]||perfilAtual)+'</b></div><div class="perfil-linha"><span>Categoria</span><b>'+esc(cat?.nome||(categoriaSelecionada?'Categoria selecionada':'Todas as categorias'))+'</b></div>';
+ const cobraFCC=el('app').classList.contains('tema-fc-cascavel');
+ box.innerHTML='<div class="perfil-identidade"><div class="perfil-avatar">'+esc(nome.trim().slice(0,1).toUpperCase())+'</div><div class="perfil-nome"><b>'+esc(nome)+'</b><div class="small">'+esc(user?.email||'')+'</div></div>'+(cobraFCC?'<img class="perfil-cobra-fcc" src="./cobra-fc-cascavel.svg" alt="Cobra preta e dourada do Futebol Clube Cascavel" loading="lazy" decoding="async">':'')+'</div><div class="perfil-linha"><span>Clube</span><b>'+esc(el('clubName').textContent)+'</b></div><div class="perfil-linha"><span>Função</span><b>'+esc(perfis[perfilAtual]||perfilAtual)+'</b></div><div class="perfil-linha"><span>Categoria</span><b>'+esc(cat?.nome||(categoriaSelecionada?'Categoria selecionada':'Todas as categorias'))+'</b></div>';
 }
 
 function mostrarPreviaFotoJogador(input){
