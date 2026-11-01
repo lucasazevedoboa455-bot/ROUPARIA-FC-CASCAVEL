@@ -342,6 +342,14 @@ body:has(#app:not(.hidden)) #app .perfil-linha b{color:#242424}
 .campo-sem-atletas{position:relative;z-index:1;text-align:center;padding:18px 8px;font-size:12px;color:#e3f1e7}
 @media(max-width:520px){.campo-tatico-jogadores{padding:10px 7px}.campo-linha-jogadores{gap:4px;min-height:84px}.campo-setor-titulo{font-size:8px}.campo-atletas{gap:3px}.campo-atleta{font-size:8px;padding:3px 5px}.campo-atleta-numero{min-width:15px;height:15px;font-size:8px}.escudo-oficial-clube{width:31px;height:31px}}
 
+
+/* O escudo oficial ocupa o espaço do monograma no cabeçalho do perfil */
+#escudoClube{clip-path:none!important;background:transparent!important;border:0!important;overflow:visible!important;display:grid;place-items:center}
+#escudoClube .escudo-oficial-clube{width:54px;height:60px;object-fit:contain;display:block;filter:drop-shadow(0 2px 5px rgba(0,0,0,.25))}
+#escudoClube .escudo-oficial-clube.hidden{display:none!important}
+#escudoIniciaisClube{display:grid;place-items:center;width:54px;height:60px;clip-path:polygon(50% 0,95% 12%,88% 72%,50% 100%,12% 72%,5% 12%);background:linear-gradient(145deg,var(--club-secondary,#FFDF00),#fff);color:var(--club-tertiary,#002776);font-size:17px;font-weight:950}
+#escudoIniciaisClube.hidden{display:none!important}
+
 </style>
 </head>
 <body>
@@ -394,7 +402,7 @@ body:has(#app:not(.hidden)) #app .perfil-linha b{color:#242424}
 <div id="categoriaEntradaMsg" class="msg hidden"></div>
 </section>
 <section id="app" class="hidden">
-<div class="card club-top-card"><div class="club-top-identity"><div id="escudoClube" class="escudo-clube">⚽</div><div class="club-title-wrap"><div class="club-title-line"><img id="escudoOficialClube" class="escudo-oficial-clube hidden" src="https://fccascavel.com.br/?jet_download=871af73d62c5112a9ba3ee49ee1aafab4f57ee38" alt="Escudo oficial do Futebol Clube Cascavel"><span id="clubName">Seu clube</span></div><div id="status" class="small"></div></div></div><button onclick="sair()" class="btn-sair">Sair</button></div>
+<div class="card club-top-card"><div class="club-top-identity"><div id="escudoClube" class="escudo-clube"><span id="escudoIniciaisClube">⚽</span><img id="escudoOficialClube" class="escudo-oficial-clube hidden" src="https://fccascavel.com.br/?jet_download=871af73d62c5112a9ba3ee49ee1aafab4f57ee38" alt="Escudo oficial do Futebol Clube Cascavel"></div><div class="club-title-wrap"><div class="club-title-line"><span id="clubName">Seu clube</span></div><div id="status" class="small"></div></div></div><button onclick="sair()" class="btn-sair">Sair</button></div>
 <div class="card hidden" id="sandboxPagamentoCard">
  <h2>🧪 Teste técnico PagBank (Sandbox)</h2>
  <p class="small">Somente ambiente de testes. Não é uma cobrança real e não altera o acesso nem os pagamentos de produção.</p>
@@ -612,7 +620,7 @@ async function iniciar(){
  if(erroNome){mensagem('loginMsg','Não foi possível carregar os dados do clube: '+erroNome.message);return}
  el('sandboxPagamentoCard').classList.toggle('hidden',perfilAtual!=='admin');
 el('clubName').textContent=clube?.nome||'Minha rouparia';
- const iniciais=String(clube?.nome||'FC').trim().split(/\\s+/).filter(Boolean).slice(0,2).map(p=>p[0]).join('').toUpperCase();el('escudoClube').textContent=iniciais||'FC';el('escudoClube').title='Identidade visual de '+(clube?.nome||'seu clube'); const nomeClubeEscudo=String(clube?.nome||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase();const usarEscudoFCC=nomeClubeEscudo.includes('cascavel')&&(nomeClubeEscudo.includes('futebol clube')||nomeClubeEscudo.includes('fc '));el('escudoOficialClube').classList.toggle('hidden',!usarEscudoFCC);
+ const iniciais=String(clube?.nome||'FC').trim().split(/\\s+/).filter(Boolean).slice(0,2).map(p=>p[0]).join('').toUpperCase();el('escudoIniciaisClube').textContent=iniciais||'FC';el('escudoClube').title='Identidade visual de '+(clube?.nome||'seu clube'); const nomeClubeEscudo=String(clube?.nome||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase();const usarEscudoFCC=nomeClubeEscudo.includes('cascavel')&&(nomeClubeEscudo.includes('futebol clube')||nomeClubeEscudo.includes('fc '));el('escudoOficialClube').classList.toggle('hidden',!usarEscudoFCC);el('escudoIniciaisClube').classList.toggle('hidden',usarEscudoFCC);
  el('status').textContent='Perfil: '+(vinculo.perfil||'usuário');
  const nomeExibicao=String(clube?.nome||'Meu clube').trim();const titulo=el('nomeClubeTopo');if(titulo)titulo.textContent='⚽ '+nomeExibicao;document.title=nomeExibicao;const metaApp=document.querySelector('meta[name="apple-mobile-web-app-title"]');if(metaApp)metaApp.setAttribute('content',nomeExibicao);
  if(clube){document.documentElement.style.setProperty('--club-primary',clube.cor_primaria||'#009739');document.documentElement.style.setProperty('--club-secondary',clube.cor_secundaria||'#FFDF00');document.documentElement.style.setProperty('--club-tertiary',clube.cor_terciaria||'#002776');}
