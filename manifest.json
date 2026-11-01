@@ -1,7 +1,7 @@
 {
-  "name": "Roupeiro do Brasil",
-  "short_name": "Roupeiro do Brasil",
-  "description": "Controle de estoque, uniformes, jogadores, entregas e lavanderia para clubes de futebol.",
+  "name": "Gestão Inteligente do Futebol",
+  "short_name": "Gestão Inteligente do Futebol",
+  "description": "Organização, controle e tecnologia para equipes de futebol.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
