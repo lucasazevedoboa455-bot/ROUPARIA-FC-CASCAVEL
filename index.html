@@ -532,7 +532,12 @@ function aplicarPermissoesTela(){
  if(staff||director){
   const navDiretor=['navInicioBtn','navEstoqueBtn','navJogadoresBtn','navUniformesBtn','navLavanderiaBtn','navMovimentacoesBtn','navRelatoriosBtn','navEntregasBtn'];document.querySelectorAll('#app nav.menu-principal button').forEach(b=>{if(!navIds.includes(b.id)&&!['navNotificacoesBtn','navPerfilBtn'].includes(b.id)&&!(director&&navDiretor.includes(b.id)))b.classList.add('hidden')});
   document.querySelectorAll('#app > section[id]').forEach(s=>{if(!['inicio','acompanhamento','videos','programacao','notificacoes','perfil'].includes(s.id)&&!(director&&['estoque','jogadores','uniformes','lavanderia','movimentacoes','relatorios','entregas','equipe'].includes(s.id)))s.classList.add('hidden')});
-  if(staff){el('inicio').classList.add('hidden');['dockInicioBtn','dockEstoqueBtn','dockJogadoresBtn'].forEach(id=>el(id)?.classList.add('hidden'));}
+  if(staff){
+   el('navInicioBtn')?.classList.remove('hidden');
+   el('inicio')?.classList.remove('hidden');
+   Array.from(el('inicio')?.children||[]).forEach(child=>{if(child.id!=='inicioProgramacaoAvisos'&&!child.classList.contains('dashboard-heading'))child.classList.add('hidden');});
+   ['dockEstoqueBtn','dockJogadoresBtn'].forEach(id=>el(id)?.classList.add('hidden'));
+  }
  }
  if(director){document.querySelectorAll('#app form').forEach(form=>form.closest('.card')?.classList.add('hidden'));el('painelDiretor')?.classList.remove('hidden');}
  const af=el('formAcompanhamento');
@@ -1009,12 +1014,6 @@ async function carregarCentralNotificacoes(){
  if(pecasLav)avisos.push({icone:'🧺',titulo:'Itens na lavanderia',descricao:pecasLav+' peça(s) aguardam retorno.',destino:'lavanderia',nivel:'normal'});
  const pendentes=entregas.reduce((n,x)=>n+Math.max(0,Number(x.quantidade||0)-Number(x.quantidade_devolvida||0)),0);
  if(pendentes)avisos.push({icone:'👕',titulo:'Devoluções pendentes',descricao:pendentes+' peça(s) ainda estão com jogadores.',destino:'entregas',nivel:'atencao'});
- try{
-  const semana=segundaDaSemana(dataISOHoje());
-  const {data,error}=await db.from('programacao_arquivos').select('nome_arquivo,criado_em').eq('clube_id',clubeId).eq('semana_inicio',semana).maybeSingle();
-  if(!error&&data)avisos.push({icone:'📅',titulo:'Programação semanal disponível',descricao:'Arquivo '+data.nome_arquivo+' enviado para esta semana.',destino:'programacao',nivel:'normal'});
-  else if(!error)avisos.push({icone:'📅',titulo:'Programação semanal',descricao:'Ainda não há arquivo enviado para esta semana.',destino:'programacao',nivel:'normal'});
- }catch(e){}
  if(!avisos.length){box.innerHTML='<div class="notification-empty"><span>✓</span><b>Tudo em dia!</b><p>Não há pendências para mostrar agora.</p></div>';return;}
  box.innerHTML=avisos.map(a=>'<button type="button" class="notification-item '+a.nivel+'" onclick="aba(\''+a.destino+'\')"><span class="notification-icon">'+a.icone+'</span><span class="notification-copy"><b>'+esc(a.titulo)+'</b><small>'+esc(a.descricao)+'</small></span><span class="tile-arrow">›</span></button>').join('');
 }
