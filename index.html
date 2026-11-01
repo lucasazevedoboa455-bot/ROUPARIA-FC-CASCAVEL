@@ -417,7 +417,7 @@ function aplicarPermissoesTela(){
  const navIds=['abaAcompanhamentoBtn','abaFisioBtn','abaPreparadorBtn','abaGoleirosBtn','abaTreinadorBtn','abaVideosBtn','abaProgramacaoBtn','abaEquipeBtn','abaAtividadesBtn','abaCodigoBtn'];
  navIds.forEach(id=>el(id)?.classList.add('hidden'));
  if(admin)navIds.forEach(id=>el(id)?.classList.remove('hidden'));
- else if(director)['abaAcompanhamentoBtn','abaVideosBtn'].forEach(id=>el(id).classList.remove('hidden'));
+ else if(director)['abaAcompanhamentoBtn','abaVideosBtn','abaEquipeBtn'].forEach(id=>el(id).classList.remove('hidden'));
  else if(perfilAtual==='treinador')['abaTreinadorBtn','abaVideosBtn'].forEach(id=>el(id).classList.remove('hidden'));
  else if(perfilAtual==='preparador_fisico')el('abaPreparadorBtn').classList.remove('hidden');
  else if(perfilAtual==='fisioterapeuta')el('abaFisioBtn').classList.remove('hidden');
@@ -426,7 +426,7 @@ function aplicarPermissoesTela(){
  el('abaProgramacaoBtn').classList.remove('hidden');el('dockProgramacaoBtn')?.classList.remove('hidden');
  if(staff||director){
   const navDiretor=['navInicioBtn','navEstoqueBtn','navJogadoresBtn','navUniformesBtn','navLavanderiaBtn','navMovimentacoesBtn','navRelatoriosBtn','navEntregasBtn'];document.querySelectorAll('#app nav.menu-principal button').forEach(b=>{if(!navIds.includes(b.id)&&!['navNotificacoesBtn','navPerfilBtn'].includes(b.id)&&!(director&&navDiretor.includes(b.id)))b.classList.add('hidden')});
-  document.querySelectorAll('#app > section[id]').forEach(s=>{if(!['inicio','acompanhamento','videos','programacao','notificacoes','perfil'].includes(s.id)&&!(director&&['estoque','jogadores','uniformes','lavanderia','movimentacoes','relatorios','entregas'].includes(s.id)))s.classList.add('hidden')});
+  document.querySelectorAll('#app > section[id]').forEach(s=>{if(!['inicio','acompanhamento','videos','programacao','notificacoes','perfil'].includes(s.id)&&!(director&&['estoque','jogadores','uniformes','lavanderia','movimentacoes','relatorios','entregas','equipe'].includes(s.id)))s.classList.add('hidden')});
   if(staff){el('inicio').classList.add('hidden');['dockInicioBtn','dockEstoqueBtn','dockJogadoresBtn'].forEach(id=>el(id)?.classList.add('hidden'));}
  }
  if(director){document.querySelectorAll('#app form').forEach(form=>form.closest('.card')?.classList.add('hidden'));el('painelDiretor')?.classList.remove('hidden');}
@@ -569,12 +569,12 @@ async function registrarAcesso(){
  if(error)console.warn('Não foi possível registrar o acesso:',error.message);
 }
 async function carregarEquipe(){
- if(perfilAtual!=='admin'||!clubeId)return;
+ if(!['admin','diretor'].includes(perfilAtual)||!clubeId)return;
  const box=el('listaEquipe');box.textContent='Carregando equipe...';
  const {data,error}=await db.from('usuarios-clube').select('id,usuario_id,perfil,nome').eq('clube_id',clubeId).order('id');
  if(error){box.textContent='Não foi possível carregar a equipe: '+error.message;return;}
  const roles=[['roupeiro','Roupeiro'],['diretor','Diretor'],['treinador','Treinador'],['preparador_fisico','Preparador físico'],['fisioterapeuta','Fisioterapeuta'],['preparador_goleiros','Preparador de goleiros'],['analista','Analista'],['admin','Administrador']];
- box.innerHTML=(data||[]).map(x=>'<div class="item"><b>'+esc(x.nome||'Profissional sem nome')+'</b><br><span class="small">Usuário: '+esc(x.usuario_id)+'</span><br><label>Função</label><select onchange="alterarPerfilEquipe('+Number(x.id)+',this.value)">'+roles.map(r=>'<option value="'+r[0]+'" '+(r[0]===x.perfil?'selected':'')+'>'+r[1]+'</option>').join('')+'</select></div>').join('')||'Nenhum usuário vinculado.';
+ box.innerHTML=(data||[]).map(x=>'<div class="item"><b>'+esc(x.nome||'Profissional sem nome')+'</b><br><span class="small">Usuário: '+esc(x.usuario_id)+'</span><br><label>Função</label>'+(perfilAtual==='admin'?'<select onchange="alterarPerfilEquipe('+Number(x.id)+',this.value)">'+roles.map(r=>'<option value="'+r[0]+'" '+(r[0]===x.perfil?'selected':'')+'>'+r[1]+'</option>').join('')+'</select>':'<span>'+esc((roles.find(r=>r[0]===x.perfil)||[x.perfil||'',''])[1])+'</span>')+'</div>').join('')||'Nenhum usuário vinculado.';
 }
 async function alterarPerfilEquipe(id,perfil){
  if(perfilAtual!=='admin'||!clubeId)return;
