@@ -1922,7 +1922,7 @@ async function ativarNotificacoes(){
  }finally{botao.disabled=false;}
 }
 
-if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js?v=45', { updateViaCache: 'none' }).then(reg => reg.update()).catch(() => {})); }
+if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js?v=46', { updateViaCache: 'none' }).then(reg => reg.update()).catch(() => {})); }
 let clubeId=null, perfilAtual='admin', appAdmin=false, usuarioClubeId=null, categoriasClube=[], categoriaSelecionada=null, categoriaEscolhidaAntesLogin='', perfilEscolhidoAntesLogin='', materiais=[], jogadores=[], uniformes=[], lavanderia=[], cLavanderia=[], movimentacoes=[], entregas=[], acessoRegistradoNestaSessao=false, tipoAcompanhamentoFiltro=null;
 let pagamentoAtual=null,programacaoCategoriaSelecionada=null,canalNotificacoesProgramacao=null,usuarioCanalNotificacoes=null;
 const el=id=>document.getElementById(id);
@@ -2607,5 +2607,79 @@ async function retornar(id){const {error}=await db.from('lavanderia').update({st
 async function sair(){await db.auth.signOut();clubeId=null;acessoRegistradoNestaSessao=false;el('app').classList.add('hidden');el('login').classList.remove('hidden')}
 iniciar();
 </script>
+
+<style id="ajuste-azul-claro-menu-superior-v46">
+/* Cabeçalho e painel de perfil em azul claro */
+body:has(#app:not(.hidden)) #app .club-top-card,
+body:has(#app:not(.hidden)) #app #perfil,
+body:has(#app:not(.hidden)) #app #perfil > .card,
+body:has(#app:not(.hidden)) #app #perfil .card {
+  background: #eaf4ff !important;
+  background-image: none !important;
+  border: 1px solid #d5e7fa !important;
+  color: #243b53 !important;
+  box-shadow: 0 3px 12px rgba(48, 91, 135, .07) !important;
+}
+body:has(#app:not(.hidden)) #app .club-top-card *,
+body:has(#app:not(.hidden)) #app #perfil,
+body:has(#app:not(.hidden)) #app #perfil h2,
+body:has(#app:not(.hidden)) #app #perfil h3,
+body:has(#app:not(.hidden)) #app #perfil label {
+  color: #29445f;
+}
+/* Menu fica no alto, logo depois da identificação do clube */
+body:has(#app:not(.hidden)) #app nav.menu-principal {
+  display: flex !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 10000 !important;
+  width: 100% !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  white-space: nowrap !important;
+  gap: 7px !important;
+  padding: 10px 8px !important;
+  margin: 8px 0 14px !important;
+  background: #eaf4ff !important;
+  border: 1px solid #d5e7fa !important;
+  border-radius: 13px !important;
+  box-shadow: 0 3px 12px rgba(48, 91, 135, .08) !important;
+}
+body:has(#app:not(.hidden)) #app nav.menu-principal button {
+  flex: 0 0 auto !important;
+  background: #f7fbff !important;
+  color: #35516d !important;
+  border: 1px solid #dce9f6 !important;
+  border-radius: 9px !important;
+  box-shadow: none !important;
+}
+body:has(#app:not(.hidden)) #app nav.menu-principal button:hover,
+body:has(#app:not(.hidden)) #app nav.menu-principal button:focus {
+  background: #dcecff !important;
+  color: #23486e !important;
+}
+/* Desativa o menu inferior em todas as telas */
+body:has(#app:not(.hidden)) #app nav.menu-inferior {
+  display: none !important;
+}
+body:has(#app:not(.hidden)) #app main {
+  padding-bottom: 24px !important;
+}
+@media(max-width:680px) {
+  body:has(#app:not(.hidden)) #app nav.menu-principal {
+    display: flex !important;
+    position: sticky !important;
+    top: 0 !important;
+    padding: 8px 6px !important;
+    gap: 6px !important;
+  }
+  body:has(#app:not(.hidden)) #app nav.menu-principal button {
+    font-size: 12px !important;
+    padding: 9px 11px !important;
+  }
+}
+</style>
+
 </body>
 </html>
