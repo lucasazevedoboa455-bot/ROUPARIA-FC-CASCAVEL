@@ -627,6 +627,70 @@ body:has(#app:not(.hidden)) #app section[id]:not(#inicio){
   main{padding-bottom:38px!important}
 }
 
+
+/* CORREÇÃO DEFINITIVA: navegação superior no celular */
+@media (max-width: 680px) {
+  body:has(#app:not(.hidden)) #app nav.menu-inferior {
+    display: none !important;
+    position: static !important;
+  }
+  body:has(#app:not(.hidden)) #app nav.menu-principal {
+    display: flex !important;
+    position: relative !important;
+    inset: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    right: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    gap: 9px !important;
+    margin: 12px 0 20px !important;
+    padding: 11px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    white-space: nowrap !important;
+    border: 1px solid rgba(201,166,83,.55) !important;
+    border-radius: 15px !important;
+    background: #10251b !important;
+    box-shadow: 0 5px 16px rgba(16,43,35,.16) !important;
+    z-index: 5 !important;
+  }
+  body:has(#app:not(.hidden)) #app nav.menu-principal button:not(.hidden) {
+    display: inline-flex !important;
+    flex: 0 0 auto !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: max-content !important;
+    min-height: 48px !important;
+    padding: 11px 15px !important;
+    white-space: nowrap !important;
+    border: 1px solid rgba(255,255,255,.16) !important;
+    border-radius: 11px !important;
+    background: rgba(255,255,255,.10) !important;
+    color: #ffe16a !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+  }
+  body:has(#app:not(.hidden)) #app nav.menu-principal button:not(.hidden):active {
+    background: #d1ad59 !important;
+    color: #14291e !important;
+  }
+  body:has(#app:not(.hidden)) main {
+    padding-bottom: 24px !important;
+  }
+  body:has(#app:not(.hidden)) #app nav.menu-principal::-webkit-scrollbar {
+    display: none !important;
+  }
+  body:has(#app:not(.hidden)) #app nav.menu-principal {
+    scrollbar-width: none !important;
+  }
+}
+
 </style>
 </head>
 <body>
