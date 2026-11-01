@@ -588,6 +588,45 @@ body:has(#app:not(.hidden)) #app section[id]:not(#inicio){
 @media(min-width:681px){
  body:has(#app:not(.hidden)) #app nav.menu-inferior{display:none!important}
 }
+
+/* Menu superior: abaixo do nome do clube, sem sobrepor o conteúdo */
+@media(max-width:680px){
+  #app nav{
+    position:sticky!important;
+    top:0!important;
+    bottom:auto!important;
+    left:auto!important;
+    right:auto!important;
+    width:100%!important;
+    max-width:100%!important;
+    display:flex!important;
+    flex-wrap:nowrap!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+    overscroll-behavior-x:contain;
+    -webkit-overflow-scrolling:touch;
+    gap:8px!important;
+    margin:12px 0 18px!important;
+    padding:10px!important;
+    border:1px solid var(--brand-border,#e3e9e3)!important;
+    border-radius:14px!important;
+    background:rgba(255,255,255,.98)!important;
+    box-shadow:0 5px 16px rgba(16,43,35,.10)!important;
+    z-index:30!important;
+    backdrop-filter:blur(12px);
+  }
+  #app nav button{
+    flex:0 0 auto!important;
+    min-width:112px!important;
+    min-height:46px!important;
+    white-space:nowrap!important;
+    font-size:12px!important;
+  }
+  #app nav::-webkit-scrollbar{display:none}
+  #app nav{scrollbar-width:none}
+  main{padding-bottom:38px!important}
+}
+
 </style>
 </head>
 <body>
