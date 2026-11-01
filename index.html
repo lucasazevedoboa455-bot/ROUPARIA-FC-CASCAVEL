@@ -807,6 +807,22 @@ body:has(#app.tema-fc-cascavel:not(.hidden)){
  #app.tema-fc-cascavel nav.menu-principal button{min-height:44px!important}
 }
 
+
+/* Destaque de boas-vindas: alto contraste e visual moderno */
+#login .welcome-kicker{
+ display:inline-flex!important;align-items:center;gap:8px;
+ padding:10px 16px!important;border-radius:999px!important;
+ background:linear-gradient(110deg,#17191b 0%,#34383c 100%)!important;
+ color:#ffd629!important;border:1px solid #d6ad16!important;
+ font-size:11px!important;font-weight:900!important;
+ letter-spacing:.12em!important;line-height:1.35!important;
+ box-shadow:0 5px 14px rgba(20,24,27,.18)!important;
+ text-shadow:none!important;opacity:1!important;
+}
+#login .welcome-kicker:before{content:"";width:7px;height:7px;border-radius:50%;background:#ffd629;box-shadow:0 0 0 4px rgba(255,214,41,.16)}
+#login .welcome-block h2{color:#20262b!important}
+#login .welcome-block p{color:#59636b!important}
+
 </style>
 </head>
 <body>
@@ -951,7 +967,7 @@ async function ativarNotificacoes(){
  }finally{botao.disabled=false;}
 }
 
-if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js?v=30', { updateViaCache: 'none' }).catch(() => {})); }
+if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js?v=31', { updateViaCache: 'none' }).catch(() => {})); }
 let clubeId=null, perfilAtual='admin', usuarioClubeId=null, categoriasClube=[], categoriaSelecionada=null, categoriaEscolhidaAntesLogin='', perfilEscolhidoAntesLogin='', materiais=[], jogadores=[], uniformes=[], lavanderia=[], cLavanderia=[], movimentacoes=[], entregas=[], acessoRegistradoNestaSessao=false, tipoAcompanhamentoFiltro=null;
 let pagamentoAtual=null,programacaoCategoriaSelecionada=null,canalNotificacoesProgramacao=null,usuarioCanalNotificacoes=null;
 const el=id=>document.getElementById(id);
