@@ -1413,6 +1413,29 @@ body:has(#app:not(.hidden)) main{padding-bottom:112px!important}
 }
 </style>
 
+<style id="ajuste-botoes-neutros-claro">
+/* Botões discretos: interface clara sem cores fortes */
+button,
+button:not(nav.menu-principal button),
+input[type="button"],
+input[type="submit"]{
+  background:#f1f3f5!important;
+  background-image:none!important;
+  color:#263445!important;
+  border:1px solid #e1e6eb!important;
+  box-shadow:none!important;
+}
+button:hover,
+input[type="button"]:hover,
+input[type="submit"]:hover,
+button:focus-visible{
+  background:#e8edf2!important;
+  color:#1d2d3d!important;
+  border-color:#d6dee6!important;
+  box-shadow:none!important;
+  filter:none!important;
+}
+</style>
 </head>
 <body>
 <header class="brand-header"><div class="brand-mark" aria-hidden="true">⚽</div><div class="brand-copy"><h1 id="nomeClubeTopo">GESTÃO INTELIGENTE DO FUTEBOL</h1><p>GESTÃO COMPLETA PARA O FUTEBOL</p></div><span class="brand-stars" aria-hidden="true">BR</span></header>
