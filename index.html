@@ -22,7 +22,7 @@
 <section id="login" class="card">
 <h2>Entrar na rouparia</h2>
 <p>Informe sua função e, se for roupeiro, escolha a categoria antes de entrar.</p>
-<form id="formLogin"><label>Qual é sua função no clube?</label><select id="perfilAntesLogin" name="perfilAntesLogin" required><option value="">Selecione sua função</option><option value="admin">Administrador</option><option value="diretor">Diretor</option><option value="treinador">Treinador</option><option value="preparador_fisico">Preparador físico</option><option value="fisioterapeuta">Fisioterapeuta</option><option value="preparador_goleiros">Preparador de goleiros</option><option value="analista">Analista</option><option value="roupeiro">Roupeiro</option></select><label>Categoria (para roupeiro)</label><select id="categoriaAntesLogin" name="categoriaAntesLogin"><option value="">Selecione sua categoria</option><option>Profissional</option><option>Sub-20</option><option>Sub-17</option><option>Sub-15</option><option>Sub-13</option></select><label>E-mail</label><input name="email" type="email" required autocomplete="username"><label>Senha</label><input name="senha" type="password" required autocomplete="current-password"><button type="submit">Entrar</button></form>
+<form id="formLogin"><p>Entre com seu e-mail e senha. Sua função será identificada automaticamente.</p><label>Categoria (somente para roupeiro)</label><select id="categoriaAntesLogin" name="categoriaAntesLogin"><option value="">Selecione sua categoria</option><option>Profissional</option><option>Sub-20</option><option>Sub-17</option><option>Sub-15</option><option>Sub-13</option></select><label>E-mail</label><input name="email" type="email" required autocomplete="username"><label>Senha</label><input name="senha" type="password" required autocomplete="current-password"><button type="submit">Entrar</button></form>
 <div id="loginMsg" class="msg hidden"></div>
 <hr>
 <h2>Cadastrar acesso ao clube</h2>
@@ -239,7 +239,7 @@ async function iniciar(){
    if(!vinculo){mensagem('loginMsg','O código foi aceito ('+novoClube+'), mas não consegui confirmar o vínculo. Entre novamente.');return;}
  }
  clubeId=vinculo.clube_id;perfilAtual=vinculo.perfil||'roupeiro';usuarioClubeId=vinculo.id;
- if(!perfilEscolhidoAntesLogin||perfilEscolhidoAntesLogin!==perfilAtual){el('login').classList.remove('hidden');el('app').classList.add('hidden');mensagem('loginMsg','A função selecionada não corresponde à função liberada para seu usuário. Selecione a função correta ou peça ao administrador para conferir seu acesso.');await db.auth.signOut();return;}
+ 
  const cobranca=await solicitarStatusPagamento();
  if(cobranca.error){mostrarPagamentoObrigatorio({error:'Não foi possível validar o pagamento: '+cobranca.error});return;}
  if(cobranca.required&&!cobranca.paid){mostrarPagamentoObrigatorio(cobranca);return;}
@@ -554,7 +554,7 @@ function exportarRelatorio(tipo){
 }
 async function salvar(tabela,dados){const {error}=await db.from(tabela).insert(dados);if(error){mensagem('appMsg','O Supabase bloqueou o salvamento ou houve um erro: '+error.message+'. Precisamos conferir as políticas de gravação.');return false}limparMensagem('appMsg');await carregar();return true}
 el('gerarCheckoutSandbox').onclick=gerarCheckoutSandbox;
-el('formLogin').onsubmit=async e=>{e.preventDefault();limparMensagem('loginMsg');const f=new FormData(e.target);perfilEscolhidoAntesLogin=String(f.get('perfilAntesLogin')||'').trim();categoriaEscolhidaAntesLogin=String(f.get('categoriaAntesLogin')||'').trim();if(!perfilEscolhidoAntesLogin){mensagem('loginMsg','Selecione sua função no clube antes de entrar.');return;}const {error}=await db.auth.signInWithPassword({email:f.get('email'),password:f.get('senha')});if(error){mensagem('loginMsg','Não foi possível entrar: '+error.message);return}await iniciar()};
+el('formLogin').onsubmit=async e=>{e.preventDefault();limparMensagem('loginMsg');const f=new FormData(e.target);categoriaEscolhidaAntesLogin=String(f.get('categoriaAntesLogin')||'').trim();const {error}=await db.auth.signInWithPassword({email:f.get('email'),password:f.get('senha')});if(error){mensagem('loginMsg','Não foi possível entrar: '+error.message);return}await iniciar()};
 el('perfilCadastro').addEventListener('change',()=>{const ehRoupeiro=el('perfilCadastro').value==='roupeiro';el('categoriaCadastroWrap').classList.toggle('hidden',!ehRoupeiro);el('categoriaCadastro').required=ehRoupeiro;if(!ehRoupeiro)el('categoriaCadastro').value='';});
 el('formCadastro').onsubmit=async e=>{
  e.preventDefault();limparMensagem('cadastroMsg');
