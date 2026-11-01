@@ -1325,6 +1325,7 @@ function aplicarPermissoesTela(){
  const navIds=['navUsuariosAppBtn','abaAcompanhamentoBtn','abaFisioBtn','abaPreparadorBtn','abaGoleirosBtn','abaTreinadorBtn','abaVideosBtn','abaProgramacaoBtn','abaEquipeBtn','abaAtividadesBtn','abaCodigoBtn'];
  navIds.forEach(id=>el(id)?.classList.add('hidden'));
  if(admin)navIds.forEach(id=>el(id)?.classList.remove('hidden'));
+ el('navUsuariosAppBtn')?.classList.toggle('hidden',!appAdmin);
  else if(director)['abaAcompanhamentoBtn','abaVideosBtn','abaEquipeBtn'].forEach(id=>el(id).classList.remove('hidden'));
  else if(perfilAtual==='treinador')['abaTreinadorBtn','abaVideosBtn'].forEach(id=>el(id).classList.remove('hidden'));
  else if(perfilAtual==='preparador_fisico')el('abaPreparadorBtn').classList.remove('hidden');
