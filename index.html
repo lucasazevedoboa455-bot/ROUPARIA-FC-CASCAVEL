@@ -691,6 +691,46 @@ body:has(#app:not(.hidden)) #app section[id]:not(#inicio){
   }
 }
 
+
+/* VISUAL 2026: layout moderno, responsivo e identidade verde-amarelo-azul */
+:root{--rb-green:#087b3b;--rb-green-dark:#075b32;--rb-yellow:#ffd629;--rb-blue:#073b83;--rb-ink:#173326;--rb-muted:#64766b;--rb-bg:#f2f7f3;--rb-line:#dfe9e1}
+html{background:var(--rb-bg)}
+body{background:radial-gradient(ellipse at 90% 0%,rgba(255,214,41,.13),transparent 30%),linear-gradient(180deg,#f6faf7,#edf4ef 65%,#f5f8f5);color:var(--rb-ink)}
+.brand-header{background:linear-gradient(115deg,#064b2a,#087b3b 62%,#075b83);border-bottom:4px solid var(--rb-yellow)}
+.brand-mark{background:var(--rb-yellow);color:var(--rb-blue);box-shadow:0 7px 18px rgba(0,0,0,.16)}
+.brand-stars{border-color:var(--rb-yellow);color:var(--rb-yellow)}
+main{max-width:1180px;padding:24px 18px 56px}
+#app>.card:first-child,.club-top-card{background:linear-gradient(115deg,#064b2a,#087b3b 70%,#075b83)!important;color:#fff!important;border:0!important;border-bottom:3px solid var(--rb-yellow)!important;border-radius:19px!important;box-shadow:0 12px 28px rgba(5,75,42,.16)!important}
+#app>.card:first-child .small,.club-top-card .small{color:#e4f5e9!important}
+#app>.card:first-child button,.club-top-card button{background:var(--rb-yellow)!important;color:#123b29!important}
+.card{border:1px solid var(--rb-line);border-radius:18px;box-shadow:0 7px 22px rgba(20,65,38,.055);background:rgba(255,255,255,.97)}
+.card h2{color:#12452c}
+#app nav.menu-principal{display:flex;flex-wrap:nowrap;align-items:center;gap:8px;margin:12px 0 20px;padding:10px;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;background:linear-gradient(110deg,#073c27,#075b3a 65%,#073b83);border:1px solid rgba(255,214,41,.6);border-radius:16px;box-shadow:0 8px 22px rgba(9,55,34,.14)}
+#app nav.menu-principal::-webkit-scrollbar{display:none}
+#app nav.menu-principal button{flex:0 0 auto;min-height:44px;padding:10px 15px;border:1px solid rgba(255,255,255,.17);border-radius:11px;background:rgba(255,255,255,.10);color:#fff;font-size:12px;font-weight:800;box-shadow:none;white-space:nowrap}
+#app nav.menu-principal button:hover,#app nav.menu-principal button:focus-visible{background:var(--rb-yellow);color:#143d29;border-color:var(--rb-yellow)}
+#app nav.menu-inferior{display:none!important}
+button{border-radius:11px}
+input,select,textarea{border-radius:11px}
+.item{border-bottom:1px solid #edf2ed}
+.msg{border-radius:12px}
+@media(min-width:900px){
+ #app nav.menu-principal{position:sticky;top:8px;z-index:20}
+ #app>.card:not(.club-top-card){padding:22px}
+}
+@media(max-width:680px){
+ main{padding:13px 10px 30px}
+ #app>.card:first-child,.club-top-card{padding:15px!important;border-radius:15px!important}
+ #app nav.menu-principal{position:relative!important;top:auto!important;z-index:4!important;width:100%;margin:10px 0 16px!important;padding:9px!important;gap:7px!important;border-radius:14px!important}
+ #app nav.menu-principal button{min-height:43px;padding:9px 12px;font-size:11px}
+ #app nav.menu-inferior{display:none!important}
+ .card{padding:15px;border-radius:15px}
+}
+@media(prefers-reduced-motion:no-preference){
+ .card,button{transition:box-shadow .18s ease,transform .18s ease}
+ .card:hover{box-shadow:0 10px 27px rgba(20,65,38,.075)}
+}
+
 </style>
 </head>
 <body>
