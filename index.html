@@ -1329,6 +1329,57 @@ nav button:hover,nav button:focus{background:#fdf0c9!important;color:#624800!imp
 @media(max-width:700px){.central-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.central-columns{grid-template-columns:1fr}.central-hero{padding:20px}.central-emblem{width:52px;height:52px;font-size:25px}.central-panel{padding:15px}}
 @media(max-width:420px){.central-shortcuts{grid-template-columns:1fr}.central-metric{padding:14px}.central-metric b{font-size:25px}}
 </style>
+
+<style id="menu-inferior-fixo-2026">
+/* Navegação inferior fixa: mantém todos os atalhos e não cobre o conteúdo */
+#app nav.menu-principal{
+  position:fixed!important;
+  left:12px!important;right:12px!important;bottom:10px!important;top:auto!important;
+  z-index:9999!important;width:auto!important;max-width:calc(100% - 24px)!important;
+  display:flex!important;flex-wrap:nowrap!important;align-items:center!important;
+  gap:7px!important;margin:0!important;padding:9px!important;
+  overflow-x:auto!important;overflow-y:hidden!important;
+  overscroll-behavior-x:contain!important;-webkit-overflow-scrolling:touch!important;
+  scrollbar-width:none!important;
+  background:rgba(255,255,255,.97)!important;
+  border:1px solid #e1e6eb!important;border-radius:17px!important;
+  box-shadow:0 8px 28px rgba(24,39,52,.14)!important;
+  backdrop-filter:blur(16px)!important;
+}
+#app nav.menu-principal::-webkit-scrollbar{display:none!important}
+#app nav.menu-principal button:not(.hidden){
+  display:inline-flex!important;flex:0 0 auto!important;
+  align-items:center!important;justify-content:center!important;
+  min-width:max-content!important;min-height:43px!important;
+  padding:10px 14px!important;border-radius:11px!important;
+  background:#f1f3f5!important;background-image:none!important;
+  color:#273746!important;border:1px solid #e1e6eb!important;
+  box-shadow:none!important;font-size:12px!important;font-weight:750!important;
+  white-space:nowrap!important;
+}
+#app nav.menu-principal button:not(.hidden):hover,
+#app nav.menu-principal button:not(.hidden):focus-visible{
+  background:#e9edf1!important;color:#172536!important;
+  border-color:#d5dce3!important;box-shadow:none!important;
+}
+#app nav.menu-inferior{display:none!important}
+body:has(#app:not(.hidden)) main{padding-bottom:112px!important}
+@media(max-width:680px){
+  #app nav.menu-principal{
+    left:8px!important;right:8px!important;bottom:calc(8px + env(safe-area-inset-bottom))!important;
+    max-width:calc(100% - 16px)!important;padding:8px!important;gap:6px!important;
+    border-radius:15px!important;
+  }
+  #app nav.menu-principal button:not(.hidden){
+    min-height:42px!important;padding:9px 12px!important;font-size:11px!important;
+  }
+  body:has(#app:not(.hidden)) main{padding-bottom:105px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  #app nav.menu-principal,#app nav.menu-principal button{transition:none!important}
+}
+</style>
+
 </head>
 <body>
 <header class="brand-header"><div class="brand-mark" aria-hidden="true">⚽</div><div class="brand-copy"><h1 id="nomeClubeTopo">GESTÃO INTELIGENTE DO FUTEBOL</h1><p>GESTÃO COMPLETA PARA O FUTEBOL</p></div><span class="brand-stars" aria-hidden="true">BR</span></header>
