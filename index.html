@@ -379,6 +379,48 @@ body:has(#app:not(.hidden)) #app .perfil-linha b{color:#242424}
 .programacao-aviso.nao-lida{border-left:4px solid #d6b65f;background:#fffdf5}
 .programacao-sem-avisos{padding:12px;color:#68756d;font-size:13px}
 
+
+/* Refinamento visual do painel autenticado */
+body:has(#app:not(.hidden)){background:radial-gradient(ellipse at 90% 0%,rgba(201,166,83,.10),transparent 28%),linear-gradient(180deg,#edf1ec 0%,#f7f8f5 260px,#f2f4f1 100%)}
+body:has(#app:not(.hidden)) #app{animation:appEntrada .35s ease both}
+@keyframes appEntrada{from{opacity:.0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+body:has(#app:not(.hidden)) main{padding-top:22px}
+body:has(#app:not(.hidden)) .club-top-card{min-height:92px;padding:17px 20px!important;border-radius:19px!important;background:linear-gradient(115deg,#0b211a 0%,#174431 65%,#245b40 100%)!important;box-shadow:0 12px 28px rgba(12,39,27,.17)!important;position:relative;overflow:hidden}
+body:has(#app:not(.hidden)) .club-top-card:after{content:"";position:absolute;width:190px;height:190px;border:1px solid rgba(255,255,255,.1);border-radius:50%;right:8%;top:-135px;box-shadow:0 0 0 22px rgba(255,255,255,.025),0 0 0 48px rgba(255,255,255,.02);pointer-events:none}
+body:has(#app:not(.hidden)) .club-top-identity,body:has(#app:not(.hidden)) .btn-sair{position:relative;z-index:1}
+body:has(#app:not(.hidden)) .escudo-clube{width:58px;height:58px;border-radius:16px;background:rgba(255,255,255,.10)!important;border:1px solid rgba(222,194,128,.5)!important}
+body:has(#app:not(.hidden)) #clubName{font-size:clamp(16px,2.4vw,20px);letter-spacing:-.02em}
+body:has(#app:not(.hidden)) .menu-principal{display:flex;flex-wrap:wrap;gap:7px;padding:11px;margin:14px 0 22px;background:rgba(255,255,255,.88);border:1px solid #e0e6df;border-radius:16px;box-shadow:0 6px 20px rgba(22,48,34,.055)}
+body:has(#app:not(.hidden)) .menu-principal button{flex:1 1 auto;min-height:41px;border-radius:10px;background:#f0f3ee;color:#2c4938;border:1px solid #e5eae3;font-size:12px;box-shadow:none}
+body:has(#app:not(.hidden)) .menu-principal button:focus-visible,body:has(#app:not(.hidden)) button:focus-visible{outline:3px solid rgba(201,166,83,.45);outline-offset:2px}
+body:has(#app:not(.hidden)) .dashboard-heading{padding:5px 2px 2px}
+body:has(#app:not(.hidden)) .dashboard-kicker{letter-spacing:.16em;color:#92743b}
+body:has(#app:not(.hidden)) .dashboard-heading h2{font-size:clamp(23px,3vw,29px);letter-spacing:-.04em;color:#17382a}
+body:has(#app:not(.hidden)) .dashboard-tile{position:relative;overflow:hidden;min-height:112px;border-radius:18px;padding:17px;border:1px solid #e3e9e1;background:linear-gradient(145deg,#fff,#fbfcf9);box-shadow:0 7px 22px rgba(21,48,33,.055);transition:transform .18s,border-color .18s,box-shadow .18s}
+body:has(#app:not(.hidden)) .dashboard-tile:after{content:"";position:absolute;width:78px;height:78px;border-radius:50%;right:-37px;bottom:-45px;background:rgba(201,166,83,.08)}
+body:has(#app:not(.hidden)) .dashboard-tile:hover{transform:translateY(-3px);border-color:#d7c28d;box-shadow:0 12px 25px rgba(21,48,33,.09)}
+body:has(#app:not(.hidden)) .tile-icon{width:45px;height:45px;border-radius:14px;background:linear-gradient(145deg,#edf4ed,#e4eee5);color:#245a3c}
+body:has(#app:not(.hidden)) .card{border-radius:18px;border-color:#e2e8e0;box-shadow:0 6px 22px rgba(25,48,34,.045)}
+body:has(#app:not(.hidden)) .card h2{letter-spacing:-.025em}
+body:has(#app:not(.hidden)) input,body:has(#app:not(.hidden)) select,body:has(#app:not(.hidden)) textarea{border-radius:11px;background:#fff}
+body:has(#app:not(.hidden)) button{border-radius:11px}
+body:has(#app:not(.hidden)) .item{border-bottom-color:#edf0eb}
+body:has(#app:not(.hidden)) table{border-collapse:separate;border-spacing:0;overflow:hidden;border-radius:12px}
+body:has(#app:not(.hidden)) th{background:#edf2ec;color:#294735}
+body:has(#app:not(.hidden)) td,body:has(#app:not(.hidden)) th{padding:10px;border-bottom:1px solid #e9eee8}
+@media(max-width:680px){
+ body:has(#app:not(.hidden)) main{padding:12px 10px 100px}
+ body:has(#app:not(.hidden)) .club-top-card{min-height:82px;padding:13px!important;border-radius:16px!important}
+ body:has(#app:not(.hidden)) .escudo-clube{width:48px;height:48px}
+ body:has(#app:not(.hidden)) .dashboard-heading{gap:8px;margin:8px 2px 14px}
+ body:has(#app:not(.hidden)) .dashboard-live{font-size:9px;padding:6px 8px}
+ body:has(#app:not(.hidden)) .dashboard-tile{min-height:100px;padding:12px;border-radius:15px}
+ body:has(#app:not(.hidden)) #app nav.menu-inferior{border-radius:19px;background:rgba(16,43,35,.97);border:1px solid rgba(221,195,132,.35);box-shadow:0 10px 30px rgba(9,30,21,.28)}
+ body:has(#app:not(.hidden)) #app nav.menu-inferior button{background:transparent!important;color:#e7e9df!important;border:0!important;border-radius:12px;box-shadow:none!important;font-size:10px}
+ body:has(#app:not(.hidden)) #app nav.menu-inferior button:active,body:has(#app:not(.hidden)) #app nav.menu-inferior button:focus{background:rgba(211,182,110,.2)!important;color:#f1d58e!important}
+}
+@media(prefers-reduced-motion:reduce){body:has(#app:not(.hidden)) #app{animation:none}body:has(#app:not(.hidden)) button,body:has(#app:not(.hidden)) .dashboard-tile{transition:none}}
+
 </style>
 </head>
 <body>
