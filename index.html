@@ -2608,61 +2608,58 @@ async function sair(){await db.auth.signOut();clubeId=null;acessoRegistradoNesta
 iniciar();
 </script>
 
-<style id="ajuste-visual-bem-vindo-clube-v47">
-/* Identificação do clube no estilo claro e elegante de “Bem-vindo ao clube” */
-body:has(#app:not(.hidden)) #app .club-top-card{
-  background:linear-gradient(115deg,#e8f3ff 0%,#f5f9ff 100%) !important;
-  color:#23466b !important;
-  border:1px solid #d3e6fa !important;
+<style id="ajuste-visual-azul-forte-amarelo-v48">
+/* Cabeçalho de identificação e menu no mesmo visual azul e amarelo do destaque de boas-vindas */
+body:has(#app:not(.hidden)) #app .club-top-card,
+body:has(#app:not(.hidden)) #app #perfil,
+body:has(#app:not(.hidden)) #app #perfil > .card,
+body:has(#app:not(.hidden)) #app #perfil .card{
+  background:linear-gradient(115deg,#073b78 0%,#0756a6 52%,#0874c5 100%) !important;
+  color:#ffd84d !important;
+  border:1px solid #0b4e91 !important;
   border-radius:16px !important;
-  box-shadow:0 5px 18px rgba(44,86,130,.09) !important;
+  box-shadow:0 6px 18px rgba(5,48,98,.2) !important;
 }
-body:has(#app:not(.hidden)) #app .club-top-card #clubName,
-body:has(#app:not(.hidden)) #app .club-top-card #status{
-  color:#23466b !important;
+body:has(#app:not(.hidden)) #app .club-top-card *,
+body:has(#app:not(.hidden)) #app #perfil,
+body:has(#app:not(.hidden)) #app #perfil h2,
+body:has(#app:not(.hidden)) #app #perfil h3,
+body:has(#app:not(.hidden)) #app #perfil label,
+body:has(#app:not(.hidden)) #app #perfil b,
+body:has(#app:not(.hidden)) #app #perfil span{
+  color:#ffdc55 !important;
 }
 body:has(#app:not(.hidden)) #app .club-top-card .btn-sair{
-  background:#edf4fb !important;color:#365675 !important;
-  border:1px solid #d6e5f4 !important;border-radius:10px !important;
+  background:rgba(255,255,255,.12) !important;color:#ffdc55 !important;
+  border:1px solid rgba(255,220,85,.45) !important;
 }
-/* Menu superior com a mesma linguagem visual do cartão de boas-vindas */
 body:has(#app:not(.hidden)) #app nav.menu-principal{
   display:flex !important;position:sticky !important;top:0 !important;
   z-index:10000 !important;width:100% !important;flex-wrap:nowrap !important;
   overflow-x:auto !important;overflow-y:hidden !important;white-space:nowrap !important;
   gap:8px !important;padding:10px 9px !important;margin:9px 0 15px !important;
-  background:linear-gradient(110deg,#d6e9fc 0%,#e7f2ff 100%) !important;
-  border:1px solid #c7def4 !important;border-radius:14px !important;
-  box-shadow:0 4px 14px rgba(48,91,135,.09) !important;
-  scrollbar-width:none;
+  background:linear-gradient(110deg,#06366f 0%,#0754a1 55%,#0870bd 100%) !important;
+  border:1px solid #0b4e91 !important;border-radius:14px !important;
+  box-shadow:0 5px 16px rgba(5,48,98,.2) !important;scrollbar-width:none;
 }
 body:has(#app:not(.hidden)) #app nav.menu-principal::-webkit-scrollbar{display:none}
 body:has(#app:not(.hidden)) #app nav.menu-principal button{
-  flex:0 0 auto !important;background:#f7fbff !important;color:#294a6a !important;
-  border:1px solid #d4e6f6 !important;border-radius:10px !important;
-  box-shadow:0 1px 3px rgba(35,70,107,.05) !important;
-  font-weight:700 !important;transition:background .18s ease,transform .18s ease !important;
+  flex:0 0 auto !important;background:rgba(255,255,255,.1) !important;
+  color:#ffdc55 !important;border:1px solid rgba(255,220,85,.38) !important;
+  border-radius:10px !important;box-shadow:none !important;font-weight:800 !important;
 }
 body:has(#app:not(.hidden)) #app nav.menu-principal button:hover,
-body:has(#app:not(.hidden)) #app nav.menu-principal button:focus{
-  background:#dcecff !important;color:#23486e !important;
-}
+body:has(#app:not(.hidden)) #app nav.menu-principal button:focus,
 body:has(#app:not(.hidden)) #app nav.menu-principal button.active,
 body:has(#app:not(.hidden)) #app nav.menu-principal button.ativo,
 body:has(#app:not(.hidden)) #app nav.menu-principal button[aria-current="page"]{
-  background:#a9cff5 !important;color:#173b60 !important;
-  border-color:#8fbdeb !important;
+  background:#ffdc55 !important;color:#073b78 !important;border-color:#ffdc55 !important;
 }
 body:has(#app:not(.hidden)) #app nav.menu-inferior{display:none !important}
 body:has(#app:not(.hidden)) #app main{padding-bottom:24px !important}
 @media(max-width:680px){
- body:has(#app:not(.hidden)) #app nav.menu-principal{
-  display:flex !important;position:sticky !important;top:0 !important;
-  padding:8px 7px !important;gap:6px !important;
- }
- body:has(#app:not(.hidden)) #app nav.menu-principal button{
-  font-size:12px !important;padding:9px 11px !important;
- }
+ body:has(#app:not(.hidden)) #app nav.menu-principal{display:flex !important;position:sticky !important;top:0 !important;padding:8px 7px !important;gap:6px !important}
+ body:has(#app:not(.hidden)) #app nav.menu-principal button{font-size:12px !important;padding:9px 11px !important}
 }
 </style>
 
