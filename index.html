@@ -26,14 +26,25 @@
 <div id="loginMsg" class="msg hidden"></div>
 <hr>
 <h2>Cadastrar acesso ao clube</h2>
-<p>Informe o código do clube e escolha sua própria função. Administrador e diretor continuam sendo liberados pelo administrador do clube.</p>
+<p>Você pode entrar em um clube que já existe ou cadastrar um novo clube.</p>
 <form id="formCadastro">
 <label>Seu nome</label><input name="nome" required maxlength="100" placeholder="Seu nome completo">
 <label>E-mail</label><input name="email" type="email" required autocomplete="email" placeholder="voce@email.com">
 <label>Senha (mínimo 8 caracteres)</label><input name="senha" type="password" minlength="8" required autocomplete="new-password">
-<label>Código de acesso do clube</label><input name="codigo" required maxlength="30" autocomplete="off" placeholder="Ex.: FCC001">
-<label>Sua função</label><select name="perfil" id="perfilCadastro" required><option value="">Selecione sua função</option><option value="roupeiro">Roupeiro</option><option value="treinador">Treinador</option><option value="preparador_fisico">Preparador físico</option><option value="fisioterapeuta">Fisioterapeuta</option><option value="preparador_goleiros">Preparador de goleiros</option><option value="analista">Analista</option></select>
+<label>O que deseja fazer?</label><select name="modoCadastro" id="modoCadastro" required><option value="existente">Entrar em um clube existente</option><option value="novo">Cadastrar meu clube</option></select>
+<div id="cadastroClubeExistente">
+<label>Código de acesso do clube</label><input name="codigo" id="codigoCadastro" maxlength="30" autocomplete="off" placeholder="Ex.: FCC001">
+<label>Sua função</label><select name="perfil" id="perfilCadastro"><option value="">Selecione sua função</option><option value="roupeiro">Roupeiro</option><option value="treinador">Treinador</option><option value="preparador_fisico">Preparador físico</option><option value="fisioterapeuta">Fisioterapeuta</option><option value="preparador_goleiros">Preparador de goleiros</option><option value="analista">Analista</option></select>
 <div id="categoriaCadastroWrap"><label>Sua categoria (para roupeiro)</label><select name="categoria" id="categoriaCadastro"><option value="">Selecione sua categoria</option><option>Profissional</option><option>Sub-20</option><option>Sub-17</option><option>Sub-15</option><option>Sub-13</option></select></div>
+</div>
+<div id="cadastroClubeNovo" class="hidden">
+<label>Nome do clube</label><input name="nomeClube" id="nomeClubeCadastro" maxlength="120" placeholder="Ex.: Futebol Clube Cascavel">
+<p class="small">Escolha as cores que serão usadas no aplicativo deste clube.</p>
+<label>Cor principal</label><input type="color" name="corPrimaria" value="#009739">
+<label>Cor secundária</label><input type="color" name="corSecundaria" value="#FFDF00">
+<label>Terceira cor</label><input type="color" name="corTerciaria" value="#002776">
+<p class="small">Ao cadastrar um novo clube, você será o administrador e poderá compartilhar o código de acesso com sua equipe.</p>
+</div>
 <button type="submit">Criar meu acesso</button>
 </form>
 <div id="cadastroMsg" class="msg hidden"></div>
@@ -227,13 +238,21 @@ async function iniciar(){
  if(ev){mensagem('loginMsg','Erro ao verificar o clube: '+ev.message);return}
  if(!vinculo){
    const meta=user.user_metadata||{};
-   if(!meta.codigo_acesso||!meta.perfil_nome||(meta.perfil_nome==='roupeiro'&&!meta.categoria_nome)){
-     await db.auth.signOut();
-     mensagem('loginMsg','Esta conta ainda não está vinculada a um clube. Faça o cadastro usando o código geral fornecido pelo administrador.');
-     return;
+   let erroVinculo=null;
+   if(meta.novo_clube===true){
+     if(!meta.clube_nome){await db.auth.signOut();mensagem('loginMsg','O nome do novo clube não foi encontrado. Faça o cadastro novamente.');return;}
+     const criado=await db.rpc('criar_clube_do_usuario',{p_nome:String(meta.clube_nome),p_cor_primaria:String(meta.cor_primaria||'#009739'),p_cor_secundaria:String(meta.cor_secundaria||'#FFDF00'),p_cor_terciaria:String(meta.cor_terciaria||'#002776')});
+     erroVinculo=criado.error;
+   }else{
+     if(!meta.codigo_acesso||!meta.perfil_nome||(meta.perfil_nome==='roupeiro'&&!meta.categoria_nome)){
+       await db.auth.signOut();
+       mensagem('loginMsg','Esta conta ainda não está vinculada a um clube. Faça o cadastro usando o código do clube fornecido pelo administrador.');
+       return;
+     }
+     const vinculado=await db.rpc('entrar_clube_com_codigo',{p_codigo:String(meta.codigo_acesso),p_categoria_nome:String(meta.categoria_nome||''),p_perfil:String(meta.perfil_nome)});
+     erroVinculo=vinculado.error;
    }
-   const {data:novoClube,error:erroVinculo}=await db.rpc('entrar_clube_com_codigo',{p_codigo:String(meta.codigo_acesso),p_categoria_nome:String(meta.categoria_nome||''),p_perfil:String(meta.perfil_nome)});
-   if(erroVinculo){await db.auth.signOut();mensagem('loginMsg','Não foi possível vincular seu cadastro: '+erroVinculo.message);return;}
+   if(erroVinculo){await db.auth.signOut();mensagem('loginMsg','Não foi possível configurar seu clube: '+erroVinculo.message);return;}
    const resultado=await db.from('usuarios-clube').select('id,clube_id,perfil').eq('usuario_id',user.id).maybeSingle();
    vinculo=resultado.data;
    if(!vinculo){mensagem('loginMsg','O código foi aceito ('+novoClube+'), mas não consegui confirmar o vínculo. Entre novamente.');return;}
@@ -555,18 +574,42 @@ function exportarRelatorio(tipo){
 async function salvar(tabela,dados){const {error}=await db.from(tabela).insert(dados);if(error){mensagem('appMsg','O Supabase bloqueou o salvamento ou houve um erro: '+error.message+'. Precisamos conferir as políticas de gravação.');return false}limparMensagem('appMsg');await carregar();return true}
 el('gerarCheckoutSandbox').onclick=gerarCheckoutSandbox;
 el('formLogin').onsubmit=async e=>{e.preventDefault();limparMensagem('loginMsg');const f=new FormData(e.target);categoriaEscolhidaAntesLogin=String(f.get('categoriaAntesLogin')||'').trim();const {error}=await db.auth.signInWithPassword({email:f.get('email'),password:f.get('senha')});if(error){mensagem('loginMsg','Não foi possível entrar: '+error.message);return}await iniciar()};
+function atualizarModoCadastro(){
+ const novo=el('modoCadastro').value==='novo';
+ el('cadastroClubeExistente').classList.toggle('hidden',novo);
+ el('cadastroClubeNovo').classList.toggle('hidden',!novo);
+ el('codigoCadastro').required=!novo;
+ el('perfilCadastro').required=!novo;
+ el('nomeClubeCadastro').required=novo;
+ el('categoriaCadastro').required=!novo&&el('perfilCadastro').value==='roupeiro';
+}
+el('modoCadastro').addEventListener('change',atualizarModoCadastro);
 el('perfilCadastro').addEventListener('change',()=>{const ehRoupeiro=el('perfilCadastro').value==='roupeiro';el('categoriaCadastroWrap').classList.toggle('hidden',!ehRoupeiro);el('categoriaCadastro').required=ehRoupeiro;if(!ehRoupeiro)el('categoriaCadastro').value='';});
+atualizarModoCadastro();
 el('formCadastro').onsubmit=async e=>{
  e.preventDefault();limparMensagem('cadastroMsg');
  const f=new FormData(e.target),email=String(f.get('email')).trim(),senha=String(f.get('senha'));
+ const modo=String(f.get('modoCadastro')||'existente');
  const codigo=String(f.get('codigo')||'').trim().toUpperCase(),categoria=String(f.get('categoria')||'').trim(),perfil=String(f.get('perfil')||'').trim();
+ const nomeClube=String(f.get('nomeClube')||'').trim();
  if(senha.length<8){mensagem('cadastroMsg','A senha precisa ter pelo menos 8 caracteres.');return;}
- if(!codigo||!perfil||(perfil==='roupeiro'&&!categoria)){mensagem('cadastroMsg','Informe o código do clube, sua função e, se for roupeiro, sua categoria.');return;}
- const {data,error}=await db.auth.signUp({email,password:senha,options:{data:{nome_responsavel:String(f.get('nome')).trim(),codigo_acesso:codigo,categoria_nome:categoria,perfil_nome:perfil}}});
+ if(modo==='existente'&&(!codigo||!perfil||(perfil==='roupeiro'&&!categoria))){mensagem('cadastroMsg','Informe o código do clube, sua função e, se for roupeiro, sua categoria.');return;}
+ if(modo==='novo'&&!nomeClube){mensagem('cadastroMsg','Informe o nome do clube.');return;}
+ const perfilFinal=modo==='novo'?'admin':perfil;
+ const metadados={nome_responsavel:String(f.get('nome')).trim(),perfil_nome:perfilFinal};
+ if(modo==='novo'){
+  metadados.novo_clube=true;metadados.clube_nome=nomeClube;
+  metadados.cor_primaria=String(f.get('corPrimaria')||'#009739');
+  metadados.cor_secundaria=String(f.get('corSecundaria')||'#FFDF00');
+  metadados.cor_terciaria=String(f.get('corTerciaria')||'#002776');
+ }else{
+  metadados.codigo_acesso=codigo;metadados.categoria_nome=categoria;
+ }
+ const {data,error}=await db.auth.signUp({email,password:senha,options:{data:metadados}});
  if(error){mensagem('cadastroMsg','Não foi possível criar a conta: '+error.message);return;}
- perfilEscolhidoAntesLogin=perfil;categoriaEscolhidaAntesLogin=perfil==='roupeiro'?categoria:'';
- if(data.session){mensagem('cadastroMsg','Conta criada! Vinculando ao clube...');await iniciar();}
- else{mensagem('cadastroMsg','Conta criada. Se o Supabase solicitar confirmação do e-mail, confirme e depois entre com seu e-mail e senha, selecionando Roupeiro e sua categoria.');}
+ perfilEscolhidoAntesLogin=perfilFinal;categoriaEscolhidaAntesLogin=modo==='existente'&&perfil==='roupeiro'?categoria:'';
+ if(data.session){mensagem('cadastroMsg','Conta criada! Configurando seu clube...');await iniciar();}
+ else{mensagem('cadastroMsg','Conta criada. Se o Supabase solicitar confirmação do e-mail, confirme e depois entre com seu e-mail e senha. O clube será configurado automaticamente.');}
 };
 db.auth.onAuthStateChange((event)=>{if(event==='SIGNED_OUT'){clubeId=null;acessoRegistradoNestaSessao=false;pagamentoAtual=null;el('app').classList.add('hidden');el('entradaCategoria').classList.add('hidden');el('pagamentoObrigatorio').classList.add('hidden');el('login').classList.remove('hidden');}});
 window.addEventListener('hashchange',async()=>{if(location.hash==='#/app'){const {data:{user}}=await db.auth.getUser();if(!user){history.replaceState(null,'',location.pathname+location.search+'#/login');el('app').classList.add('hidden');el('login').classList.remove('hidden');}else if(el('app').classList.contains('hidden'))await iniciar();}else if(location.hash!=='#/login'){history.replaceState(null,'',location.pathname+location.search+'#/login');}});
