@@ -731,6 +731,82 @@ input,select,textarea{border-radius:11px}
  .card:hover{box-shadow:0 10px 27px rgba(20,65,38,.075)}
 }
 
+
+/* TEMA EXCLUSIVO FUTEBOL CLUBE CASCAVEL — preto, amarelo e cinza */
+#app.tema-fc-cascavel{
+ --fcc-black:#151719;--fcc-charcoal:#24282b;--fcc-yellow:#f4c928;
+ --fcc-yellow-soft:#fff5c9;--fcc-gray:#eef0f1;--fcc-line:#d9dddf;
+ --fcc-text:#202326;--fcc-muted:#687078;
+ color:var(--fcc-text)
+}
+body:has(#app.tema-fc-cascavel:not(.hidden)){
+ background:linear-gradient(180deg,#f1f2f3 0%,#f7f7f5 55%,#eceeef 100%)!important;
+ color:var(--fcc-text)!important
+}
+#app.tema-fc-cascavel .club-top-card{
+ background:linear-gradient(115deg,#111315 0%,#292d30 72%,#3b3f42 100%)!important;
+ color:#fff!important;border:1px solid #4b5054!important;
+ border-bottom:4px solid var(--fcc-yellow)!important;
+ box-shadow:0 12px 28px rgba(15,17,19,.19)!important
+}
+#app.tema-fc-cascavel #clubName{color:#fff!important}
+#app.tema-fc-cascavel #status{color:#e0e2e3!important}
+#app.tema-fc-cascavel .btn-sair,
+#app.tema-fc-cascavel .club-top-card button{
+ background:var(--fcc-yellow)!important;color:#17191b!important;border:0!important
+}
+#app.tema-fc-cascavel nav.menu-principal{
+ background:linear-gradient(105deg,#17191b,#303438)!important;
+ border:1px solid #565b5f!important;border-bottom:3px solid var(--fcc-yellow)!important;
+ box-shadow:0 8px 20px rgba(20,22,24,.15)!important
+}
+#app.tema-fc-cascavel nav.menu-principal button{
+ background:#3a3f43!important;color:#f5f5f2!important;
+ border:1px solid #555b60!important
+}
+#app.tema-fc-cascavel nav.menu-principal button:hover,
+#app.tema-fc-cascavel nav.menu-principal button:focus-visible{
+ background:var(--fcc-yellow)!important;color:#17191b!important;border-color:var(--fcc-yellow)!important
+}
+#app.tema-fc-cascavel .card{
+ background:#fff!important;color:var(--fcc-text)!important;
+ border:1px solid var(--fcc-line)!important;
+ box-shadow:0 6px 20px rgba(25,29,32,.055)!important;border-radius:17px!important
+}
+#app.tema-fc-cascavel .card h2,
+#app.tema-fc-cascavel .dashboard-heading h2{color:#222629!important}
+#app.tema-fc-cascavel .small{color:var(--fcc-muted)!important}
+#app.tema-fc-cascavel button:not(.btn-sair):not(.menu-principal button){
+ background:linear-gradient(135deg,#25292c,#111315)!important;
+ color:#fff!important;border:1px solid #454a4e!important;
+ box-shadow:0 3px 9px rgba(20,22,24,.12)!important
+}
+#app.tema-fc-cascavel button:not(.btn-sair):not(.menu-principal button):hover{
+ background:var(--fcc-yellow)!important;color:#17191b!important;border-color:#e2b915!important
+}
+#app.tema-fc-cascavel input:focus,
+#app.tema-fc-cascavel select:focus,
+#app.tema-fc-cascavel textarea:focus{
+ border-color:#d3ad16!important;box-shadow:0 0 0 3px rgba(244,201,40,.2)!important
+}
+#app.tema-fc-cascavel input,
+#app.tema-fc-cascavel select,
+#app.tema-fc-cascavel textarea{
+ border-color:#d4d8da!important;background:#fff!important;color:#222629!important
+}
+#app.tema-fc-cascavel .item,
+#app.tema-fc-cascavel tr{border-color:#e5e7e8!important}
+#app.tema-fc-cascavel th{background:#292d30!important;color:#ffe16a!important}
+#app.tema-fc-cascavel .msg{background:#fff8dc!important;border-color:#ead47b!important;color:#51451d!important}
+#app.tema-fc-cascavel .welcome-kicker{background:#fff2b9!important;color:#55440c!important}
+#app.tema-fc-cascavel .jogador-detalhes>span{background:#f0f1f2!important;color:#5e656b!important}
+#app.tema-fc-cascavel .jogador-dados>b{color:#222629!important}
+@media(max-width:680px){
+ #app.tema-fc-cascavel .club-top-card{border-radius:15px!important}
+ #app.tema-fc-cascavel nav.menu-principal{background:#17191b!important}
+ #app.tema-fc-cascavel nav.menu-principal button{min-height:44px!important}
+}
+
 </style>
 </head>
 <body>
@@ -1023,7 +1099,7 @@ async function iniciar(){
  if(erroNome){mensagem('loginMsg','Não foi possível carregar os dados do clube: '+erroNome.message);return}
  el('sandboxPagamentoCard').classList.toggle('hidden',perfilAtual!=='admin');
 el('clubName').textContent=clube?.nome||'Minha rouparia';
- const iniciais=String(clube?.nome||'FC').trim().split(/\\s+/).filter(Boolean).slice(0,2).map(p=>p[0]).join('').toUpperCase();el('escudoIniciaisClube').textContent=iniciais||'FC';el('escudoClube').title='Identidade visual de '+(clube?.nome||'seu clube'); const nomeClubeEscudo=String(clube?.nome||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase();const usarEscudoFCC=nomeClubeEscudo.includes('cascavel');el('escudoOficialClube').classList.toggle('hidden',!usarEscudoFCC);el('escudoIniciaisClube').classList.toggle('hidden',usarEscudoFCC);if(usarEscudoFCC&&el('escudoOficialClube').complete&&el('escudoOficialClube').naturalWidth>0){el('escudoOficialClube').classList.remove('hidden');el('escudoIniciaisClube').classList.add('hidden');}
+ const iniciais=String(clube?.nome||'FC').trim().split(/\\s+/).filter(Boolean).slice(0,2).map(p=>p[0]).join('').toUpperCase();el('escudoIniciaisClube').textContent=iniciais||'FC';el('escudoClube').title='Identidade visual de '+(clube?.nome||'seu clube'); const nomeClubeEscudo=String(clube?.nome||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase();const usarEscudoFCC=nomeClubeEscudo.includes('cascavel');el('app').classList.toggle('tema-fc-cascavel',usarEscudoFCC);el('escudoOficialClube').classList.toggle('hidden',!usarEscudoFCC);el('escudoIniciaisClube').classList.toggle('hidden',usarEscudoFCC);if(usarEscudoFCC&&el('escudoOficialClube').complete&&el('escudoOficialClube').naturalWidth>0){el('escudoOficialClube').classList.remove('hidden');el('escudoIniciaisClube').classList.add('hidden');}
  el('status').textContent='Perfil: '+(vinculo.perfil||'usuário');
  const nomeExibicao=String(clube?.nome||'Meu clube').trim();const titulo=el('nomeClubeTopo');if(titulo)titulo.textContent='⚽ '+nomeExibicao;document.title=nomeExibicao;const metaApp=document.querySelector('meta[name="apple-mobile-web-app-title"]');if(metaApp)metaApp.setAttribute('content',nomeExibicao);
  if(clube){document.documentElement.style.setProperty('--club-primary',clube.cor_primaria||'#009739');document.documentElement.style.setProperty('--club-secondary',clube.cor_secundaria||'#FFDF00');document.documentElement.style.setProperty('--club-tertiary',clube.cor_terciaria||'#002776');}
