@@ -595,7 +595,7 @@ let pagamentoAtual=null,programacaoCategoriaSelecionada=null,canalNotificacoesPr
 const el=id=>document.getElementById(id);
 function mensagem(id,text){el(id).textContent=text;el(id).classList.remove('hidden')}
 function limparMensagem(id){el(id).textContent='';el(id).classList.add('hidden')}
-function aba(id){document.querySelectorAll('#app section[id]').forEach(s=>s.classList.add('hidden'));el(id).classList.remove('hidden');if(id==='atividades')carregarAtividades();if(id==='equipe')carregarEquipe();if(id==='acompanhamento')carregarAcompanhamento();if(id==='videos')carregarVideos();if(id==='programacao')carregarProgramacao();if(id==='notificacoes')carregarCentralNotificacoes();if(id==='perfil')carregarPerfil();}
+function aba(id){document.querySelectorAll('#app section[id]').forEach(s=>s.classList.add('hidden'));el(id).classList.remove('hidden');if(id==='atividades')carregarAtividades();if(id==='viagens')carregarViagens();if(id==='chatClube')carregarChat();if(id==='equipe')carregarEquipe();if(id==='acompanhamento')carregarAcompanhamento();if(id==='videos')carregarVideos();if(id==='programacao')carregarProgramacao();if(id==='notificacoes')carregarCentralNotificacoes();if(id==='perfil')carregarPerfil();}
 function abrirAreaAcompanhamento(tipo){tipoAcompanhamentoFiltro=tipo;const titulos={campo:'⚽ Treinos de campo',transicao:'🏃 Preparação física e transição',fisioterapia:'🏥 Fisioterapia e DM',goleiros:'🧤 Preparação de goleiros'};el('tituloAcompanhamento').textContent=tipo?titulos[tipo]:'📋 Relatórios de campo e equipe';aba('acompanhamento');carregarAcompanhamento();}
 function selecionarCategoria(id){categoriaSelecionada=id?Number(id):null;if(perfilAtual==='roupeiro'&&categoriaSelecionada){const entrada=el('categoriaEntrada');if(!entrada.classList.contains('hidden'))return;carregar();}else if(perfilAtual==='diretor'){carregar();}}
 function entrarNaCategoria(){const id=Number(el('categoriaEntradaSelect').value);if(!id||!categoriasClube.some(c=>Number(c.id)===id)){mensagem('categoriaEntradaMsg','Escolha uma categoria válida.');return;}categoriaSelecionada=id;el('categoriaAtual').value=String(id);el('entradaCategoria').classList.add('hidden');el('app').classList.remove('hidden');history.replaceState(null,'',location.pathname+location.search+'#/app');carregar();}
@@ -795,7 +795,7 @@ async function gerarNovoCodigoClube(){
  if(box)box.textContent=data||'Código gerado';
  limparMensagem('codigoClubeMsg');
 }
-async function carregarAtividades(){
+async function carregarViagens(){if(!clubeId)return;el('formViagemCard').classList.toggle('hidden',!['admin','diretor'].includes(perfilAtual));const {data,error}=await db.from('viagens_clube').select('*').eq('clube_id',clubeId).order('data_saida');if(error){el('listaViagens').textContent=error.message;return;}el('listaViagens').innerHTML=(data||[]).map(v=>'<div class="item"><b>'+esc(v.destino)+'</b><p>'+esc(new Date(v.data_saida).toLocaleString('pt-BR'))+'</p></div>').join('')||'Nenhuma viagem publicada.';}async function carregarAtividades(){
  if(perfilAtual!=='admin'||!clubeId)return;
  const lista=el('listaAtividades'),resumo=el('resumoAtividades');
  lista.textContent='Carregando atividades...';resumo.textContent='Atualizando resumo...';
