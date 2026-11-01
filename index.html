@@ -527,6 +527,29 @@ body:has(#app:not(.hidden)) #app section[id]:not(#inicio){
  body:has(#app:not(.hidden)) #app nav.menu-inferior{display:none!important}
 }
 
+
+/* Correção definitiva do menu: não criar contexto que desloque o position:fixed */
+@media(max-width:680px){
+ body:has(#app:not(.hidden)) #app{
+  animation:none!important;
+  transform:none!important;
+  filter:none!important;
+  perspective:none!important;
+  contain:none!important;
+ }
+ body:has(#app:not(.hidden)) #app nav.menu-inferior{
+  position:fixed!important;
+  left:10px!important;right:10px!important;
+  bottom:calc(10px + env(safe-area-inset-bottom))!important;
+  top:auto!important;
+  margin:0!important;
+  z-index:9999!important;
+ }
+ body:has(#app:not(.hidden)) main{
+  padding-bottom:210px!important;
+ }
+}
+
 </style>
 </head>
 <body>
