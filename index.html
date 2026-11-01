@@ -558,7 +558,7 @@ async function carregar(){
 }
 
 const POSICOES_JOGADOR=['Goleiro','Zagueiro','Lateral direito','Lateral esquerdo','Volante','Meio-campista','Ponta direita','Ponta esquerda','Centroavante'];
-function jogadoresDaFuncao(){return perfilAtual==='preparador_goleiros'?jogadores.filter(j=>String(j.posicao||'').trim().toLowerCase()==='goleiro'):jogadores;}
+function jogadoresDaFuncao(){if(perfilAtual==='preparador_goleiros')return jogadores.filter(j=>String(j.posicao||'').trim().toLowerCase()==='goleiro');if(perfilAtual==='preparador_fisico')return jogadores.filter(j=>String(j.posicao||'').trim().toLowerCase()!=='goleiro');return jogadores;}
 function atualizarJogadoresVideo(){const cat=Number(el('videoCategoria').value);const lista=jogadoresDaFuncao().filter(j=>!cat||Number(j.categoria_id)===cat);el('videoJogadores').innerHTML=lista.map(j=>'<option value="'+Number(j.id)+'">'+esc(j.nome)+' — camisa '+esc(j.numero_camisa??'—')+'</option>').join('');}
 el('videoCategoria').addEventListener('change',atualizarJogadoresVideo);
 el('videoTipo').addEventListener('change',()=>{if(perfilAtual==='preparador_goleiros')el('videoTipo').value='goleiros';});
@@ -709,7 +709,7 @@ function exportarAcompanhamento(){
 }
 el('formAcompanhamento').onsubmit=async e=>{
  e.preventDefault();if(!['admin','treinador','preparador_fisico','fisioterapeuta','preparador_goleiros'].includes(perfilAtual)){mensagem('acompMsg','Seu perfil pode apenas visualizar.');return;}
- const f=new FormData(e.target),j=jogadores.find(x=>Number(x.id)===Number(f.get('jogador')));if(!j){mensagem('acompMsg','Escolha um jogador.');return;}
+ const f=new FormData(e.target),j=jogadores.find(x=>Number(x.id)===Number(f.get('jogador')));if(!j){mensagem('acompMsg','Escolha um jogador.');return;}const posicaoJogador=String(j.posicao||'').trim().toLowerCase();if(perfilAtual==='preparador_fisico'&&posicaoJogador==='goleiro'){mensagem('acompMsg','A preparação física geral não pode selecionar goleiros nesta área.');return;}if(perfilAtual==='preparador_goleiros'&&posicaoJogador!=='goleiro'){mensagem('acompMsg','Esta área aceita somente jogadores cadastrados como goleiros.');return;}
  const type=String(f.get('tipo'));if(perfilAtual==='treinador'&&type!=='campo'){mensagem('acompMsg','O treinador registra apenas os jogadores que vão ao campo.');return;}if(perfilAtual==='preparador_fisico'&&type!=='transicao'){mensagem('acompMsg','O preparador registra apenas a transição.');return;}if(perfilAtual==='fisioterapeuta'&&!['dm','fisioterapia'].includes(type)){mensagem('acompMsg','O fisioterapeuta registra DM e fisioterapia.');return;}if(perfilAtual==='preparador_goleiros'&&type!=='goleiros'){mensagem('acompMsg','O preparador de goleiros registra apenas os treinos dos goleiros.');return;}
  const {data:{user}}=await db.auth.getUser(),row={clube_id:clubeId,categoria_id:j.categoria_id||null,jogador_id:j.id,data_treino:f.get('data'),tipo:type,horario:f.get('horario')||null,responsavel:f.get('responsavel')||null,atividade:f.get('atividade')||null,materiais:f.get('materiais')||null,status:f.get('status')||'planejado',observacoes:f.get('observacoes')||null,criado_por:user?.id||null};
  const {error}=await db.from('acompanhamento_atletas').insert(row);if(error){mensagem('acompMsg','Não foi possível salvar: '+error.message);return;}mensagem('acompMsg','Registro diário salvo!');e.target.elements.atividade.value='';e.target.elements.materiais.value='';e.target.elements.observacoes.value='';await carregarAcompanhamento();
