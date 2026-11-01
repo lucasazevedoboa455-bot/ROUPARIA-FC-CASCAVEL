@@ -1325,13 +1325,13 @@ function aplicarPermissoesTela(){
  const navIds=['navUsuariosAppBtn','abaAcompanhamentoBtn','abaFisioBtn','abaPreparadorBtn','abaGoleirosBtn','abaTreinadorBtn','abaVideosBtn','abaProgramacaoBtn','abaEquipeBtn','abaAtividadesBtn','abaCodigoBtn'];
  navIds.forEach(id=>el(id)?.classList.add('hidden'));
  if(admin)navIds.forEach(id=>el(id)?.classList.remove('hidden'));
- el('navUsuariosAppBtn')?.classList.toggle('hidden',!appAdmin);
  else if(director)['abaAcompanhamentoBtn','abaVideosBtn','abaEquipeBtn'].forEach(id=>el(id).classList.remove('hidden'));
  else if(perfilAtual==='treinador')['abaTreinadorBtn','abaVideosBtn'].forEach(id=>el(id).classList.remove('hidden'));
  else if(perfilAtual==='preparador_fisico')el('abaPreparadorBtn').classList.remove('hidden');
  else if(perfilAtual==='fisioterapeuta')el('abaFisioBtn').classList.remove('hidden');
  else if(perfilAtual==='preparador_goleiros'){el('abaGoleirosBtn').classList.remove('hidden');el('abaVideosBtn').classList.remove('hidden');}
  else if(perfilAtual==='analista')el('abaVideosBtn').classList.remove('hidden');
+ el('navUsuariosAppBtn')?.classList.toggle('hidden',!appAdmin);
  el('abaProgramacaoBtn').classList.remove('hidden');el('dockProgramacaoBtn')?.classList.remove('hidden');
  if(staff||director){
   const navDiretor=['navInicioBtn','navEstoqueBtn','navJogadoresBtn','navUniformesBtn','navLavanderiaBtn','navMovimentacoesBtn','navRelatoriosBtn','navEntregasBtn'];document.querySelectorAll('#app nav.menu-principal button').forEach(b=>{if(!navIds.includes(b.id)&&!['navNotificacoesBtn','navPerfilBtn','abaViagensBtn','abaChatBtn','abaHistoricoBtn'].includes(b.id)&&!(director&&navDiretor.includes(b.id)))b.classList.add('hidden')});
