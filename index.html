@@ -2993,6 +2993,52 @@ body:has(#app:not(.hidden)) #app main{padding-bottom:24px !important}
 #clubName{
   color:#087f5b!important;
 }
+
+/* PALETA PREMIUM: esmeralda nos menus, dourado nos destaques e cartões claros */
+:root{
+ --br-green:#087f5b;--br-green-dark:#075b46;--br-yellow:#f2c94c;
+ --br-blue:#142b45;--br-bg:#f4f7f5;--br-surface:#fff;
+}
+body,#app{background:#f4f7f5!important;color:#20352c}
+#app .card,#app .club-top-card,#app .dashboard-tile,
+#app .programacao-home-panel,#app .dashboard-insights,
+#app .painel-diretor,#app .central-hero{
+ background:#fff!important;color:#20352c;
+ border:1px solid #e2eae5!important;
+ box-shadow:0 5px 18px rgba(12,55,38,.07);
+}
+#app .club-top-card{background:#fff!important}
+#app #clubName,#app #status{color:#087f5b!important}
+#app nav.menu-principal,
+#app nav.menu-inferior{
+ background:#087f5b!important;border-color:#075b46!important;
+}
+#app nav.menu-principal button,
+#app nav.menu-inferior button{
+ background:transparent!important;color:#fff!important;
+ border:0!important;box-shadow:none!important;
+}
+#app nav.menu-principal button.active,
+#app nav.menu-principal button.ativo,
+#app nav.menu-inferior button.active,
+#app nav.menu-inferior button.ativo{
+ color:#f2c94c!important;
+}
+#app button:not(.menu-principal button):not(.menu-inferior button){
+ background:#f2c94c;color:#173b2d;border-color:#d8ad2e;
+}
+#app .tile-icon,#app .dashboard-live,.welcome-kicker{
+ background:#fff6d9!important;color:#087f5b!important;
+ border-color:#f2c94c!important;
+}
+#app h2,#app h3,#app .dashboard-kicker,#app .central-kicker,
+#app .tile-arrow,#app .dashboard-tile small strong{
+ color:#087f5b;
+}
+#app input:focus,#app select:focus,#app textarea:focus{
+ border-color:#087f5b!important;box-shadow:0 0 0 3px rgba(8,127,91,.12);
+}
+#app .btn-sair{background:#f2c94c!important;color:#173b2d!important}
 </style>
 </body>
 </html>
