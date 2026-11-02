@@ -372,8 +372,9 @@ body:has(#app:not(.hidden)) #app .perfil-linha b{color:#242424}
 
 
 
-.programacao-foto-inicio{display:block;width:100%;max-width:440px;max-height:560px;object-fit:contain;margin-top:12px;border-radius:12px;border:1px solid #e3e7e2;background:#f7f8f6}
-@media(max-width:680px){.programacao-foto-inicio{max-width:100%;max-height:65vh}}
+.programacao-foto-inicio{display:block;width:100%;max-width:100%;height:auto;max-height:none;object-fit:contain;margin-top:8px;border-radius:10px;border:1px solid #e3e7e2;background:#f7f8f6}
+.programacao-aviso .aviso-texto{width:100%;flex:1;display:flex;flex-direction:column;gap:5px;min-width:0}
+.programacao-aviso .aviso-texto small{font-size:12px;color:#65736a}
 
 #inicioProgramacaoAvisos{border-left:4px solid #d6b65f}
 .programacao-aviso{width:100%;display:flex;align-items:center;gap:10px;text-align:left;padding:12px;margin:7px 0;border:1px solid #e6e8e6;border-radius:12px;background:#fff;color:#1e2c25}
@@ -1928,7 +1929,7 @@ async function ativarNotificacoes(){
  }finally{botao.disabled=false;}
 }
 
-if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js?v=52', { updateViaCache: 'none' }).then(reg => reg.update()).catch(() => {})); }
+if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js?v=53', { updateViaCache: 'none' }).then(reg => reg.update()).catch(() => {})); }
 let clubeId=null, perfilAtual='admin', appAdmin=false, usuarioClubeId=null, categoriasClube=[], categoriaSelecionada=null, categoriaEscolhidaAntesLogin='', perfilEscolhidoAntesLogin='', materiais=[], jogadores=[], uniformes=[], lavanderia=[], cLavanderia=[], movimentacoes=[], entregas=[], acessoRegistradoNestaSessao=false, tipoAcompanhamentoFiltro=null;
 let pagamentoAtual=null,programacaoCategoriaSelecionada=null,canalNotificacoesProgramacao=null,usuarioCanalNotificacoes=null;
 const el=id=>document.getElementById(id);
@@ -2446,18 +2447,27 @@ async function carregarNotificacoesProgramacao(){
  if(!home&&!central)return;
  if(userError||!user){const msg='<div class="programacao-sem-avisos">Entre no clube para consultar os avisos.</div>';if(home)home.innerHTML=msg;if(central)central.innerHTML=msg;return;}
  const {data,error}=await db.from('notificacoes_programacao')
-  .select('id,categoria_id,programacao_id,titulo,mensagem,criado_em,lida_em,arquivo:programacao_arquivos!notificacoes_programacao_programacao_id_fkey(caminho_arquivo,tipo_arquivo)')
+  .select('id,categoria_id,programacao_id,titulo,mensagem,criado_em,lida_em,arquivo:programacao_arquivos!notificacoes_programacao_programacao_id_fkey(caminho_arquivo,tipo_arquivo,enviado_por,criado_em)')
   .eq('usuario_id',user.id).order('criado_em',{ascending:false}).limit(10);
  if(error){const msg='<div class="programacao-sem-avisos">Não foi possível carregar os avisos: '+esc(error.message)+'</div>';if(home)home.innerHTML=msg;if(central)central.innerHTML=msg;return;}
  const rows=data||[];
  if(!rows.length){const vazio='<div class="programacao-sem-avisos">Nenhuma programação nova foi publicada para suas categorias.</div>';if(home)home.innerHTML=vazio;if(central)central.innerHTML=vazio;return;}
+ const ids=[...new Set(rows.map(n=>n.arquivo?.enviado_por).filter(Boolean))];
+ let nomes={};
+ if(ids.length){
+  const {data:usuarios}=await db.from('usuarios-clube').select('usuario_id,nome').in('usuario_id',ids);
+  (usuarios||[]).forEach(u=>{nomes[u.usuario_id]=u.nome;});
+ }
  const html=rows.map(n=>{
-  const cat=categoriasClube.find(c=>Number(c.id)===Number(n.categoria_id));
-  const foto=n.arquivo?.tipo_arquivo?.startsWith('image/')?'<img id="foto-aviso-programacao-'+Number(n.id)+'" class="programacao-foto-inicio" alt="Foto da programação semanal" loading="lazy" decoding="async" style="display:none">':'';
-  return '<button type="button" class="programacao-aviso '+(n.lida_em?'':'nao-lida')+'" onclick="abrirNotificacaoProgramacao('+Number(n.id)+','+Number(n.categoria_id)+','+Number(n.programacao_id)+')"><span class="aviso-icone">📅</span><span class="aviso-texto"><b>'+esc(n.titulo)+(cat?' · '+esc(cat.nome):'')+'</b><small>'+esc(n.mensagem)+'</small><small>'+esc(new Date(n.criado_em).toLocaleString('pt-BR'))+(n.lida_em?' · Visualizada':' · Nova')+'</small>'+foto+'</span><span class="tile-arrow">›</span></button>';
+  const arquivo=n.arquivo;
+  const imagem=arquivo?.tipo_arquivo?.startsWith('image/');
+  const foto=imagem?'<img id="foto-aviso-programacao-'+Number(n.id)+'" class="programacao-foto-inicio" alt="Foto da programação semanal" loading="eager" decoding="async" style="display:none">':'';
+  const nome=nomes[arquivo?.enviado_por]||'Equipe';
+  const dia=arquivo?.criado_em?new Date(arquivo.criado_em).toLocaleDateString('pt-BR'):new Date(n.criado_em).toLocaleDateString('pt-BR');
+  const detalhe=imagem?'':'<small>Arquivo da programação · toque para abrir</small>';
+  return '<button type="button" class="programacao-aviso '+(n.lida_em?'':'nao-lida')+'" onclick="abrirNotificacaoProgramacao('+Number(n.id)+','+Number(n.categoria_id)+','+Number(n.programacao_id)+')"><span class="aviso-texto"><small>Publicado por '+esc(nome)+' · '+esc(dia)+'</small>'+foto+detalhe+'</span></button>';
  }).join('');
  if(home)home.innerHTML=html;if(central)central.innerHTML=html;
- // Os avisos aparecem imediatamente; as fotos são assinadas em paralelo depois.
  Promise.all(rows.map(async n=>{
   const arquivo=n.arquivo;
   if(!arquivo?.tipo_arquivo?.startsWith('image/'))return;
