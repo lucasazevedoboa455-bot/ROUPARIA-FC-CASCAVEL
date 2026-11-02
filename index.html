@@ -1932,7 +1932,7 @@ async function ativarNotificacoes(){
  }finally{botao.disabled=false;}
 }
 
-if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js?v=59', { updateViaCache: 'none' }).then(reg => reg.update()).catch(() => {})); }
+if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js?v=60', { updateViaCache: 'none' }).then(reg => reg.update()).catch(() => {})); }
 let clubeId=null, perfilAtual='admin', appAdmin=false, usuarioClubeId=null, categoriasClube=[], categoriaSelecionada=null, categoriaEscolhidaAntesLogin='', perfilEscolhidoAntesLogin='', materiais=[], jogadores=[], uniformes=[], lavanderia=[], cLavanderia=[], movimentacoes=[], entregas=[], acessoRegistradoNestaSessao=false, tipoAcompanhamentoFiltro=null;
 let pagamentoAtual=null,programacaoCategoriaSelecionada=null,canalNotificacoesProgramacao=null,usuarioCanalNotificacoes=null;
 const el=id=>document.getElementById(id);
@@ -2730,27 +2730,37 @@ body:has(#app:not(.hidden)) #app main{padding-bottom:24px !important}
 }
 </style>
 
-<style id="programacao-foto-quadro-categoria-v59">
-/* No painel inicial, a foto deve ter a mesma largura visual do quadro de programação da categoria. */
-@media(max-width:600px){
- #inicioProgramacaoAvisos{
-  width:calc(100% + 32px)!important;max-width:none!important;
-  margin-left:-16px!important;margin-right:-16px!important;
-  padding:16px 0 0!important;overflow:hidden!important;
- }
- #inicioProgramacaoAvisos>h2{padding:0 16px!important;margin:0 0 12px!important}
- #listaAvisosProgramacaoInicio{display:block!important;width:100%!important;max-width:none!important;margin:0!important;padding:0!important}
- #listaAvisosProgramacaoInicio .programacao-aviso{
-  display:block!important;box-sizing:border-box!important;
-  width:100%!important;max-width:none!important;min-width:100%!important;
-  margin:0!important;padding:0!important;border:0!important;border-radius:0!important;
-  background:#fff!important;box-shadow:none!important;
- }
- #listaAvisosProgramacaoInicio .programacao-foto-inicio{
-  display:block!important;box-sizing:border-box!important;
-  width:100%!important;min-width:100%!important;max-width:none!important;
-  height:auto!important;max-height:none!important;object-fit:contain!important;
-  margin:0!important;padding:0!important;border:0!important;border-radius:0!important;
+<style id="programacao-foto-quadro-categoria-v60">
+/* Corrige o painel inicial: o cartão estava herdando o grid de duas colunas do dashboard,
+   deixando a área da foto presa em apenas metade da largura no celular. */
+#inicio #inicioProgramacaoAvisos{
+ display:block!important;
+ grid-template-columns:minmax(0,1fr)!important;
+ width:100%!important;max-width:none!important;
+ box-sizing:border-box!important;
+}
+#inicio #inicioProgramacaoAvisos>h2{display:block!important;width:100%!important}
+#inicio #listaAvisosProgramacaoInicio{
+ display:block!important;float:none!important;
+ width:100%!important;max-width:none!important;min-width:0!important;
+ grid-column:1/-1!important;box-sizing:border-box!important;
+ margin:0!important;padding:0!important;
+}
+#inicio #listaAvisosProgramacaoInicio .programacao-aviso{
+ display:block!important;float:none!important;
+ width:100%!important;max-width:none!important;min-width:0!important;
+ box-sizing:border-box!important;margin:0!important;padding:0!important;
+}
+#inicio #listaAvisosProgramacaoInicio .programacao-foto-inicio{
+ display:block!important;width:100%!important;max-width:none!important;
+ height:auto!important;max-height:none!important;object-fit:contain!important;
+}
+@media(max-width:680px){
+ #inicio #inicioProgramacaoAvisos{display:block!important;grid-template-columns:1fr!important}
+ #inicio #listaAvisosProgramacaoInicio,
+ #inicio #listaAvisosProgramacaoInicio .programacao-aviso,
+ #inicio #listaAvisosProgramacaoInicio .programacao-foto-inicio{
+  width:100%!important;max-width:none!important;min-width:0!important;
  }
 }
 </style>
