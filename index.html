@@ -2064,7 +2064,7 @@ async function ativarNotificacoes(){
  }finally{botao.disabled=false;}
 }
 
-if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js?v=73', { updateViaCache: 'none' }).then(reg => reg.update()).catch(() => {})); }
+if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js?v=74', { updateViaCache: 'none' }).then(reg => reg.update()).catch(() => {})); }
 let clubeId=null, perfilAtual='admin', appAdmin=false, usuarioClubeId=null, categoriasClube=[], categoriaSelecionada=null, categoriaEscolhidaAntesLogin='', perfilEscolhidoAntesLogin='', materiais=[], jogadores=[], uniformes=[], lavanderia=[], cLavanderia=[], movimentacoes=[], entregas=[], acessoRegistradoNestaSessao=false, tipoAcompanhamentoFiltro=null;
 let pagamentoAtual=null,programacaoCategoriaSelecionada=null,canalNotificacoesProgramacao=null,usuarioCanalNotificacoes=null;
 const el=id=>document.getElementById(id);
@@ -3217,5 +3217,12 @@ body:has(#app:not(.hidden)) #app #perfil button{
 }
 </style>
 
+
+<style id="moldura-dourada-escudo-v74">
+/* Moldura dourada ao redor do escudo no painel superior */
+#escudoClube{border:2px solid #d9b65a!important;border-radius:12px!important;box-shadow:0 0 0 2px rgba(217,182,90,.18),0 3px 9px rgba(0,0,0,.22)!important;background:transparent!important}
+#escudoClube .escudo-oficial-clube{z-index:1}
+#escudoIniciaisClube{position:relative;z-index:1}
+</style>
 </body>
 </html>
