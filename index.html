@@ -2064,7 +2064,7 @@ async function ativarNotificacoes(){
  }finally{botao.disabled=false;}
 }
 
-if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js?v=74', { updateViaCache: 'none' }).then(reg => reg.update()).catch(() => {})); }
+if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js?v=75', { updateViaCache: 'none' }).then(reg => reg.update()).catch(() => {})); }
 let clubeId=null, perfilAtual='admin', appAdmin=false, usuarioClubeId=null, categoriasClube=[], categoriaSelecionada=null, categoriaEscolhidaAntesLogin='', perfilEscolhidoAntesLogin='', materiais=[], jogadores=[], uniformes=[], lavanderia=[], cLavanderia=[], movimentacoes=[], entregas=[], acessoRegistradoNestaSessao=false, tipoAcompanhamentoFiltro=null;
 let pagamentoAtual=null,programacaoCategoriaSelecionada=null,canalNotificacoesProgramacao=null,usuarioCanalNotificacoes=null;
 const el=id=>document.getElementById(id);
@@ -2753,7 +2753,6 @@ async function carregarAvisosRouparia(){
 }
 async function carregarCentralNotificacoes(){
  await carregarNotificacoesProgramacao();
- await carregarAvisosRouparia();
  const box=el('listaNotificacoes');if(!box)return;
  if(!clubeId){box.textContent='Entre no clube para ver os avisos.';return;}
  const avisos=[];
@@ -2763,8 +2762,9 @@ async function carregarCentralNotificacoes(){
  if(pecasLav)avisos.push({icone:'🧺',titulo:'Itens na lavanderia',descricao:pecasLav+' peça(s) aguardam retorno.',destino:'lavanderia',nivel:'normal'});
  const pendentes=entregas.reduce((n,x)=>n+Math.max(0,Number(x.quantidade||0)-Number(x.quantidade_devolvida||0)),0);
  if(pendentes)avisos.push({icone:'👕',titulo:'Devoluções pendentes',descricao:pendentes+' peça(s) ainda estão com jogadores.',destino:'entregas',nivel:'atencao'});
- if(!avisos.length){box.innerHTML='<div class="notification-empty"><span>✓</span><b>Tudo em dia!</b><p>Não há pendências para mostrar agora.</p></div>';return;}
+ if(!avisos.length){box.innerHTML='<div class="notification-empty"><span>✓</span><b>Tudo em dia!</b><p>Não há pendências para mostrar agora.</p></div>';await carregarAvisosRouparia();return;}
  box.innerHTML=avisos.map(a=>'<button type="button" class="notification-item '+a.nivel+'" onclick="aba(\''+a.destino+'\')"><span class="notification-icon">'+a.icone+'</span><span class="notification-copy"><b>'+esc(a.titulo)+'</b><small>'+esc(a.descricao)+'</small></span><span class="tile-arrow">›</span></button>').join('');
+ await carregarAvisosRouparia();
 }
 async function carregarPerfil(){
  const box=el('perfilResumo');if(!box)return;
