@@ -1932,7 +1932,7 @@ async function ativarNotificacoes(){
  }finally{botao.disabled=false;}
 }
 
-if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js?v=56', { updateViaCache: 'none' }).then(reg => reg.update()).catch(() => {})); }
+if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js?v=57', { updateViaCache: 'none' }).then(reg => reg.update()).catch(() => {})); }
 let clubeId=null, perfilAtual='admin', appAdmin=false, usuarioClubeId=null, categoriasClube=[], categoriaSelecionada=null, categoriaEscolhidaAntesLogin='', perfilEscolhidoAntesLogin='', materiais=[], jogadores=[], uniformes=[], lavanderia=[], cLavanderia=[], movimentacoes=[], entregas=[], acessoRegistradoNestaSessao=false, tipoAcompanhamentoFiltro=null;
 let pagamentoAtual=null,programacaoCategoriaSelecionada=null,canalNotificacoesProgramacao=null,usuarioCanalNotificacoes=null;
 const el=id=>document.getElementById(id);
@@ -2714,7 +2714,7 @@ body:has(#app:not(.hidden)) #app main{padding-bottom:24px !important}
 #listaNotificacoesProgramacao .programacao-aviso .aviso-texto{display:block;width:100%;padding:10px 12px}
 </style>
 
-<style id="programacao-foto-ampliada-v56">
+<style id="programacao-foto-ampliada-v57">
 /* Cartão de programação mais amplo e foto em toda a largura externa. */
 #inicioProgramacaoAvisos{padding:16px 0 0!important;overflow:hidden!important}
 #inicioProgramacaoAvisos>h2{margin:0 16px 12px!important}
