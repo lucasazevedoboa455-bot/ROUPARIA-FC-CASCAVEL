@@ -2070,13 +2070,14 @@ let pagamentoAtual=null,programacaoCategoriaSelecionada=null,canalNotificacoesPr
 const el=id=>document.getElementById(id);
 function mensagem(id,text){el(id).textContent=text;el(id).classList.remove('hidden')}
 function limparMensagem(id){el(id).textContent='';el(id).classList.add('hidden')}
-function aba(id){if(id==='usuariosApp'&&!appAdmin)return;if(id==='centralGestao'&&!['admin','diretor'].includes(perfilAtual))return;if(id==='imprensa'&&!['admin','diretor','imprensa'].includes(perfilAtual))return;document.querySelectorAll('#app section[id]').forEach(s=>s.classList.add('hidden'));el(id).classList.remove('hidden');if(id==='centralGestao')renderCentralGestao();if(id==='usuariosApp')carregarUsuariosApp();if(id==='atividades')carregarAtividades();if(id==='historico')carregarHistorico();if(id==='viagens')carregarViagens();if(id==='chatClube')carregarChat();if(id==='equipe')carregarEquipe();if(id==='acompanhamento')carregarAcompanhamento();if(id==='videos')carregarVideos();if(id==='programacao')carregarProgramacao();if(id==='imprensa')carregarGaleriaImprensa();if(id==='notificacoes')carregarCentralNotificacoes();if(id==='perfil')carregarPerfil();}
+function aba(id){if(id==='usuariosApp'&&!appAdmin)return;if(id==='centralGestao'&&!['admin','diretor'].includes(perfilAtual))return;if(id==='imprensa'&&!['admin','diretor','imprensa'].includes(perfilAtual))return;const liberadas={roupeiro:['inicio','estoque','jogadores','uniformes','lavanderia','movimentacoes','relatorios','entregas','programacao','notificacoes','perfil','viagens','chatClube','historico'],treinador:['inicio','acompanhamento','videos','programacao','notificacoes','perfil','viagens','chatClube','historico'],preparador_fisico:['inicio','acompanhamento','programacao','notificacoes','perfil','viagens','chatClube','historico'],fisioterapeuta:['inicio','acompanhamento','notificacoes','perfil','viagens','chatClube','historico'],preparador_goleiros:['inicio','acompanhamento','videos','notificacoes','perfil','viagens','chatClube','historico'],analista:['inicio','videos','notificacoes','perfil','viagens','chatClube','historico'],imprensa:['inicio','imprensa','notificacoes','perfil','viagens','chatClube','historico']};if(!['admin','diretor'].includes(perfilAtual)&&liberadas[perfilAtual]&&!liberadas[perfilAtual].includes(id))return;document.querySelectorAll('#app section[id]').forEach(s=>s.classList.add('hidden'));el(id).classList.remove('hidden');if(id==='centralGestao')renderCentralGestao();if(id==='usuariosApp')carregarUsuariosApp();if(id==='atividades')carregarAtividades();if(id==='historico')carregarHistorico();if(id==='viagens')carregarViagens();if(id==='chatClube')carregarChat();if(id==='equipe')carregarEquipe();if(id==='acompanhamento')carregarAcompanhamento();if(id==='videos')carregarVideos();if(id==='programacao')carregarProgramacao();if(id==='imprensa')carregarGaleriaImprensa();if(id==='notificacoes')carregarCentralNotificacoes();if(id==='perfil')carregarPerfil();}
 function abrirAreaAcompanhamento(tipo){tipoAcompanhamentoFiltro=tipo;const titulos={campo:'⚽ Treinos de campo',transicao:'🏃 Preparação física e transição',fisioterapia:'🏥 Fisioterapia e DM',goleiros:'🧤 Preparação de goleiros'};el('tituloAcompanhamento').textContent=tipo?titulos[tipo]:'📋 Relatórios de campo e equipe';aba('acompanhamento');carregarAcompanhamento();}
 function selecionarCategoria(id){categoriaSelecionada=id?Number(id):null;if(perfilAtual==='roupeiro'&&categoriaSelecionada){const entrada=el('categoriaEntrada');if(!entrada.classList.contains('hidden'))return;carregar();}else if(perfilAtual==='diretor'){carregar();}}
 function entrarNaCategoria(){const id=Number(el('categoriaEntradaSelect').value);if(!id||!categoriasClube.some(c=>Number(c.id)===id)){mensagem('categoriaEntradaMsg','Escolha uma categoria válida.');return;}categoriaSelecionada=id;el('categoriaAtual').value=String(id);el('entradaCategoria').classList.add('hidden');el('app').classList.remove('hidden');history.replaceState(null,'',location.pathname+location.search+'#/app');carregar();}
 function aplicarPermissoesTela(){
  const admin=perfilAtual==='admin',director=perfilAtual==='diretor';
- const staff=['treinador','preparador_fisico','fisioterapeuta','preparador_goleiros','analista','imprensa'].includes(perfilAtual);
+ const roupeiro=perfilAtual==='roupeiro';
+ const staff=roupeiro||['treinador','preparador_fisico','fisioterapeuta','preparador_goleiros','analista','imprensa'].includes(perfilAtual);
  const navIds=['navCentralGestaoBtn','navUsuariosAppBtn','abaAcompanhamentoBtn','abaFisioBtn','abaPreparadorBtn','abaGoleirosBtn','abaTreinadorBtn','abaVideosBtn','abaProgramacaoBtn','abaEquipeBtn','abaAtividadesBtn','abaCodigoBtn','navImprensaBtn'];
  navIds.forEach(id=>el(id)?.classList.add('hidden'));
  if(admin)navIds.forEach(id=>el(id)?.classList.remove('hidden'));
@@ -2092,9 +2093,10 @@ function aplicarPermissoesTela(){
  el('abaProgramacaoBtn').classList.remove('hidden');el('dockProgramacaoBtn')?.classList.remove('hidden');
  if(admin||director||perfilAtual==='imprensa')el('navImprensaBtn')?.classList.remove('hidden');
  if(staff||director){
-  const navDiretor=['navInicioBtn','navEstoqueBtn','navJogadoresBtn','navUniformesBtn','navLavanderiaBtn','navMovimentacoesBtn','navRelatoriosBtn','navEntregasBtn'];document.querySelectorAll('#app nav.menu-principal button').forEach(b=>{if(!navIds.includes(b.id)&&!['navNotificacoesBtn','navPerfilBtn','abaViagensBtn','abaChatBtn','abaHistoricoBtn'].includes(b.id)&&!(director&&navDiretor.includes(b.id)))b.classList.add('hidden')});
-  document.querySelectorAll('#app > section[id]').forEach(s=>{if(!['inicio','centralGestao','acompanhamento','videos','programacao','imprensa','notificacoes','perfil','viagens','chatClube','historico'].includes(s.id)&&!(director&&['estoque','jogadores','uniformes','lavanderia','movimentacoes','relatorios','entregas','equipe'].includes(s.id)))s.classList.add('hidden')});
+  const navOperacional=['navInicioBtn','navEstoqueBtn','navJogadoresBtn','navUniformesBtn','navLavanderiaBtn','navMovimentacoesBtn','navRelatoriosBtn','navEntregasBtn'];document.querySelectorAll('#app nav.menu-principal button').forEach(b=>{if(!navIds.includes(b.id)&&!['navNotificacoesBtn','navPerfilBtn','abaViagensBtn','abaChatBtn','abaHistoricoBtn'].includes(b.id)&&!((director||roupeiro)&&navOperacional.includes(b.id)))b.classList.add('hidden')});
+  document.querySelectorAll('#app > section[id]').forEach(s=>{if(!['inicio','centralGestao','acompanhamento','videos','programacao','imprensa','notificacoes','perfil','viagens','chatClube','historico'].includes(s.id)&&!((director||roupeiro)&&['estoque','jogadores','uniformes','lavanderia','movimentacoes','relatorios','entregas'].includes(s.id)))s.classList.add('hidden')});
   if(staff){
+   if(roupeiro)navOperacional.forEach(id=>el(id)?.classList.remove('hidden'));
    el('navInicioBtn')?.classList.remove('hidden');
    el('inicio')?.classList.remove('hidden');
    Array.from(el('inicio')?.children||[]).forEach(child=>{if(child.id!=='inicioProgramacaoAvisos'&&!child.classList.contains('dashboard-heading'))child.classList.add('hidden');});
@@ -2233,7 +2235,7 @@ el('clubName').textContent=clube?.nome||'Minha rouparia';
    categoriaSelecionada=Number(categoriaAutorizada.id);
    el('categoriaAtual').value=String(categoriaSelecionada);
  }
- el('entradaCategoria').classList.add('hidden');el('app').classList.remove('hidden');aplicarPermissoesTela();
+ el('entradaCategoria').classList.add('hidden');el('app').classList.remove('hidden');aplicarPermissoesTela();iniciarRealtimeAvisosRouparia();
  if(location.hash!=='#/app')history.replaceState(null,'',location.pathname+location.search+'#/app');
  if(perfilAtual==='admin'){el('abaAtividadesBtn').classList.remove('hidden');el('abaCodigoBtn').classList.remove('hidden');el('abaCodigoBtn').style.display='inline-block';el('abaEquipeBtn').classList.remove('hidden');await carregarCodigoClube();await carregarEquipe();}else{el('abaAtividadesBtn').classList.add('hidden');el('abaCodigoBtn').classList.add('hidden');el('abaCodigoBtn').style.display='none';el('abaEquipeBtn').classList.add('hidden');}
  if(!acessoRegistradoNestaSessao){await registrarAcesso();acessoRegistradoNestaSessao=true;}
@@ -2604,24 +2606,26 @@ async function carregarAcompanhamento(){
  if(el('acompData')&&!el('acompData').value)el('acompData').value=new Date().toISOString().slice(0,10);
  if(el('acompFiltroData')&&!el('acompFiltroData').value)el('acompFiltroData').value=new Date().toISOString().slice(0,10);
  const atletasVisiveis=jogadoresDaFuncao();
+ const tiposPermitidos={treinador:['campo'],preparador_fisico:['transicao'],fisioterapeuta:['dm','fisioterapia'],preparador_goleiros:['goleiros']};
+ const tiposDoPerfil=tiposPermitidos[perfilAtual]||null;
  el('acompJogador').innerHTML='<option value="">Escolha o jogador</option>'+atletasVisiveis.map(j=>'<option value="'+Number(j.id)+'">'+esc(j.nome)+' — camisa '+esc(j.numero_camisa??'—')+'</option>').join('');
- let consulta=db.from('acompanhamento_atletas').select('*').eq('clube_id',clubeId).eq('data_treino',day);if(tipoAcompanhamentoFiltro)consulta=consulta.eq('tipo',tipoAcompanhamentoFiltro);if(perfilAtual==='preparador_goleiros')consulta=consulta.eq('tipo','goleiros');const {data,error}=await consulta.order('horario');
+ let consulta=db.from('acompanhamento_atletas').select('*').eq('clube_id',clubeId).eq('data_treino',day);if(tipoAcompanhamentoFiltro)consulta=consulta.eq('tipo',tipoAcompanhamentoFiltro);if(tiposDoPerfil?.length)consulta=consulta.in('tipo',tiposDoPerfil);const {data,error}=await consulta.order('horario');
  if(error){el('listaAcompanhamento').textContent='Erro ao carregar: '+error.message;return;}
- const players=new Map(atletasVisiveis.map(j=>[Number(j.id),j])),rows=(data||[]).filter(x=>players.has(Number(x.jogador_id))),labels={campo:'Campo',transicao:'Transição física',fisioterapia:'Fisioterapia',dm:'DM',goleiros:'Treino de goleiros'},states={planejado:'Planejado',em_andamento:'Em andamento',concluido:'Concluído',liberado:'Liberado',afastado:'Afastado'},counts={campo:0,transicao:0,fisioterapia:0,dm:0,goleiros:0};
+ const players=new Map(atletasVisiveis.map(j=>[Number(j.id),j])),rows=(data||[]).filter(x=>players.has(Number(x.jogador_id))&&(!tiposDoPerfil||tiposDoPerfil.includes(x.tipo))),labels={campo:'Campo',transicao:'Transição física',fisioterapia:'Fisioterapia',dm:'DM',goleiros:'Treino de goleiros'},states={planejado:'Planejado',em_andamento:'Em andamento',concluido:'Concluído',liberado:'Liberado',afastado:'Afastado'},counts={campo:0,transicao:0,fisioterapia:0,dm:0,goleiros:0};
  rows.forEach(x=>counts[x.tipo]=(counts[x.tipo]||0)+1);
  el('acompResumo').textContent='Campo: '+counts.campo+' · Transição: '+counts.transicao+' · Fisioterapia: '+counts.fisioterapia+' · DM: '+counts.dm;
  el('listaAcompanhamento').innerHTML=rows.map(x=>{const j=players.get(Number(x.jogador_id));return '<div class="item"><b>'+esc(j?.nome||'Jogador')+'</b> — camisa '+esc(j?.numero_camisa??'—')+'<br><b>'+esc(labels[x.tipo]||x.tipo)+'</b> · '+esc(x.horario?String(x.horario).slice(0,5):'Sem horário')+' · '+esc(states[x.status]||x.status)+'<br>Responsável: '+esc(x.responsavel||'Não informado')+(x.atividade?'<br>Atividade: '+esc(x.atividade):'')+(x.materiais?'<br>Materiais: '+esc(x.materiais):'')+(x.observacoes?'<br>Observações: '+esc(x.observacoes):'')+'</div>'}).join('')||'Nenhum registro nesta data.';
 }
 function exportarAcompanhamento(){
  const day=el('acompFiltroData').value||new Date().toISOString().slice(0,10);
- db.from('acompanhamento_atletas').select('*').eq('clube_id',clubeId).eq('data_treino',day).then(({data,error})=>{if(error){mensagem('appMsg','Erro ao exportar: '+error.message);return;}const visiveis=jogadoresDaFuncao(),map=new Map(visiveis.map(j=>[Number(j.id),j.nome])),dadosVisiveis=(data||[]).filter(x=>map.has(Number(x.jogador_id))),labels={campo:'Campo',transicao:'Transição física',fisioterapia:'Fisioterapia',dm:'DM',goleiros:'Treino de goleiros'},rows=[['Jogador','Data','Etapa','Horário','Responsável','Atividade','Materiais','Situação','Observações'],...dadosVisiveis.map(x=>[map.get(Number(x.jogador_id))||'Jogador',x.data_treino,labels[x.tipo]||x.tipo,x.horario,x.responsavel,x.atividade,x.materiais,x.status,x.observacoes])];const csv=rows.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(';')).join('\\r\\n');const blob=new Blob(['\\uFEFF'+csv],{type:'text/csv;charset=utf-8;'}),url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download='relatorio-atletas-'+day+'.csv';link.click();URL.revokeObjectURL(url);});
+ db.from('acompanhamento_atletas').select('*').eq('clube_id',clubeId).eq('data_treino',day).then(({data,error})=>{if(error){mensagem('appMsg','Erro ao exportar: '+error.message);return;}const visiveis=jogadoresDaFuncao(),map=new Map(visiveis.map(j=>[Number(j.id),j.nome])),permitidos={treinador:['campo'],preparador_fisico:['transicao'],fisioterapeuta:['dm','fisioterapia'],preparador_goleiros:['goleiros']}[perfilAtual],dadosVisiveis=(data||[]).filter(x=>map.has(Number(x.jogador_id))&&(!permitidos||permitidos.includes(x.tipo))),labels={campo:'Campo',transicao:'Transição física',fisioterapia:'Fisioterapia',dm:'DM',goleiros:'Treino de goleiros'},rows=[['Jogador','Data','Etapa','Horário','Responsável','Atividade','Materiais','Situação','Observações'],...dadosVisiveis.map(x=>[map.get(Number(x.jogador_id))||'Jogador',x.data_treino,labels[x.tipo]||x.tipo,x.horario,x.responsavel,x.atividade,x.materiais,x.status,x.observacoes])];const csv=rows.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(';')).join('\\r\\n');const blob=new Blob(['\\uFEFF'+csv],{type:'text/csv;charset=utf-8;'}),url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download='relatorio-atletas-'+day+'.csv';link.click();URL.revokeObjectURL(url);});
 }
 el('formAcompanhamento').onsubmit=async e=>{
  e.preventDefault();if(!['admin','treinador','preparador_fisico','fisioterapeuta','preparador_goleiros'].includes(perfilAtual)){mensagem('acompMsg','Seu perfil pode apenas visualizar.');return;}
  const f=new FormData(e.target),j=jogadores.find(x=>Number(x.id)===Number(f.get('jogador')));if(!j){mensagem('acompMsg','Escolha um jogador.');return;}const posicaoJogador=String(j.posicao||'').trim().toLowerCase();if(perfilAtual==='preparador_fisico'&&posicaoJogador==='goleiro'){mensagem('acompMsg','A preparação física geral não pode selecionar goleiros nesta área.');return;}if(perfilAtual==='preparador_goleiros'&&posicaoJogador!=='goleiro'){mensagem('acompMsg','Esta área aceita somente jogadores cadastrados como goleiros.');return;}
  const type=String(f.get('tipo'));if(perfilAtual==='treinador'&&type!=='campo'){mensagem('acompMsg','O treinador registra apenas os jogadores que vão ao campo.');return;}if(perfilAtual==='preparador_fisico'&&type!=='transicao'){mensagem('acompMsg','O preparador registra apenas a transição.');return;}if(perfilAtual==='fisioterapeuta'&&!['dm','fisioterapia'].includes(type)){mensagem('acompMsg','O fisioterapeuta registra DM e fisioterapia.');return;}if(perfilAtual==='preparador_goleiros'&&type!=='goleiros'){mensagem('acompMsg','O preparador de goleiros registra apenas os treinos dos goleiros.');return;}
  const {data:{user}}=await db.auth.getUser(),row={clube_id:clubeId,categoria_id:j.categoria_id||null,jogador_id:j.id,data_treino:f.get('data'),tipo:type,horario:f.get('horario')||null,responsavel:f.get('responsavel')||null,atividade:f.get('atividade')||null,materiais:f.get('materiais')||null,status:f.get('status')||'planejado',observacoes:f.get('observacoes')||null,criado_por:user?.id||null};
- const {error}=await db.from('acompanhamento_atletas').insert(row);if(error){mensagem('acompMsg','Não foi possível salvar: '+error.message);return;}mensagem('acompMsg','Registro diário salvo!');e.target.elements.atividade.value='';e.target.elements.materiais.value='';e.target.elements.observacoes.value='';await carregarAcompanhamento();
+ const {error}=await db.from('acompanhamento_atletas').insert(row);if(error){mensagem('acompMsg','Não foi possível salvar: '+error.message);return;}if((perfilAtual==='fisioterapeuta'&&type==='dm')||(perfilAtual==='preparador_fisico'&&type==='transicao')){const titulo=type==='dm'?'Atleta no DM':'Atleta em transição';const aviso='O atleta '+j.nome+' foi registrado em '+(type==='dm'?'DM pela fisioterapia.':'transição pela preparação física.')+' Confira a situação para organizar os materiais.';const {error:avisoError}=await db.from('avisos_rouparia').insert({clube_id:clubeId,jogador_id:j.id,jogador_nome:j.nome,tipo:type,mensagem:aviso,criado_por:user.id});if(avisoError)console.warn('Aviso ao roupeiro não enviado:',avisoError.message);}mensagem('acompMsg','Registro diário salvo!');e.target.elements.atividade.value='';e.target.elements.materiais.value='';e.target.elements.observacoes.value='';await carregarAcompanhamento();
 };
 el('acompFiltroData').addEventListener('change',carregarAcompanhamento);
 function render(){
@@ -2728,8 +2732,28 @@ async function iniciarRealtimeNotificacoesProgramacao(){
   }).subscribe();
 }
 
+let canalAvisosRouparia=null;
+async function iniciarRealtimeAvisosRouparia(){
+ if(!['roupeiro','admin','diretor'].includes(perfilAtual))return;
+ const {data:{user}}=await db.auth.getUser();if(!user)return;
+ if(canalAvisosRouparia)await db.removeChannel(canalAvisosRouparia);
+ canalAvisosRouparia=db.channel('avisos-roupeiro-'+user.id)
+ .on('postgres_changes',{event:'INSERT',schema:'public',table:'avisos_rouparia'},async payload=>{
+  if('Notification' in window&&Notification.permission==='granted'&&'serviceWorker' in navigator)navigator.serviceWorker.ready.then(reg=>reg.showNotification(payload.new?.tipo==='dm'?'Atleta no DM':'Atleta em transição',{body:payload.new?.mensagem||'Novo aviso para a rouparia.',icon:'./app-icon.svg',tag:'aviso-roupeiro-'+payload.new?.id})).catch(()=>{});
+  await carregarAvisosRouparia();
+ }).subscribe();
+}
+async function carregarAvisosRouparia(){
+ if(!['roupeiro','admin','diretor'].includes(perfilAtual)||!clubeId)return;
+ const box=el('listaNotificacoes');if(!box)return;
+ const {data,error}=await db.from('avisos_rouparia').select('*').eq('clube_id',clubeId).order('criado_em',{ascending:false}).limit(20);
+ if(error)return;
+ const html=(data||[]).map(a=>'<div class="notification-item atencao"><span class="notification-icon">'+(a.tipo==='dm'?'🏥':'🏃')+'</span><span class="notification-copy"><b>'+(a.tipo==='dm'?'Atleta no DM':'Atleta em transição')+' · '+esc(a.jogador_nome)+'</b><small>'+esc(a.mensagem)+' · '+new Date(a.criado_em).toLocaleString('pt-BR')+'</small></span></div>').join('');
+ if(html)box.insertAdjacentHTML('afterbegin','<h3>Avisos para a rouparia</h3>'+html);
+}
 async function carregarCentralNotificacoes(){
  await carregarNotificacoesProgramacao();
+ await carregarAvisosRouparia();
  const box=el('listaNotificacoes');if(!box)return;
  if(!clubeId){box.textContent='Entre no clube para ver os avisos.';return;}
  const avisos=[];
