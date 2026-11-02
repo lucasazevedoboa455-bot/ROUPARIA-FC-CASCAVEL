@@ -2468,7 +2468,7 @@ async function carregarNotificacoesProgramacao(){
   const nome=nomes[arquivo?.enviado_por]||'Equipe';
   const dia=arquivo?.criado_em?new Date(arquivo.criado_em).toLocaleDateString('pt-BR'):new Date(n.criado_em).toLocaleDateString('pt-BR');
   const detalhe=imagem?'':'<small>Arquivo da programação · toque para abrir</small>';
-  return '<button type="button" class="programacao-aviso '+(n.lida_em?'':'nao-lida')+'" onclick="abrirNotificacaoProgramacao('+Number(n.id)+','+Number(n.categoria_id)+','+Number(n.programacao_id)+')"><span class="aviso-texto"><small>Publicado por '+esc(nome)+' · '+esc(dia)+'</small>'+foto+detalhe+'</span></button>';
+  return '<button type="button" class="programacao-aviso '+(n.lida_em?'':'nao-lida')+'" onclick="abrirNotificacaoProgramacao('+Number(n.id)+','+Number(n.categoria_id)+','+Number(n.programacao_id)+')">'+foto+(imagem?'':'<span class="aviso-texto">'+detalhe+'</span>')+'</button>';
  }).join('');
  if(home)home.innerHTML=html;if(central)central.innerHTML=html;
  Promise.all(rows.map(async n=>{
@@ -2695,5 +2695,23 @@ body:has(#app:not(.hidden)) #app main{padding-bottom:24px !important}
 }
 </style>
 
+
+<style id="programacao-foto-ampliada-v53">
+/* A foto da programação ocupa todo o cartão, sem texto ao lado ou acima. */
+#listaAvisosProgramacaoInicio .programacao-aviso,
+#listaNotificacoesProgramacao .programacao-aviso{
+ display:block!important;width:100%!important;padding:0!important;margin:10px 0!important;
+ overflow:hidden!important;border:1px solid #e2e8e2!important;border-radius:12px!important;
+ background:#fff!important;box-shadow:0 4px 14px rgba(16,43,35,.07)!important;
+}
+#listaAvisosProgramacaoInicio .programacao-foto-inicio,
+#listaNotificacoesProgramacao .programacao-foto-inicio{
+ display:block;width:100%!important;max-width:100%!important;height:auto!important;
+ max-height:none!important;object-fit:contain!important;margin:0!important;border:0!important;
+ border-radius:11px!important;background:#fff!important;
+}
+#listaAvisosProgramacaoInicio .programacao-aviso .aviso-texto,
+#listaNotificacoesProgramacao .programacao-aviso .aviso-texto{display:block;width:100%;padding:10px 12px}
+</style>
 </body>
 </html>
