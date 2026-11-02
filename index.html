@@ -2278,7 +2278,7 @@ let emblemaClubePendente='';
 function atualizarEmblemaNoPainel(url){
  const img=el('escudoOficialClube'),iniciais=el('escudoIniciaisClube');
  if(url){img.src=url;img.style.display='block';img.classList.remove('hidden');iniciais.classList.add('hidden');}
- else{img.removeAttribute('src');img.style.display='none';iniciais.classList.remove('hidden');}
+ else{img.removeAttribute('src');img.classList.add('hidden');iniciais.classList.remove('hidden');}
 }
 async function prepararEmblemaClube(event){
  if(perfilAtual!=='admin'){mensagem('emblemaClubeMsg','Somente o administrador pode alterar o emblema.');return;}
