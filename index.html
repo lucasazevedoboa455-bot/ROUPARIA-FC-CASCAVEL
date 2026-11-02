@@ -1928,7 +1928,7 @@ async function ativarNotificacoes(){
  }finally{botao.disabled=false;}
 }
 
-if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js?v=51', { updateViaCache: 'none' }).then(reg => reg.update()).catch(() => {})); }
+if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js?v=52', { updateViaCache: 'none' }).then(reg => reg.update()).catch(() => {})); }
 let clubeId=null, perfilAtual='admin', appAdmin=false, usuarioClubeId=null, categoriasClube=[], categoriaSelecionada=null, categoriaEscolhidaAntesLogin='', perfilEscolhidoAntesLogin='', materiais=[], jogadores=[], uniformes=[], lavanderia=[], cLavanderia=[], movimentacoes=[], entregas=[], acessoRegistradoNestaSessao=false, tipoAcompanhamentoFiltro=null;
 let pagamentoAtual=null,programacaoCategoriaSelecionada=null,canalNotificacoesProgramacao=null,usuarioCanalNotificacoes=null;
 const el=id=>document.getElementById(id);
@@ -2444,23 +2444,28 @@ async function carregarNotificacoesProgramacao(){
  const {data:{user},error:userError}=await db.auth.getUser();
  const home=el('listaAvisosProgramacaoInicio'),central=el('listaNotificacoesProgramacao');
  if(!home&&!central)return;
- if(userError||!user){if(home)home.innerHTML='<div class="programacao-sem-avisos">Entre no clube para consultar os avisos.</div>';if(central)central.innerHTML='<div class="programacao-sem-avisos">Entre no clube para consultar os avisos.</div>';return;}
- const {data,error}=await db.from('notificacoes_programacao').select('id,categoria_id,programacao_id,titulo,mensagem,criado_em,lida_em').eq('usuario_id',user.id).order('criado_em',{ascending:false}).limit(10);
+ if(userError||!user){const msg='<div class="programacao-sem-avisos">Entre no clube para consultar os avisos.</div>';if(home)home.innerHTML=msg;if(central)central.innerHTML=msg;return;}
+ const {data,error}=await db.from('notificacoes_programacao')
+  .select('id,categoria_id,programacao_id,titulo,mensagem,criado_em,lida_em,arquivo:programacao_arquivos!notificacoes_programacao_programacao_id_fkey(caminho_arquivo,tipo_arquivo)')
+  .eq('usuario_id',user.id).order('criado_em',{ascending:false}).limit(10);
  if(error){const msg='<div class="programacao-sem-avisos">Não foi possível carregar os avisos: '+esc(error.message)+'</div>';if(home)home.innerHTML=msg;if(central)central.innerHTML=msg;return;}
  const rows=data||[];
- const html=rows.length?(await Promise.all(rows.map(async n=>{
+ if(!rows.length){const vazio='<div class="programacao-sem-avisos">Nenhuma programação nova foi publicada para suas categorias.</div>';if(home)home.innerHTML=vazio;if(central)central.innerHTML=vazio;return;}
+ const html=rows.map(n=>{
   const cat=categoriasClube.find(c=>Number(c.id)===Number(n.categoria_id));
-  let previa='';
-  if(n.programacao_id){
-   const {data:arquivo}=await db.from('programacao_arquivos').select('caminho_arquivo,tipo_arquivo').eq('id',n.programacao_id).maybeSingle();
-   if(arquivo?.tipo_arquivo?.startsWith('image/')){
-    const {data:link}=await db.storage.from('programacao-semanal').createSignedUrl(arquivo.caminho_arquivo,21600);
-    if(link?.signedUrl)previa='<img class="programacao-foto-inicio" src="'+esc(link.signedUrl)+'" alt="Foto da programação semanal" loading="lazy">';
-   }
-  }
-  return '<button type="button" class="programacao-aviso '+(n.lida_em?'':'nao-lida')+'" onclick="abrirNotificacaoProgramacao('+Number(n.id)+','+Number(n.categoria_id)+','+Number(n.programacao_id)+')"><span class="aviso-icone">📅</span><span class="aviso-texto"><b>'+esc(n.titulo)+(cat?' · '+esc(cat.nome):'')+'</b><small>'+esc(n.mensagem)+'</small><small>'+esc(new Date(n.criado_em).toLocaleString('pt-BR'))+(n.lida_em?' · Visualizada':' · Nova')+'</small>'+previa+'</span><span class="tile-arrow">›</span></button>';
- })).join('')):'<div class="programacao-sem-avisos">Nenhuma programação nova foi publicada para suas categorias.</div>';
+  const foto=n.arquivo?.tipo_arquivo?.startsWith('image/')?'<img id="foto-aviso-programacao-'+Number(n.id)+'" class="programacao-foto-inicio" alt="Foto da programação semanal" loading="lazy" decoding="async" style="display:none">':'';
+  return '<button type="button" class="programacao-aviso '+(n.lida_em?'':'nao-lida')+'" onclick="abrirNotificacaoProgramacao('+Number(n.id)+','+Number(n.categoria_id)+','+Number(n.programacao_id)+')"><span class="aviso-icone">📅</span><span class="aviso-texto"><b>'+esc(n.titulo)+(cat?' · '+esc(cat.nome):'')+'</b><small>'+esc(n.mensagem)+'</small><small>'+esc(new Date(n.criado_em).toLocaleString('pt-BR'))+(n.lida_em?' · Visualizada':' · Nova')+'</small>'+foto+'</span><span class="tile-arrow">›</span></button>';
+ }).join('');
  if(home)home.innerHTML=html;if(central)central.innerHTML=html;
+ // Os avisos aparecem imediatamente; as fotos são assinadas em paralelo depois.
+ Promise.all(rows.map(async n=>{
+  const arquivo=n.arquivo;
+  if(!arquivo?.tipo_arquivo?.startsWith('image/'))return;
+  const img=document.getElementById('foto-aviso-programacao-'+Number(n.id));
+  if(!img)return;
+  const {data:link,error:linkError}=await db.storage.from('programacao-semanal').createSignedUrl(arquivo.caminho_arquivo,21600);
+  if(!linkError&&link?.signedUrl){img.src=link.signedUrl;img.style.display='block';}
+ })).catch(err=>console.warn('Não foi possível carregar as fotos da programação:',err));
 }
 async function abrirNotificacaoProgramacao(id,categoriaId,programacaoId){
  try{
