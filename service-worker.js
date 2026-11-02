@@ -1,4 +1,4 @@
-const CACHE_NAME = 'gestao-inteligente-futebol-v76';
+const CACHE_NAME = 'gestao-inteligente-futebol-v77';
 const APP_FILES = ['./', './index.html', './manifest.json', './app-icon.svg', './cobra-fc-cascavel.svg'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_FILES)).then(() => self.skipWaiting()));
@@ -26,7 +26,7 @@ self.addEventListener('push', event => {
   body: dados.body || 'Você tem um novo aviso da rouparia.',
   icon: './app-icon.svg',
   badge: './app-icon.svg',
-  data: { url: dados.url || './#/app' },
+  data: { url: './' },
   tag: dados.tag || 'roupeiros-brasil-aviso',
   renotify: false
  };
@@ -34,7 +34,7 @@ self.addEventListener('push', event => {
 });
 self.addEventListener('notificationclick', event => {
  event.notification.close();
- const destino = new URL(event.notification.data?.url || './#/app', self.location.origin).href;
+ const destino = new URL('./', self.registration.scope).href;
  event.waitUntil(clients.matchAll({ type: 'window', includeUncontrolled: true }).then(lista => {
   for (const cliente of lista) {
    if ('focus' in cliente) {
