@@ -2081,7 +2081,7 @@ function aplicarPermissoesTela(){
  const navIds=['navCentralGestaoBtn','navUsuariosAppBtn','abaAcompanhamentoBtn','abaFisioBtn','abaPreparadorBtn','abaGoleirosBtn','abaTreinadorBtn','abaVideosBtn','abaProgramacaoBtn','abaEquipeBtn','abaAtividadesBtn','abaCodigoBtn','navImprensaBtn'];
  navIds.forEach(id=>el(id)?.classList.add('hidden'));
  if(admin)navIds.forEach(id=>el(id)?.classList.remove('hidden'));
- else if(director)['navCentralGestaoBtn','abaAcompanhamentoBtn','abaVideosBtn','abaEquipeBtn','navImprensaBtn'].forEach(id=>el(id).classList.remove('hidden'));
+ else if(director)['navCentralGestaoBtn','abaAcompanhamentoBtn','abaFisioBtn','abaPreparadorBtn','abaGoleirosBtn','abaTreinadorBtn','abaVideosBtn','abaEquipeBtn','navImprensaBtn'].forEach(id=>el(id).classList.remove('hidden'));
  else if(perfilAtual==='imprensa')el('navImprensaBtn').classList.remove('hidden');
  else if(perfilAtual==='treinador')['abaTreinadorBtn','abaVideosBtn'].forEach(id=>el(id).classList.remove('hidden'));
  else if(perfilAtual==='preparador_fisico')el('abaPreparadorBtn').classList.remove('hidden');
