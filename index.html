@@ -2126,12 +2126,12 @@ async function carregarEquipe(){
  const box=el('listaEquipe');box.textContent='Carregando equipe...';
  const {data,error}=await db.from('usuarios-clube').select('id,usuario_id,perfil,nome').eq('clube_id',clubeId).order('id');
  if(error){box.textContent='Não foi possível carregar a equipe: '+error.message;return;}
- const roles=[['roupeiro','Roupeiro'],['diretor','Diretor'],['treinador','Treinador'],['preparador_fisico','Preparador físico'],['fisioterapeuta','Fisioterapeuta'],['preparador_goleiros','Preparador de goleiros'],['analista','Analista'],['admin','Administrador']];
+ const roles=[['roupeiro','Roupeiro'],['diretor','Diretor'],['treinador','Treinador'],['preparador_fisico','Preparador físico'],['fisioterapeuta','Fisioterapeuta'],['preparador_goleiros','Preparador de goleiros'],['analista','Analista'],['imprensa','Imprensa'],['admin','Administrador']];
  box.innerHTML=(data||[]).map(x=>'<div class="item"><b>'+esc(x.nome||'Profissional sem nome')+'</b><br><span class="small">Usuário: '+esc(x.usuario_id)+'</span><br><label>Função</label>'+(perfilAtual==='admin'?'<select onchange="alterarPerfilEquipe('+Number(x.id)+',this.value)">'+roles.map(r=>'<option value="'+r[0]+'" '+(r[0]===x.perfil?'selected':'')+'>'+r[1]+'</option>').join('')+'</select>':'<span>'+esc((roles.find(r=>r[0]===x.perfil)||[x.perfil||'',''])[1])+'</span>')+'</div>').join('')||'Nenhum usuário vinculado.';
 }
 async function alterarPerfilEquipe(id,perfil){
  if(perfilAtual!=='admin'||!clubeId)return;
- const permitido=['roupeiro','diretor','treinador','preparador_fisico','fisioterapeuta','preparador_goleiros','analista','admin'];
+ const permitido=['roupeiro','diretor','treinador','preparador_fisico','fisioterapeuta','preparador_goleiros','analista','imprensa','admin'];
  if(!permitido.includes(perfil)){mensagem('appMsg','Função inválida.');return;}
  const {error}=await db.from('usuarios-clube').update({perfil}).eq('id',id).eq('clube_id',clubeId);
  if(error){mensagem('appMsg','Não foi possível alterar a função: '+error.message);await carregarEquipe();return;}
