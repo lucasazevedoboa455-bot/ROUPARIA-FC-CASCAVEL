@@ -1826,7 +1826,7 @@ body:has(#app:not(.hidden)) #app .tile-icon {
 <section id="app" class="hidden">
 <div class="card club-top-card"><div class="club-top-identity"><div id="escudoClube" class="escudo-clube"><span id="escudoIniciaisClube">⚽</span><img id="escudoOficialClube" class="escudo-oficial-clube hidden" src="https://images.seeklogo.com/logo-png/55/1/fc-cascavel-logo-png_seeklogo-553635.png" alt="Logo oficial do Futebol Clube Cascavel" referrerpolicy="no-referrer" onload="this.classList.remove('hidden');document.getElementById('escudoIniciaisClube').classList.add('hidden')" onerror="this.classList.add('hidden');document.getElementById('escudoIniciaisClube').classList.remove('hidden')"></div><div class="club-title-wrap"><div class="club-title-line"><span id="clubName">Seu clube</span></div><div id="status" class="small"></div></div></div><button onclick="sair()" class="btn-sair">Sair</button></div>
 <nav class="menu-principal"><button id="navInicioBtn" onclick="aba('inicio')">Início</button><button id="navEstoqueBtn" onclick="aba('estoque')">Estoque</button><button id="navJogadoresBtn" onclick="aba('jogadores')">Jogadores</button><button id="navUniformesBtn" onclick="aba('uniformes')">Uniformes</button><button id="navLavanderiaBtn" onclick="aba('lavanderia')">Lavanderia</button><button id="navMovimentacoesBtn" onclick="aba('movimentacoes')">Saídas/Devoluções</button><button id="navRelatoriosBtn" onclick="aba('relatorios')">Relatórios</button><button id="navEntregasBtn" onclick="aba('entregas')">Entregas por jogador</button><button id="abaAcompanhamentoBtn" class="hidden" onclick="abrirAreaAcompanhamento(null)">Relatórios de campo e equipe</button><button id="abaFisioBtn" class="hidden" onclick="abrirAreaAcompanhamento('fisioterapia')">Fisioterapia / DM</button><button id="abaPreparadorBtn" class="hidden" onclick="abrirAreaAcompanhamento('transicao')">Preparação física</button><button id="abaGoleirosBtn" class="hidden" onclick="abrirAreaAcompanhamento('goleiros')">Preparação de goleiros</button><button id="abaTreinadorBtn" class="hidden" onclick="abrirAreaAcompanhamento('campo')">Treinos de campo</button><button id="abaVideosBtn" class="hidden" onclick="aba('videos')">Vídeos dos treinos</button><button id="abaProgramacaoBtn" class="hidden" onclick="aba('programacao')">📅 Programação semanal</button><button id="abaEquipeBtn" class="hidden" onclick="aba('equipe')">Equipe e acessos</button><button id="navUsuariosAppBtn" class="hidden" onclick="aba('usuariosApp')">🌐 Usuários cadastrados no app</button><button id="abaAtividadesBtn" class="hidden" onclick="aba('atividades')">Atividades</button><button id="abaCodigoBtn" class="hidden" onclick="aba('codigoClube')">Código do clube</button><button id="navCentralGestaoBtn" class="hidden" onclick="aba('centralGestao')">📊 Central de Gestão</button><button id="navNotificacoesBtn" onclick="aba('notificacoes')">🔔 Notificações</button><button id="abaViagensBtn" onclick="aba('viagens')">🚌 Viagens</button><button id="abaChatBtn" onclick="aba('chatClube')">💬 Chat do clube</button><button id="abaHistoricoBtn" onclick="aba('historico')">🕘 Histórico</button><button id="navPerfilBtn" onclick="aba('perfil')">👤 Perfil</button></nav>
-<section id="inicio"><div class="card" id="inicioProgramacaoAvisos"><h2>🔔 Programações da sua categoria</h2><div id="listaAvisosProgramacaoInicio">Carregando avisos...</div></div><div class="dashboard-heading"><div><span class="dashboard-kicker">VISÃO GERAL DO CLUBE</span><h2>Painel principal</h2><p>Organização e acompanhamento da rotina do futebol.</p></div><span class="dashboard-live">● Atualizado</span></div><div class="dashboard-grid"><button class="dashboard-tile" onclick="aba('estoque')"><span class="tile-icon">▤</span><span><b>Estoque</b><small><strong id="dashEstoque">0</strong> itens cadastrados</small></span><span class="tile-arrow">›</span></button><button class="dashboard-tile" onclick="aba('jogadores')"><span class="tile-icon">⚽</span><span><b>Jogadores</b><small><strong id="dashJogadores">0</strong> atletas</small></span><span class="tile-arrow">›</span></button><button class="dashboard-tile" onclick="aba('uniformes')"><span class="tile-icon">👕</span><span><b>Uniformes</b><small><strong id="dashUniformes">0</strong> modelos cadastrados</small></span><span class="tile-arrow">›</span></button><button class="dashboard-tile" onclick="aba('lavanderia')"><span class="tile-icon">🧺</span><span><b>Lavanderia</b><small><strong id="dashLavanderia">0</strong> peças pendentes</small></span><span class="tile-arrow">›</span></button><button id="tileComissaoBtn" class="dashboard-tile" onclick="aba('equipe')"><span class="tile-icon">👥</span><span><b>Comissão técnica</b><small>Equipe e funções</small></span><span class="tile-arrow">›</span></button><button class="dashboard-tile" onclick="aba('relatorios')"><span class="tile-icon">▥</span><span><b>Relatórios</b><small>Dados e movimentações</small></span><span class="tile-arrow">›</span></button></div><section class="dashboard-insights" aria-label="Indicadores do clube">
+<section id="inicio"><div class="programacao-home-panel" id="inicioProgramacaoAvisos"><h2>🔔 Programações da sua categoria</h2><div id="listaAvisosProgramacaoInicio">Carregando avisos...</div></div><div class="dashboard-heading"><div><span class="dashboard-kicker">VISÃO GERAL DO CLUBE</span><h2>Painel principal</h2><p>Organização e acompanhamento da rotina do futebol.</p></div><span class="dashboard-live">● Atualizado</span></div><div class="dashboard-grid"><button class="dashboard-tile" onclick="aba('estoque')"><span class="tile-icon">▤</span><span><b>Estoque</b><small><strong id="dashEstoque">0</strong> itens cadastrados</small></span><span class="tile-arrow">›</span></button><button class="dashboard-tile" onclick="aba('jogadores')"><span class="tile-icon">⚽</span><span><b>Jogadores</b><small><strong id="dashJogadores">0</strong> atletas</small></span><span class="tile-arrow">›</span></button><button class="dashboard-tile" onclick="aba('uniformes')"><span class="tile-icon">👕</span><span><b>Uniformes</b><small><strong id="dashUniformes">0</strong> modelos cadastrados</small></span><span class="tile-arrow">›</span></button><button class="dashboard-tile" onclick="aba('lavanderia')"><span class="tile-icon">🧺</span><span><b>Lavanderia</b><small><strong id="dashLavanderia">0</strong> peças pendentes</small></span><span class="tile-arrow">›</span></button><button id="tileComissaoBtn" class="dashboard-tile" onclick="aba('equipe')"><span class="tile-icon">👥</span><span><b>Comissão técnica</b><small>Equipe e funções</small></span><span class="tile-arrow">›</span></button><button class="dashboard-tile" onclick="aba('relatorios')"><span class="tile-icon">▥</span><span><b>Relatórios</b><small>Dados e movimentações</small></span><span class="tile-arrow">›</span></button></div><section class="dashboard-insights" aria-label="Indicadores do clube">
 <div class="insights-head"><div><span class="dashboard-kicker">INDICADORES DO CLUBE</span><h3>Resumo de desempenho operacional</h3><p>Indicadores calculados com os registros da categoria selecionada.</p></div><span class="insights-symbol">▥</span></div>
 <div class="insights-metrics">
 <div class="insight-metric"><span class="insight-icon">📦</span><small>Peças em estoque</small><b id="insightPecas">0</b><em id="insightItens">0 itens cadastrados</em></div>
@@ -1932,7 +1932,7 @@ async function ativarNotificacoes(){
  }finally{botao.disabled=false;}
 }
 
-if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js?v=60', { updateViaCache: 'none' }).then(reg => reg.update()).catch(() => {})); }
+if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js?v=61', { updateViaCache: 'none' }).then(reg => reg.update()).catch(() => {})); }
 let clubeId=null, perfilAtual='admin', appAdmin=false, usuarioClubeId=null, categoriasClube=[], categoriaSelecionada=null, categoriaEscolhidaAntesLogin='', perfilEscolhidoAntesLogin='', materiais=[], jogadores=[], uniformes=[], lavanderia=[], cLavanderia=[], movimentacoes=[], entregas=[], acessoRegistradoNestaSessao=false, tipoAcompanhamentoFiltro=null;
 let pagamentoAtual=null,programacaoCategoriaSelecionada=null,canalNotificacoesProgramacao=null,usuarioCanalNotificacoes=null;
 const el=id=>document.getElementById(id);
@@ -2730,37 +2730,43 @@ body:has(#app:not(.hidden)) #app main{padding-bottom:24px !important}
 }
 </style>
 
-<style id="programacao-foto-quadro-categoria-v60">
-/* Corrige o painel inicial: o cartão estava herdando o grid de duas colunas do dashboard,
-   deixando a área da foto presa em apenas metade da largura no celular. */
-#inicio #inicioProgramacaoAvisos{
- display:block!important;
- grid-template-columns:minmax(0,1fr)!important;
- width:100%!important;max-width:none!important;
- box-sizing:border-box!important;
+<style id="programacao-foto-quadro-categoria-v61">
+/* Painel de programação independente: não herda o grid de duas colunas dos cartões do dashboard. */
+#inicio #inicioProgramacaoAvisos.programacao-home-panel{
+ display:block!important;position:relative!important;float:none!important;
+ width:100%!important;max-width:100%!important;min-width:0!important;
+ box-sizing:border-box!important;margin:12px 0 18px!important;padding:16px!important;
+ grid-column:1/-1!important;column-span:all!important;
+ background:#fff!important;border:1px solid #e2e8e2!important;
+ border-radius:16px!important;box-shadow:0 5px 18px rgba(23,66,39,.055)!important;
 }
-#inicio #inicioProgramacaoAvisos>h2{display:block!important;width:100%!important}
-#inicio #listaAvisosProgramacaoInicio{
- display:block!important;float:none!important;
- width:100%!important;max-width:none!important;min-width:0!important;
- grid-column:1/-1!important;box-sizing:border-box!important;
- margin:0!important;padding:0!important;
+#inicio #inicioProgramacaoAvisos.programacao-home-panel>h2{
+ display:block!important;width:100%!important;margin:0 0 12px!important;padding:0!important;
+}
+#inicio #inicioProgramacaoAvisos #listaAvisosProgramacaoInicio{
+ display:block!important;position:relative!important;float:none!important;
+ width:100%!important;max-width:100%!important;min-width:0!important;
+ margin:0!important;padding:0!important;box-sizing:border-box!important;
 }
 #inicio #listaAvisosProgramacaoInicio .programacao-aviso{
- display:block!important;float:none!important;
- width:100%!important;max-width:none!important;min-width:0!important;
+ display:block!important;position:relative!important;float:none!important;
+ width:100%!important;max-width:100%!important;min-width:0!important;
  box-sizing:border-box!important;margin:0!important;padding:0!important;
 }
 #inicio #listaAvisosProgramacaoInicio .programacao-foto-inicio{
- display:block!important;width:100%!important;max-width:none!important;
+ display:block!important;position:relative!important;
+ width:100%!important;max-width:100%!important;min-width:100%!important;
  height:auto!important;max-height:none!important;object-fit:contain!important;
+ margin:0!important;padding:0!important;box-sizing:border-box!important;
 }
 @media(max-width:680px){
- #inicio #inicioProgramacaoAvisos{display:block!important;grid-template-columns:1fr!important}
+ #inicio #inicioProgramacaoAvisos.programacao-home-panel{
+  width:100%!important;max-width:100%!important;margin:10px 0 16px!important;padding:12px!important;
+ }
  #inicio #listaAvisosProgramacaoInicio,
  #inicio #listaAvisosProgramacaoInicio .programacao-aviso,
  #inicio #listaAvisosProgramacaoInicio .programacao-foto-inicio{
-  width:100%!important;max-width:none!important;min-width:0!important;
+  width:100%!important;max-width:100%!important;min-width:100%!important;
  }
 }
 </style>
