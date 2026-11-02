@@ -1247,6 +1247,58 @@ h2,h3,label{color:#273746!important}
  #app nav{background:rgba(255,255,255,.98)!important}
 }
 
+
+
+/* RESTAURAÇÃO DA PALETA VERDE-ESMERALDA — versão recuperada de 01/11/2026 */
+:root{
+ --br-green:#087f5b;--br-green-dark:#075b46;--br-blue:#142b45;
+ --br-yellow:#f2c94c;--ui-bg:#f1f5f7;--ui-ink:#172536;
+ --ui-muted:#667789;--ui-line:#e1e8ed;
+}
+html,body{
+ background:radial-gradient(ellipse at 8% 0%,rgba(8,127,91,.10),transparent 34%),
+ linear-gradient(180deg,#f7f9fb 0%,#edf2f5 100%)!important;
+ color:#172536!important;
+}
+.brand-header{
+ background:linear-gradient(118deg,#10243b 0%,#123d42 54%,#087f5b 100%)!important;
+ border-bottom:4px solid #f2c94c!important;
+}
+.brand-mark{background:linear-gradient(145deg,#087f5b,#075b46)!important;border:1px solid rgba(255,255,255,.2)!important}
+#login .welcome-kicker{
+ background:linear-gradient(110deg,#10243b,#075b46)!important;
+ color:#ffe08a!important;border-color:#d7b64a!important;
+}
+#app:not(.tema-fc-cascavel) button,
+#login button{
+ background:linear-gradient(135deg,#087f5b,#075b46)!important;
+ color:#fff!important;border:1px solid #06684d!important;
+ box-shadow:0 4px 12px rgba(7,91,70,.13)!important;
+}
+#app:not(.tema-fc-cascavel) button:hover,
+#login button:hover{filter:brightness(1.08)!important;box-shadow:0 8px 20px rgba(7,91,70,.2)!important}
+.menu-principal{
+ background:linear-gradient(115deg,#10243b,#163b48)!important;
+ border:1px solid #244b58!important;
+}
+.menu-principal button{
+ background:rgba(255,255,255,.10)!important;color:#f7fbfc!important;
+ border:1px solid rgba(255,255,255,.15)!important;
+}
+.menu-principal button:hover,.menu-principal button:focus-visible,.menu-principal button.active{
+ background:#f2c94c!important;color:#172536!important;border-color:#f2c94c!important;
+}
+#app:not(.tema-fc-cascavel) .card h2,
+#app:not(.tema-fc-cascavel) .dashboard-heading h2{color:#17354a!important}
+#app:not(.tema-fc-cascavel) th{background:#17354a!important;color:#ffe08a!important}
+input:focus,select:focus,textarea:focus{
+ border-color:#087f5b!important;box-shadow:0 0 0 4px rgba(8,127,91,.13)!important;
+}
+a{color:#087f5b!important}
+#app:not(.tema-fc-cascavel) .msg{
+ border-color:#b9ded1!important;background:#eff8f4!important;color:#174d3d!important;
+}
+
 </style>
 <style id="tema-ultra-moderno-fc-cascavel">
 :root{
