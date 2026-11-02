@@ -2064,7 +2064,7 @@ async function ativarNotificacoes(){
  }finally{botao.disabled=false;}
 }
 
-if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js?v=75', { updateViaCache: 'none' }).then(reg => reg.update()).catch(() => {})); }
+if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js?v=76', { updateViaCache: 'none' }).then(reg => reg.update()).catch(() => {})); }
 let clubeId=null, perfilAtual='admin', appAdmin=false, usuarioClubeId=null, categoriasClube=[], categoriaSelecionada=null, categoriaEscolhidaAntesLogin='', perfilEscolhidoAntesLogin='', materiais=[], jogadores=[], uniformes=[], lavanderia=[], cLavanderia=[], movimentacoes=[], entregas=[], acessoRegistradoNestaSessao=false, tipoAcompanhamentoFiltro=null;
 let pagamentoAtual=null,programacaoCategoriaSelecionada=null,canalNotificacoesProgramacao=null,usuarioCanalNotificacoes=null;
 const el=id=>document.getElementById(id);
@@ -2099,7 +2099,7 @@ function aplicarPermissoesTela(){
    if(roupeiro)navOperacional.forEach(id=>el(id)?.classList.remove('hidden'));
    el('navInicioBtn')?.classList.remove('hidden');
    el('inicio')?.classList.remove('hidden');
-   Array.from(el('inicio')?.children||[]).forEach(child=>{if(child.id!=='inicioProgramacaoAvisos'&&!child.classList.contains('dashboard-heading'))child.classList.add('hidden');});
+   Array.from(el('inicio')?.children||[]).forEach(child=>{if(child.id!=='inicioProgramacaoAvisos'&&!child.classList.contains('dashboard-heading')&&!(roupeiro&&(child.classList.contains('dashboard-grid')||child.classList.contains('dashboard-insights'))))child.classList.add('hidden');});
    ['dockEstoqueBtn','dockJogadoresBtn'].forEach(id=>el(id)?.classList.add('hidden'));
   }
  }
