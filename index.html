@@ -1932,7 +1932,7 @@ async function ativarNotificacoes(){
  }finally{botao.disabled=false;}
 }
 
-if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js?v=57', { updateViaCache: 'none' }).then(reg => reg.update()).catch(() => {})); }
+if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js?v=58', { updateViaCache: 'none' }).then(reg => reg.update()).catch(() => {})); }
 let clubeId=null, perfilAtual='admin', appAdmin=false, usuarioClubeId=null, categoriasClube=[], categoriaSelecionada=null, categoriaEscolhidaAntesLogin='', perfilEscolhidoAntesLogin='', materiais=[], jogadores=[], uniformes=[], lavanderia=[], cLavanderia=[], movimentacoes=[], entregas=[], acessoRegistradoNestaSessao=false, tipoAcompanhamentoFiltro=null;
 let pagamentoAtual=null,programacaoCategoriaSelecionada=null,canalNotificacoesProgramacao=null,usuarioCanalNotificacoes=null;
 const el=id=>document.getElementById(id);
@@ -2474,10 +2474,10 @@ async function carregarNotificacoesProgramacao(){
  Promise.all(rows.map(async n=>{
   const arquivo=n.arquivo;
   if(!arquivo?.tipo_arquivo?.startsWith('image/'))return;
-  const img=document.getElementById('foto-aviso-programacao-'+Number(n.id));
-  if(!img)return;
+  const imgs=document.querySelectorAll('[id="foto-aviso-programacao-'+Number(n.id)+'"]');
+  if(!imgs.length)return;
   const {data:link,error:linkError}=await db.storage.from('programacao-semanal').createSignedUrl(arquivo.caminho_arquivo,21600);
-  if(!linkError&&link?.signedUrl){img.src=link.signedUrl;img.style.display='block';}
+  if(!linkError&&link?.signedUrl){imgs.forEach(img=>{img.src=link.signedUrl;img.style.display='block';});}
  })).catch(err=>console.warn('Não foi possível carregar as fotos da programação:',err));
 }
 async function abrirNotificacaoProgramacao(id,categoriaId,programacaoId){
@@ -2727,6 +2727,28 @@ body:has(#app:not(.hidden)) #app main{padding-bottom:24px !important}
  display:block!important;width:100%!important;max-width:none!important;height:auto!important;
  max-height:none!important;object-fit:contain!important;margin:0!important;padding:0!important;
  border:0!important;border-radius:0!important;background:#fff!important;
+}
+</style>
+
+<style id="programacao-foto-tela-cheia-v58">
+/* Foto da programação realmente ampliada no celular, usando toda a largura do painel. */
+#inicioProgramacaoAvisos{
+ width:calc(100% + 32px)!important;max-width:none!important;
+ margin-left:-16px!important;margin-right:-16px!important;
+ padding:16px 0 0!important;overflow:hidden!important;
+}
+#inicioProgramacaoAvisos>h2{padding:0 16px!important;margin:0 0 12px!important}
+#listaAvisosProgramacaoInicio{width:100%!important;margin:0!important;padding:0!important}
+#listaAvisosProgramacaoInicio .programacao-aviso{
+ display:block!important;box-sizing:border-box!important;width:100%!important;
+ max-width:none!important;margin:0!important;padding:0!important;
+ border:0!important;border-radius:0!important;background:transparent!important;
+}
+#listaAvisosProgramacaoInicio .programacao-foto-inicio{
+ display:block!important;box-sizing:border-box!important;width:100%!important;
+ max-width:none!important;height:auto!important;max-height:none!important;
+ object-fit:contain!important;margin:0!important;padding:0!important;
+ border:0!important;border-radius:0!important;
 }
 </style>
 </body>
