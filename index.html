@@ -1773,6 +1773,85 @@ body:has(#app:not(.hidden)) #app .tile-icon {
 
 </style>
 
+
+<style id="tema-claro-azul-amarelo-v64">
+:root{
+ --br-blue:#123f8c!important;--br-green:#123f8c!important;--br-green-dark:#092b68!important;
+ --br-yellow:#ffd52a!important;--br-ink:#172b46!important;--br-muted:#68788d!important;
+ --br-surface:#fff!important;--br-bg:#f3f6fb!important;
+ color-scheme:light!important;
+}
+html,body{background:#f3f6fb!important;color:#172b46!important}
+body{background:linear-gradient(180deg,#f7f9fc 0%,#edf2f8 100%)!important}
+header,.brand-header{
+ background:linear-gradient(112deg,#092b68 0%,#124894 58%,#1c5eaa 100%)!important;
+ color:#fff!important;border:0!important;border-bottom:4px solid #ffd52a!important;
+ box-shadow:0 8px 25px rgba(14,48,94,.16)!important
+}
+.brand-header h1,.brand-header p{color:#fff!important}
+.brand-mark{background:#ffd52a!important;color:#123f8c!important}
+.brand-stars{border-color:#ffd52a!important;color:#ffd52a!important}
+#app,#app main,#app #inicio,#app .dashboard-grid,#app .dashboard-insights,
+#app .dashboard-panel,#app .insight-panel,#app .central-panel,#app .painel-diretor,
+#app .diretor-metricas>div{background-color:#f3f6fb!important;color:#172b46!important}
+#app .card,#app .dashboard-tile,#app .insight-metric,#app .insight-panel,
+#app .central-panel,#app .painel-diretor,#app .diretor-metricas>div,
+#app .jogador-card,#app .usuario-app-card,#login,#formLogin,#formCadastro{
+ background:#fff!important;background-image:none!important;color:#233750!important;
+ border:1px solid #e0e7f0!important;border-radius:16px!important;
+ box-shadow:0 5px 18px rgba(25,55,90,.065)!important
+}
+#app h1,#app h2,#app h3,#app .card h2,#app .card h3,
+#app .dashboard-tile b,#app .insight-metric b,#app .diretor-metricas b{
+ color:#173b70!important
+}
+#app p,#app label,#app .small,#app .dashboard-tile small,
+#app .insight-metric small,#app .diretor-metricas small{color:#68788d!important}
+#app input,#app select,#app textarea,#login input,#login select,#login textarea{
+ background:#fff!important;color:#203750!important;border:1px solid #d6e0ec!important;
+ border-radius:10px!important;box-shadow:none!important
+}
+#app input:focus,#app select:focus,#app textarea:focus,
+#login input:focus,#login select:focus,#login textarea:focus{
+ outline:2px solid rgba(25,86,165,.16)!important;border-color:#2863aa!important
+}
+#app button,#login button{
+ background:#fff!important;color:#24466f!important;border:1px solid #dce4ee!important;
+ border-radius:10px!important;box-shadow:0 2px 7px rgba(25,55,90,.055)!important
+}
+#app button:hover,#login button:hover{background:#f2f6fb!important;border-color:#b9cbe0!important}
+#app nav.menu-principal{
+ background:linear-gradient(110deg,#092b68,#15509a)!important;
+ border:1px solid rgba(255,213,42,.5)!important;
+ box-shadow:0 6px 18px rgba(13,48,95,.13)!important
+}
+#app nav.menu-principal button{
+ background:rgba(255,255,255,.10)!important;color:#fff!important;
+ border:1px solid rgba(255,255,255,.22)!important;box-shadow:none!important
+}
+#app nav.menu-principal button:hover,#app nav.menu-principal button.active,
+#app nav.menu-principal button.ativo,#app nav.menu-principal button[aria-current="page"]{
+ background:#ffd52a!important;color:#123b78!important;border-color:#ffd52a!important
+}
+#login .welcome-block,#app .welcome-block,#app>.card:first-child{
+ background:linear-gradient(118deg,#092b68 0%,#124894 65%,#1d5da8 100%)!important;
+ color:#fff!important;border:1px solid rgba(255,213,42,.45)!important;
+ border-bottom:3px solid #ffd52a!important;border-radius:16px!important
+}
+#login .welcome-block h2,#app .welcome-block h2,
+#login .welcome-block p,#app .welcome-block p{color:#fff!important}
+#login .welcome-kicker,#app .welcome-kicker{
+ background:#ffd52a!important;color:#123b78!important;border:0!important
+}
+#app .tile-icon,#app .insights-symbol{background:#edf3fa!important;color:#24558f!important}
+#app .item{border-bottom-color:#e5ebf2!important}
+#app .msg{background:#fff7d8!important;color:#624d0b!important;border:1px solid #f2df9d!important}
+@media(max-width:680px){
+ #app nav.menu-principal{background:linear-gradient(110deg,#092b68,#15509a)!important}
+ #app .card{border-radius:14px!important}
+}
+</style>
+
 </head>
 <body>
 <header class="brand-header"><div class="brand-mark" aria-hidden="true">⚽</div><div class="brand-copy"><h1 id="nomeClubeTopo">GESTÃO INTELIGENTE DO FUTEBOL</h1><p>GESTÃO COMPLETA PARA O FUTEBOL</p></div><span class="brand-stars" aria-hidden="true">BR</span></header>
