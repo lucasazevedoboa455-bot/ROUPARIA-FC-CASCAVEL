@@ -1969,7 +1969,7 @@ function aplicarPermissoesTela(){
    ['dockEstoqueBtn','dockJogadoresBtn'].forEach(id=>el(id)?.classList.add('hidden'));
   }
  }
- if(director){document.querySelectorAll('#app form').forEach(form=>form.closest('.card')?.classList.add('hidden'));el('painelDiretor')?.classList.remove('hidden');}
+ if(director){document.querySelectorAll('#app form').forEach(form=>{if(form.id!=='formFotosImprensa')form.closest('.card')?.classList.add('hidden')});el('painelDiretor')?.classList.remove('hidden');}
  const canPublishPhotos=['admin','diretor','imprensa'].includes(perfilAtual);el('formFotosImprensaCard')?.classList.toggle('hidden',!canPublishPhotos);
  const af=el('formAcompanhamento');
  if(af){
@@ -2074,7 +2074,7 @@ async function iniciar(){
    categoriasClube=categoriasClube.filter(c=>ids.has(Number(c.id)));
  }
  const seletor=el('categoriaAtual');
- if(['diretor','treinador','preparador_fisico','fisioterapeuta','preparador_goleiros','analista'].includes(perfilAtual)){
+ if(['diretor','treinador','preparador_fisico','fisioterapeuta','preparador_goleiros','analista','imprensa'].includes(perfilAtual)){
    categoriaSelecionada=null;
    seletor.innerHTML='<option value="">Todas as categorias</option>'+categoriasClube.map(c=>'<option value="'+Number(c.id)+'">'+esc(c.nome)+'</option>').join('');
  }else{
