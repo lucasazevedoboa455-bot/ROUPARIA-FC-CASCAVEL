@@ -3049,6 +3049,21 @@ body,#app{background:#f4f7f5!important;color:#20352c}
   color:#ffffff!important;
 }
 
+
+
+/* Cabeçalho superior após o acesso: quadro em verde-esmeralda */
+body:has(#app:not(.hidden)) .brand-header{
+ background:linear-gradient(115deg,#075b46 0%,#087f5b 58%,#0a9b70 100%)!important;
+ color:#fff!important;
+ border-bottom:5px solid #f2c94c!important;
+ box-shadow:0 9px 28px rgba(8,90,62,.22)!important;
+}
+body:has(#app:not(.hidden)) .brand-header h1,
+body:has(#app:not(.hidden)) .brand-header p,
+body:has(#app:not(.hidden)) .brand-header #nomeClubeTopo{
+ color:#fff!important;
+}
+
 </style>
 </body>
 </html>
