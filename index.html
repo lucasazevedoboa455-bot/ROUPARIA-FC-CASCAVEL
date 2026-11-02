@@ -3098,6 +3098,57 @@ body:has(#login:not(.hidden)) #formCadastro{
  background:#f7faf8!important;border-color:#dfeae3!important;
 }
 
+
+/* Perfil e menu superior: verde-esmeralda com acabamento dourado */
+body:has(#app:not(.hidden)) #app nav.menu-principal{
+ background:linear-gradient(110deg,#075b46 0%,#087f5b 58%,#0a9b70 100%)!important;
+ border:1px solid #075b46!important;
+ border-bottom:3px solid #f2c94c!important;
+ box-shadow:0 7px 20px rgba(8,90,62,.2)!important;
+}
+body:has(#app:not(.hidden)) #app nav.menu-principal button{
+ background:rgba(255,255,255,.09)!important;
+ color:#fff!important;
+ border:1px solid rgba(242,201,76,.28)!important;
+ box-shadow:none!important;
+}
+body:has(#app:not(.hidden)) #app nav.menu-principal button:hover,
+body:has(#app:not(.hidden)) #app nav.menu-principal button:focus,
+body:has(#app:not(.hidden)) #app nav.menu-principal button.active,
+body:has(#app:not(.hidden)) #app nav.menu-principal button.ativo,
+body:has(#app:not(.hidden)) #app nav.menu-principal button[aria-current="page"]{
+ background:#f2c94c!important;color:#173b2d!important;
+ border-color:#f2c94c!important;
+}
+body:has(#app:not(.hidden)) #app #perfil,
+body:has(#app:not(.hidden)) #app #perfil>.card,
+body:has(#app:not(.hidden)) #app #perfil .card{
+ background:linear-gradient(135deg,#075b46 0%,#087f5b 62%,#0a9168 100%)!important;
+ color:#fff!important;
+ border:1px solid #f2c94c!important;
+ border-radius:16px!important;
+ box-shadow:0 7px 20px rgba(8,90,62,.17)!important;
+}
+body:has(#app:not(.hidden)) #app #perfil h1,
+body:has(#app:not(.hidden)) #app #perfil h2,
+body:has(#app:not(.hidden)) #app #perfil h3,
+body:has(#app:not(.hidden)) #app #perfil p,
+body:has(#app:not(.hidden)) #app #perfil label,
+body:has(#app:not(.hidden)) #app #perfil b,
+body:has(#app:not(.hidden)) #app #perfil span{
+ color:#fff!important;
+}
+body:has(#app:not(.hidden)) #app #perfil input,
+body:has(#app:not(.hidden)) #app #perfil select,
+body:has(#app:not(.hidden)) #app #perfil textarea{
+ background:#fff!important;color:#173b2d!important;
+ border:1px solid #e4d18c!important;
+}
+body:has(#app:not(.hidden)) #app #perfil button{
+ background:#f2c94c!important;color:#173b2d!important;
+ border:1px solid #d8ad2e!important;
+}
+
 </style>
 </body>
 </html>
