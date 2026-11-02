@@ -2256,9 +2256,23 @@ async function carregarProgramacao(){
  const semanaEl=el('programacaoSemana');if(!semanaEl.value)semanaEl.value=segundaDaSemana(dataISOHoje());
  const semana=segundaDaSemana(semanaEl.value);semanaEl.value=semana;
  const box=el('listaProgramacao');box.textContent='Carregando arquivo da programação...';
+ const globalSchedule=['admin','diretor','imprensa'].includes(perfilAtual);
  const disponiveis=await prepararSeletorCategoriaProgramacao();
  const categoriaId=Number(el('programacaoCategoria').value)||null;
  const podeEnviar=['admin','preparador_fisico','roupeiro'].includes(perfilAtual);el('formProgramacaoCard').classList.toggle('hidden',!podeEnviar);
+ el('programacaoCategoria').classList.toggle('hidden',globalSchedule);
+ if(globalSchedule){
+  const {data,error}=await db.from('programacao_arquivos').select('*').eq('clube_id',clubeId).eq('semana_inicio',semana).order('categoria_id');
+  if(error){box.textContent='Não foi possível carregar as programações: '+error.message;return;}
+  if(!data?.length){box.innerHTML='<p class="small">Nenhuma programação publicada para esta semana.</p>';return;}
+  const cards=await Promise.all(data.map(async item=>{
+   const cat=(categoriasClube||[]).find(x=>Number(x.id)===Number(item.categoria_id));
+   const {data:link,error:linkError}=await db.storage.from('programacao-semanal').createSignedUrl(item.caminho_arquivo,3600);
+   return '<div class="item" style="margin:10px 0"><b>📅 '+esc(cat?.nome||'Categoria')+'</b><p><b>📄 '+esc(item.nome_arquivo)+'</b></p><p class="small">Semana de '+esc(item.semana_inicio)+' · Enviado em '+esc(new Date(item.criado_em).toLocaleString('pt-BR'))+'</p>'+(linkError||!link?.signedUrl?'<span class="small">Arquivo indisponível.</span>':'<a href="'+esc(link.signedUrl)+'" target="_blank" rel="noopener noreferrer"><button type="button">Abrir / baixar programação</button></a>')+'</div>';
+  }));
+  box.innerHTML=cards.join('');return;
+ }
+ el('programacaoCategoria').classList.remove('hidden');
  if(!categoriaId||!disponiveis.some(c=>Number(c.id)===categoriaId)){box.textContent='Nenhuma categoria vinculada a este usuário.';return;}
  const {data,error}=await db.from('programacao_arquivos').select('*').eq('clube_id',clubeId).eq('categoria_id',categoriaId).eq('semana_inicio',semana).maybeSingle();
  if(error){box.textContent='Não foi possível carregar a programação: '+error.message;return;}
@@ -2296,6 +2310,35 @@ async function excluirArquivoProgramacao(){
  const del=await db.from('programacao_arquivos').delete().eq('clube_id',clubeId).eq('categoria_id',categoriaId).eq('semana_inicio',semana);if(del.error){mensagem('programacaoMsg','Não consegui excluir o registro: '+del.error.message);return;}
  mensagem('programacaoMsg','Arquivo excluído.');await carregarProgramacao();await carregarNotificacoesProgramacao();
 }
+
+async function carregarGaleriaImprensa(){
+ const box=el('galeriaImprensa');if(!box||!clubeId)return;box.textContent='Carregando fotos...';
+ const {data,error}=await db.from('fotos_imprensa').select('*').eq('clube_id',clubeId).order('criado_em',{ascending:false}).limit(100);
+ if(error){box.textContent='Não foi possível carregar as fotos: '+error.message;return;}
+ if(!data?.length){box.innerHTML='<p class="small">Ainda não há fotos publicadas.</p>';return;}
+ const cards=await Promise.all(data.map(async foto=>{
+  const {data:link}=await db.storage.from('fotos-imprensa').createSignedUrl(foto.caminho_arquivo,3600);
+  return '<article class="item" style="padding:10px"><img src="'+esc(link?.signedUrl||'')+'" alt="'+esc(foto.legenda||foto.nome_arquivo)+'" loading="lazy" style="width:100%;height:190px;object-fit:cover;border-radius:10px"><p><b>'+esc(foto.legenda||foto.nome_arquivo)+'</b></p><p class="small">'+esc(new Date(foto.criado_em).toLocaleString('pt-BR'))+'</p></article>';
+ }));
+ box.innerHTML=cards.join('');
+}
+el('formFotosImprensa').onsubmit=async e=>{
+ e.preventDefault();if(!['admin','diretor','imprensa'].includes(perfilAtual)){mensagem('fotosImprensaMsg','Seu perfil não pode publicar fotos.');return;}
+ const files=Array.from(el('fotosImprensaArquivos').files||[]);if(!files.length){mensagem('fotosImprensaMsg','Selecione ao menos uma foto.');return;}
+ if(files.some(f=>f.size>10485760||!['image/jpeg','image/png','image/webp'].includes(f.type))){mensagem('fotosImprensaMsg','Use JPG, PNG ou WEBP com até 10 MB por foto.');return;}
+ const {data:{user}}=await db.auth.getUser();const btn=e.target.querySelector('button[type=submit]');btn.disabled=true;
+ try{
+  for(const file of files){
+   const ext=file.name.split('.').pop().toLowerCase().replace(/[^a-z0-9]/g,'');
+   const path=clubeId+'/'+crypto.randomUUID()+'.'+ext;
+   const up=await db.storage.from('fotos-imprensa').upload(path,file,{contentType:file.type,upsert:false});
+   if(up.error)throw new Error('Falha ao enviar '+file.name+': '+up.error.message);
+   const saved=await db.from('fotos_imprensa').insert({clube_id:clubeId,usuario_id:user.id,caminho_arquivo:path,nome_arquivo:file.name,legenda:el('fotosImprensaLegenda').value.trim()||null});
+   if(saved.error){await db.storage.from('fotos-imprensa').remove([path]);throw new Error('Não foi possível publicar: '+saved.error.message);}
+  }
+  e.target.reset();mensagem('fotosImprensaMsg','Fotos publicadas para todos os usuários do clube!');await carregarGaleriaImprensa();
+ }catch(err){mensagem('fotosImprensaMsg',err.message||'Erro ao publicar fotos.');}finally{btn.disabled=false;}
+};
 async function carregarVideos(){
  if(!clubeId||!['admin','diretor','analista','treinador','preparador_goleiros'].includes(perfilAtual))return;
  const catHtml=categoriasClube.map(x=>'<option value="'+Number(x.id)+'">'+esc(x.nome)+'</option>').join('');
