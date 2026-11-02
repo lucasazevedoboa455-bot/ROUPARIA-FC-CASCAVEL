@@ -1944,7 +1944,7 @@ header,.brand-header{
 <button type="button" id="abrirCheckout" disabled>Continuar para pagamento</button>
 <button type="button" id="verificarPagamento">Já paguei — verificar acesso</button>
 <button type="button" onclick="sair()">Sair</button>
-<p class="small">O acesso é liberado automaticamente depois que o PagBank confirmar o pagamento.</p>
+<p class="small">O acesso é liberado automaticamente depois que o Mercado Pago confirmar o pagamento.</p>
 </section>
 <section id="entradaCategoria" class="card hidden">
 <h2>Escolha sua categoria</h2>
@@ -2154,7 +2154,7 @@ function mostrarPagamentoObrigatorio(resultado){
  el('entradaCategoria').classList.add('hidden');
  el('pagamentoObrigatorio').classList.remove('hidden');
  if(resultado.checkout_url){
-  el('pagamentoMsg').textContent='Sua taxa única de R$ 30,00 está pendente. Abra o checkout do PagBank para pagar.';
+  el('pagamentoMsg').textContent='Sua taxa única de R$ 30,00 está pendente. Abra o checkout do Mercado Pago para pagar.';
   el('abrirCheckout').disabled=false;
  }else{
   el('pagamentoMsg').textContent=resultado.error||'Não foi possível gerar o link de pagamento. Tente novamente.';
@@ -2166,7 +2166,7 @@ el('abrirCheckout').onclick=()=>{
 };
 el('verificarPagamento').onclick=async()=>{
  const botao=el('verificarPagamento');botao.disabled=true;
- el('pagamentoMsg').textContent='Consultando o PagBank...';
+ el('pagamentoMsg').textContent='Consultando o Mercado Pago...';
  const resultado=await solicitarStatusPagamento();
  botao.disabled=false;
  if(resultado.error){el('pagamentoMsg').textContent=resultado.error;return;}
