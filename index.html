@@ -372,8 +372,11 @@ body:has(#app:not(.hidden)) #app .perfil-linha b{color:#242424}
 
 
 
-.programacao-foto-inicio{display:block;width:100%;max-width:100%;height:auto;max-height:none;object-fit:contain;margin-top:8px;border-radius:10px;border:1px solid #e3e7e2;background:#f7f8f6}
-.programacao-aviso .aviso-texto{width:100%;flex:1;display:flex;flex-direction:column;gap:5px;min-width:0}
+.programacao-foto-inicio{display:block;width:100%;max-width:none;height:auto;max-height:none;object-fit:contain;margin:7px 0 0;border-radius:8px;border:0;background:#fff}
+.programacao-aviso{padding:7px;width:100%;}
+.programacao-aviso .aviso-texto{width:100%;flex:1;display:flex;flex-direction:column;gap:4px;min-width:0;text-align:left}
+#listaAvisosProgramacaoInicio .programacao-aviso{padding:7px 4px;border:0;border-radius:0;background:transparent}
+#listaAvisosProgramacaoInicio .programacao-foto-inicio{width:100%;max-width:100%;height:auto;object-fit:contain}
 .programacao-aviso .aviso-texto small{font-size:12px;color:#65736a}
 
 #inicioProgramacaoAvisos{border-left:4px solid #d6b65f}
@@ -1929,7 +1932,7 @@ async function ativarNotificacoes(){
  }finally{botao.disabled=false;}
 }
 
-if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js?v=53', { updateViaCache: 'none' }).then(reg => reg.update()).catch(() => {})); }
+if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js?v=54', { updateViaCache: 'none' }).then(reg => reg.update()).catch(() => {})); }
 let clubeId=null, perfilAtual='admin', appAdmin=false, usuarioClubeId=null, categoriasClube=[], categoriaSelecionada=null, categoriaEscolhidaAntesLogin='', perfilEscolhidoAntesLogin='', materiais=[], jogadores=[], uniformes=[], lavanderia=[], cLavanderia=[], movimentacoes=[], entregas=[], acessoRegistradoNestaSessao=false, tipoAcompanhamentoFiltro=null;
 let pagamentoAtual=null,programacaoCategoriaSelecionada=null,canalNotificacoesProgramacao=null,usuarioCanalNotificacoes=null;
 const el=id=>document.getElementById(id);
