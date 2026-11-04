@@ -1922,7 +1922,7 @@ header,.brand-header{
 <label>O que deseja fazer?</label><select name="modoCadastro" id="modoCadastro" required><option value="existente">Entrar em um clube existente</option><option value="novo">Cadastrar meu clube</option></select>
 <div id="cadastroClubeExistente">
 <label>Código de acesso do clube</label><input name="codigo" id="codigoCadastro" maxlength="30" autocomplete="off" placeholder="Ex.: FCC001">
-<label>Sua função</label><select name="perfil" id="perfilCadastro"><option value="">Selecione sua função</option><option value="roupeiro">Roupeiro</option><option value="treinador">Treinador</option><option value="preparador_fisico">Preparador físico</option><option value="fisioterapeuta">Fisioterapeuta</option><option value="massagista">Massagista</option><option value="preparador_goleiros">Preparador de goleiros</option><option value="analista">Analista</option><option value="imprensa">Imprensa</option></select>
+<label>Sua função</label><select name="perfil" id="perfilCadastro"><option value="">Selecione sua função</option><option value="roupeiro">Roupeiro</option><option value="treinador">Treinador</option><option value="preparador_fisico">Preparador físico</option><option value="fisioterapeuta">Fisioterapeuta</option><option value="massagista">Massagista</option><option value="preparador_goleiros">Preparador de goleiros</option><option value="analista">Analista</option><option value="imprensa">Imprensa</option><option value="presidente">Presidente</option><option value="gerente_futebol">Gerente de Futebol</option><option value="nutricionista">Nutricionista</option></select>
 <div id="categoriaCadastroWrap"><label>Sua categoria (para roupeiro)</label><select name="categoria" id="categoriaCadastro"><option value="">Selecione sua categoria</option><option>Profissional</option><option>Sub-20</option><option>Sub-17</option><option>Sub-15</option><option>Sub-13</option></select></div>
 </div>
 <div id="cadastroClubeNovo" class="hidden">
@@ -1953,6 +1953,20 @@ header,.brand-header{
 <select id="categoriaEntradaSelect" required><option value="">Carregando categorias...</option></select>
 <button type="button" onclick="entrarNaCategoria()">Entrar na rouparia</button>
 <div id="categoriaEntradaMsg" class="msg hidden"></div>
+</section>
+<section id="painelNovosPerfis" class="card hidden">
+<button type="button" id="sairNovoPerfil">Sair</button>
+<h2 id="tituloNovoPerfil"></h2><p id="novoPerfilMsg" role="status"></p>
+<div id="consultaClube"></div>
+<form id="formNutricao" class="hidden">
+<label>Atleta <select name="atleta" required></select></label>
+<label>Data <input type="date" name="dia" required></label>
+<label>Água consumida no dia (litros) <input name="agua" type="number" min="0" max="100" step="0.01" required></label>
+<label>Alimentação <textarea name="alimentacao" maxlength="4000"></textarea></label>
+<label>Avaliação <textarea name="avaliacao" maxlength="4000"></textarea></label>
+<label>Orientações alimentares <textarea name="orientacao" maxlength="4000"></textarea></label>
+<button type="submit">Salvar registro do dia</button>
+</form><div id="historicoNutricao"></div>
 </section>
 <section id="app" class="hidden">
 <div class="card club-top-card" style="background:linear-gradient(115deg,#064b3b 0%,#087f5b 58%,#0b9168 100%)!important;background-color:#087f5b!important;color:#fff!important;border:1px solid #d9b65a!important;border-bottom:3px solid #d9b65a!important;box-shadow:0 7px 20px rgba(8,90,62,.2)!important;"><div class="club-top-identity"><div id="escudoClube" class="escudo-clube" style="width:76px;height:76px;min-width:76px;padding:0;border:0;background:transparent!important;border-radius:0;"><span id="escudoIniciaisClube" class="hidden">⚽</span><img id="escudoOficialClube" class="escudo-oficial-clube" src="https://assets-mantosdofutebol.sfo2.digitaloceanspaces.com/wp-content/uploads/2021/12/Novo-escudo-FC-Cascavel-2022-a.jpg" alt="Escudo oficial do Futebol Clube Cascavel" referrerpolicy="no-referrer" onload="document.getElementById('escudoIniciaisClube').classList.add('hidden')" onerror="this.style.display='none';document.getElementById('escudoIniciaisClube').classList.remove('hidden')"></div><div class="club-title-wrap"><div class="club-title-line"><span id="clubName">Seu clube</span></div><div id="status" class="small"></div></div></div><button onclick="sair()" class="btn-sair">Sair</button></div>
@@ -2047,7 +2061,7 @@ header,.brand-header{
 <label for="localTreinoDia">Data do treino</label><input id="localTreinoDia" type="date" required>
 <label for="localTreinoModalidade">Onde será o treino?</label><select id="localTreinoModalidade" required><option value="academia">Só academia</option><option value="campo">Só campo</option><option value="ambos">Academia e campo</option></select>
 <div id="localTreinoCamposWrap" class="hidden"><label for="localTreinoCampos">Quais campos serão usados?</label><input id="localTreinoCampos" maxlength="200" placeholder="Ex.: Campo 1 e Campo 2"></div>
-<button type="submit">Salvar local do treino</button><p id="localTreinoMsg" role="status"></p></form></div><div class="card" id="formProgramacaoCard"><h2>📎 Enviar arquivo da programação</h2><form id="formProgramacao"><label>Arquivo da programação</label><input id="programacaoArquivo" name="arquivo" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png,.webp,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,image/jpeg,image/png,image/webp" required><p class="small">PDF, Word, Excel ou imagem. Tamanho máximo: 20 MB. Um arquivo por semana; ao enviar outro, ele substitui o anterior.</p><button type="submit">Enviar programação</button></form><div id="programacaoMsg" class="msg hidden"></div></div></section><section id="imprensa" class="hidden"><div class="card"><h2>📸 Galeria do clube</h2><p class="small">As fotos publicadas aqui ficam visíveis para todos os usuários deste clube.</p><div id="formFotosImprensaCard"><form id="formFotosImprensa"><label>Selecionar fotos</label><input id="fotosImprensaArquivos" type="file" accept="image/jpeg,image/png,image/webp" multiple><label>Legenda (opcional)</label><textarea id="fotosImprensaLegenda" maxlength="300" placeholder="Escreva uma legenda para as fotos"></textarea><p class="small">JPG, PNG ou WEBP · até 10 MB por foto.</p><button type="submit">Publicar fotos</button></form><div id="fotosImprensaMsg" class="msg hidden"></div></div></div><div class="card"><h2>Fotos publicadas</h2><div id="galeriaImprensa" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px">Carregando fotos...</div></div></section><section id="equipe" class="hidden"><div class="card"><h2>👥 Equipe e permissões</h2><p class="small">Cada profissional escolhe sua função ao se cadastrar. O administrador continua responsável por liberar acessos de administrador e diretor.</p><div id="listaEquipe">Carregando equipe...</div><button type="button" onclick="carregarEquipe()">Atualizar equipe</button></div></section><section id="codigoClube" class="hidden"><div class="card"><h2>🔐 Código de acesso do clube</h2><p>Compartilhe este código com os profissionais do seu time. Ele permite o cadastro nas funções disponíveis, mas nunca como administrador ou diretor.</p><div id="codigoClubeAtual" style="font-size:1.5rem;font-weight:700;letter-spacing:2px;padding:12px 0">Carregando código...</div><button type="button" onclick="gerarNovoCodigoClube()">Gerar novo código</button><p class="small">Ao gerar outro código, o anterior deixa de funcionar para novos cadastros. Quem já está cadastrado continua com acesso.</p><div id="codigoClubeMsg" class="msg hidden"></div></div></section>
+<button type="submit">Salvar local do treino</button><p id="localTreinoMsg" role="status"></p></form></div><div class="card" id="formProgramacaoCard"><h2>📎 Enviar arquivo da programação</h2><form id="formProgramacao"><label>Arquivo da programação</label><input id="programacaoArquivo" name="arquivo" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png,.webp,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,image/jpeg,image/png,image/webp" required><p class="small">PDF, Word, Excel ou imagem. Tamanho máximo: 20 MB. Um arquivo por semana; ao enviar outro, ele substitui o anterior.</p><button type="submit">Enviar programação</button></form><div id="programacaoMsg" class="msg hidden"></div></div></section><section id="imprensa" class="hidden"><div class="card"><h2>📸 Galeria do clube</h2><p class="small">As fotos publicadas aqui ficam visíveis para todos os usuários deste clube.</p><div id="formFotosImprensaCard"><form id="formFotosImprensa"><label>Selecionar fotos</label><input id="fotosImprensaArquivos" type="file" accept="image/jpeg,image/png,image/webp" multiple><label>Legenda (opcional)</label><textarea id="fotosImprensaLegenda" maxlength="300" placeholder="Escreva uma legenda para as fotos"></textarea><p class="small">JPG, PNG ou WEBP · até 10 MB por foto.</p><button type="submit">Publicar fotos</button></form><div id="fotosImprensaMsg" class="msg hidden"></div></div></div><div class="card"><h2>Fotos publicadas</h2><div id="galeriaImprensa" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px">Carregando fotos...</div></div></section><section id="equipe" class="hidden"><div class="card"><h2>👥 Equipe e permissões</h2><p class="small">Cada profissional escolhe sua função ao se cadastrar. O administrador continua responsável por liberar acessos de administrador e diretor.</p><div id="listaEquipe">Carregando equipe...</div><h3>Acessos de gestão e nutrição</h3><div id="pedidosNovosPerfis"></div><button type="button" onclick="carregarEquipe()">Atualizar equipe</button></div></section><section id="codigoClube" class="hidden"><div class="card"><h2>🔐 Código de acesso do clube</h2><p>Compartilhe este código com os profissionais do seu time. Ele permite o cadastro nas funções disponíveis, mas nunca como administrador ou diretor.</p><div id="codigoClubeAtual" style="font-size:1.5rem;font-weight:700;letter-spacing:2px;padding:12px 0">Carregando código...</div><button type="button" onclick="gerarNovoCodigoClube()">Gerar novo código</button><p class="small">Ao gerar outro código, o anterior deixa de funcionar para novos cadastros. Quem já está cadastrado continua com acesso.</p><div id="codigoClubeMsg" class="msg hidden"></div></div></section>
 <section id="emblemaClube" class="hidden"><div class="card"><h2>🛡️ Emblema do time</h2><p>Escolha o escudo ou emblema oficial do clube. Ele aparecerá no painel verde-esmeralda para todos os profissionais deste clube.</p><div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin:14px 0"><div style="width:104px;height:104px;display:grid;place-items:center;background:#f4f7f5;border-radius:14px;border:1px solid #d8e2dc"><img id="emblemaPreview" alt="Prévia do emblema" style="max-width:92px;max-height:92px;object-fit:contain"></div><div style="flex:1;min-width:180px"><label for="arquivoEmblema">Selecionar imagem do emblema</label><input id="arquivoEmblema" type="file" accept="image/png,image/jpeg,image/webp,image/*" onchange="prepararEmblemaClube(event)"><p class="small">PNG, JPG ou WEBP. A imagem será ajustada automaticamente para ficar leve e nítida.</p></div></div><button type="button" id="salvarEmblemaBtn" onclick="salvarEmblemaClube()" disabled>Salvar emblema no painel</button><button type="button" class="secondary" onclick="removerEmblemaClube()">Usar iniciais do clube</button><div id="emblemaClubeMsg" class="msg hidden"></div></div></section>
 <section id="viagens" class="hidden"><div class="card"><h2>🚌 Viagens do clube</h2><p class="small">A direção publica a relação de viagens. Todos os profissionais do clube podem consultar.</p><div id="formViagemCard" class="hidden"><h3>Publicar nova viagem</h3><form id="formViagem"><label>Destino</label><input id="viagemDestino" required maxlength="120"><label>Adversário (opcional)</label><input id="viagemAdversario" maxlength="120"><label>Data e horário de saída</label><input id="viagemSaida" type="datetime-local" required><label>Previsão de retorno</label><input id="viagemRetorno" type="datetime-local"><label>Local de saída</label><input id="viagemLocalSaida" maxlength="160"><label>Observações</label><textarea id="viagemObs" rows="2" maxlength="1000"></textarea><button type="submit">Publicar viagem para todos</button></form><div id="viagemMsg" class="msg hidden"></div></div><div id="listaViagens">Carregando viagens...</div><button type="button" onclick="carregarViagens()">Atualizar viagens</button></div></section>
 <section id="historico" class="hidden"><div class="card"><h2>🕘 Histórico do clube</h2><p class="small">Registro de viagens publicadas ou alteradas, itens do checklist marcados ou reabertos, mensagens, avisos e reuniões. Visível aos profissionais do mesmo clube.</p><label for="diaHistorico">Consultar por data</label><input id="diaHistorico" type="date" onchange="carregarHistorico()">
@@ -2232,6 +2246,70 @@ el('verificarPagamento').onclick=async()=>{
  mostrarPagamentoObrigatorio(resultado);
  el('pagamentoMsg').textContent='Ainda não recebemos a confirmação. Se acabou de pagar, aguarde alguns instantes e tente novamente.';
 };
+const nomesNovosPerfis = {presidente:'Presidente', gerente_futebol:'Gerente de Futebol', nutricionista:'Nutricionista'};
+const precisaCategoriaCadastro = perfil => ['roupeiro','nutricionista'].includes(perfil);
+const novoPerfil = (acao, dados={}) => db.rpc('perfis_clube', {p_acao:acao,p_dados:dados});
+const formNutricao = el('formNutricao');
+function cartaoNovoPerfil(titulo, texto) {
+ return '<div class="item"><b>'+esc(titulo)+'</b><p style="white-space:pre-line">'+esc(texto)+'</p></div>';
+}
+async function carregarHistoricoNutricao() {
+ const atleta = formNutricao.elements.atleta.value;
+ const box = el('historicoNutricao');
+ box.textContent = '';
+ if (!atleta) return;
+ const {data,error} = await novoPerfil('historico',{atleta});
+ if (atleta !== formNutricao.elements.atleta.value || el('painelNovosPerfis').classList.contains('hidden')) return;
+ if (error) {box.textContent=error.message;return;}
+ box.innerHTML = '<h3>Histórico do atleta</h3>'+(data.length ? data.map(n=>cartaoNovoPerfil(n.dia+' · '+n.agua+' L de água',
+  ['Alimentação: '+n.alimentacao,'Avaliação: '+n.avaliacao,'Orientações: '+n.orientacao].join('\n'))).join('') : '<p>Nenhum registro.</p>');
+}
+formNutricao.elements.atleta.onchange=()=>{
+ for (const campo of ['agua','alimentacao','avaliacao','orientacao']) formNutricao.elements[campo].value='';
+ carregarHistoricoNutricao();
+};
+formNutricao.onsubmit=async event=>{
+ event.preventDefault();
+ const botao=formNutricao.querySelector('button');
+ botao.disabled=true;
+ try {
+  const {error}=await novoPerfil('salvar',Object.fromEntries(new FormData(formNutricao)));
+  el('novoPerfilMsg').textContent=error ? error.message : 'Registro salvo.';
+  if (!error) await carregarHistoricoNutricao();
+ } finally {botao.disabled=false;}
+};
+el('sairNovoPerfil').onclick=()=>db.auth.signOut();
+async function abrirNovoPerfil(acesso) {
+ el('login').classList.add('hidden');
+ el('app').classList.add('hidden');
+ el('painelNovosPerfis').classList.remove('hidden');
+ el('tituloNovoPerfil').textContent=nomesNovosPerfis[acesso.perfil];
+ el('consultaClube').textContent='';
+ el('historicoNutricao').textContent='';
+ formNutricao.reset();
+ formNutricao.elements.atleta.replaceChildren();
+ formNutricao.classList.add('hidden');
+ el('novoPerfilMsg').textContent=acesso.aprovado ? 'Carregando…' : 'Cadastro recebido. Aguarde a aprovação do administrador do clube e entre novamente.';
+ if (!acesso.aprovado) return;
+ const nutricao=acesso.perfil==='nutricionista';
+ const {data,error}=await novoPerfil(nutricao?'atletas':'gestao');
+ if (el('painelNovosPerfis').classList.contains('hidden')) return;
+ el('novoPerfilMsg').textContent=error ? error.message : '';
+ if (error) return;
+ if (nutricao) {
+  if (!data.length) {el('novoPerfilMsg').textContent='Nenhum atleta cadastrado na sua categoria.';return;}
+  formNutricao.elements.atleta.append(new Option('Selecione o atleta',''));
+  for (const atleta of data) formNutricao.elements.atleta.append(new Option(atleta.nome,atleta.id));
+  formNutricao.elements.dia.value=new Intl.DateTimeFormat('sv-SE',{timeZone:'America/Sao_Paulo'}).format(new Date());
+  formNutricao.classList.remove('hidden');
+ } else {
+  el('novoPerfilMsg').textContent=data.clube+' · Somente consulta';
+  el('consultaClube').innerHTML='<h3>Indicadores por categoria</h3>'+
+   (data.categorias||[]).map(c=>cartaoNovoPerfil(c.nome,c.atletas+' atletas · '+c.estoque+' itens em estoque · '+c.uniformes+' uniformes')).join('')+
+   '<h3>Programação do clube</h3>'+
+   ((data.programacao||[]).map(p=>cartaoNovoPerfil(p.atividade,[p.categoria,p.dia,p.horario?.slice(0,5),p.local].filter(Boolean).join(' · '))).join('')||'<p>Nenhuma atividade no período.</p>');
+ }
+}
 async function iniciar(){
  const {data:{user},error}=await db.auth.getUser();
  if(error||!user){clubeId=null;el('login').classList.remove('hidden');el('app').classList.add('hidden');if(location.hash==='#/app')history.replaceState(null,'',location.pathname+location.search+'#/login');return}
@@ -2240,6 +2318,15 @@ async function iniciar(){
  if(ev){mensagem('loginMsg','Erro ao verificar o clube: '+ev.message);return}
  if(!vinculo){
    const meta=user.user_metadata||{};
+   const status=await novoPerfil('status');
+   if (status.error) {mensagem('loginMsg','Não foi possível consultar seu acesso: '+status.error.message);return;}
+   if (status.data) {await abrirNovoPerfil(status.data);return;}
+   if (Object.hasOwn(nomesNovosPerfis,meta.perfil_nome) && meta.novo_clube!==true) {
+    const pedido=await novoPerfil('solicitar',{perfil:meta.perfil_nome,codigo:meta.codigo_acesso,categoria:meta.categoria_nome,nome:meta.nome_responsavel});
+    if (pedido.error) {mensagem('loginMsg',pedido.error.message);mensagem('cadastroMsg',pedido.error.message);return;}
+    await abrirNovoPerfil({perfil:meta.perfil_nome,aprovado:false});
+    return;
+   }
    let erroVinculo=null;
    if(meta.novo_clube===true){
      if(!meta.clube_nome){await db.auth.signOut();mensagem('loginMsg','O nome do novo clube não foi encontrado. Faça o cadastro novamente.');return;}
@@ -2325,7 +2412,33 @@ async function carregarUsuariosApp(){
  const nomesPerfil={admin:'Administrador do clube',diretor:'Diretor',roupeiro:'Roupeiro',treinador:'Treinador',preparador_fisico:'Preparador físico',fisioterapeuta:'Fisioterapeuta',massagista:'Massagista',preparador_goleiros:'Preparador de goleiros',analista:'Analista'};
  box.innerHTML=usuarios.map(u=>'<article class="card usuario-app-card"><div class="usuario-app-top"><b>'+esc(u.nome||'Nome não informado')+'</b><span class="usuario-app-role">'+esc(nomesPerfil[u.perfil]||u.perfil||'Função não informada')+'</span></div><p>✉️ '+esc(u.email||'E-mail não disponível')+'</p><p>🏟️ '+esc(u.clube||'Clube não informado')+'</p><small class="small">Cadastro: '+(u.cadastrado_em?new Date(u.cadastrado_em).toLocaleString('pt-BR'):'Data não disponível')+'</small></article>').join('')||'<div class="card">Nenhum usuário cadastrado.</div>';
 }
+async function carregarPedidosNovosPerfis(){
+ const box=el('pedidosNovosPerfis');
+ const clube=clubeId;
+ const {data,error}=await novoPerfil('pedidos',{clube});
+ if (clube!==clubeId || perfilAtual!=='admin') return;
+ box.textContent=error ? error.message : data.length ? '' : 'Nenhum pedido de acesso.';
+ if (error) return;
+ for (const pedido of data) {
+  const linha=document.createElement('div');
+  linha.className='item';
+  const detalhes=document.createElement('p');
+  detalhes.textContent=[pedido.nome,pedido.email,nomesNovosPerfis[pedido.perfil],pedido.categoria,pedido.aprovado?'Aprovado':'Pendente'].filter(Boolean).join(' · ');
+  const botao=document.createElement('button');
+  botao.type='button';
+  botao.textContent=pedido.aprovado?'Revogar acesso':'Aprovar acesso';
+  botao.onclick=async()=>{
+   botao.disabled=true;
+   const resultado=await novoPerfil(pedido.aprovado?'revogar':'aprovar',{clube,usuario:pedido.usuario});
+   if(resultado.error){mensagem('appMsg',resultado.error.message);botao.disabled=false;return;}
+   await carregarPedidosNovosPerfis();
+  };
+  linha.append(detalhes,botao);
+  box.append(linha);
+ }
+}
 async function carregarEquipe(){
+ if(perfilAtual==='admin') await carregarPedidosNovosPerfis();
  if(!['admin','diretor'].includes(perfilAtual)||!clubeId)return;
  const box=el('listaEquipe');box.textContent='Carregando equipe...';
  const {data,error}=await db.from('usuarios-clube').select('id,usuario_id,perfil,nome').eq('clube_id',clubeId).order('id');
@@ -3152,10 +3265,10 @@ function atualizarModoCadastro(){
  el('codigoCadastro').required=!novo;
  el('perfilCadastro').required=!novo;
  el('nomeClubeCadastro').required=novo;
- el('categoriaCadastro').required=!novo&&el('perfilCadastro').value==='roupeiro';
+ el('categoriaCadastro').required=!novo&&precisaCategoriaCadastro(el('perfilCadastro').value);
 }
 el('modoCadastro').addEventListener('change',atualizarModoCadastro);
-el('perfilCadastro').addEventListener('change',()=>{const ehRoupeiro=el('perfilCadastro').value==='roupeiro';el('categoriaCadastroWrap').classList.toggle('hidden',!ehRoupeiro);el('categoriaCadastro').required=ehRoupeiro;if(!ehRoupeiro)el('categoriaCadastro').value='';});
+el('perfilCadastro').addEventListener('change',()=>{const exigeCategoria=precisaCategoriaCadastro(el('perfilCadastro').value);el('categoriaCadastroWrap').classList.toggle('hidden',!exigeCategoria);el('categoriaCadastro').required=exigeCategoria;if(!exigeCategoria)el('categoriaCadastro').value='';});
 atualizarModoCadastro();
 el('formCadastro').onsubmit=async e=>{
  e.preventDefault();limparMensagem('cadastroMsg');
@@ -3164,7 +3277,7 @@ el('formCadastro').onsubmit=async e=>{
  const codigo=String(f.get('codigo')||'').trim().toUpperCase(),categoria=String(f.get('categoria')||'').trim(),perfil=String(f.get('perfil')||'').trim();
  const nomeClube=String(f.get('nomeClube')||'').trim();
  if(senha.length<8){mensagem('cadastroMsg','A senha precisa ter pelo menos 8 caracteres.');return;}
- if(modo==='existente'&&(!codigo||!perfil||(perfil==='roupeiro'&&!categoria))){mensagem('cadastroMsg','Informe o código do clube, sua função e, se for roupeiro, sua categoria.');return;}
+ if(modo==='existente'&&(!codigo||!perfil||(precisaCategoriaCadastro(perfil)&&!categoria))){mensagem('cadastroMsg','Informe o código do clube, sua função e a categoria quando solicitada.');return;}
  if(modo==='novo'&&!nomeClube){mensagem('cadastroMsg','Informe o nome do clube.');return;}
  const perfilFinal=modo==='novo'?'admin':perfil;
  const metadados={nome_responsavel:String(f.get('nome')).trim(),perfil_nome:perfilFinal};
@@ -3182,7 +3295,7 @@ el('formCadastro').onsubmit=async e=>{
  if(data.session){mensagem('cadastroMsg','Conta criada! Configurando seu clube...');await iniciar();}
  else{mensagem('cadastroMsg','Conta criada. Se o Supabase solicitar confirmação do e-mail, confirme e depois entre com seu e-mail e senha. O clube será configurado automaticamente.');}
 };
-db.auth.onAuthStateChange((event)=>{if(event==='SIGNED_OUT'){el('dialogTse').close();el('abrirTse').classList.add('hidden');el('linkTse').value='';clubeId=null;acessoRegistradoNestaSessao=false;pagamentoAtual=null;el('app').classList.add('hidden');el('entradaCategoria').classList.add('hidden');el('pagamentoObrigatorio').classList.add('hidden');el('login').classList.remove('hidden');}});
+db.auth.onAuthStateChange((event)=>{if(event==='SIGNED_OUT'){el('painelNovosPerfis').classList.add('hidden');el('consultaClube').textContent='';el('historicoNutricao').textContent='';formNutricao.reset();formNutricao.elements.atleta.replaceChildren();el('dialogTse').close();el('abrirTse').classList.add('hidden');el('linkTse').value='';clubeId=null;acessoRegistradoNestaSessao=false;pagamentoAtual=null;el('app').classList.add('hidden');el('entradaCategoria').classList.add('hidden');el('pagamentoObrigatorio').classList.add('hidden');el('login').classList.remove('hidden');}});
 window.addEventListener('hashchange',async()=>{if(location.hash==='#/app'){const {data:{user}}=await db.auth.getUser();if(!user){history.replaceState(null,'',location.pathname+location.search+'#/login');el('app').classList.add('hidden');el('login').classList.remove('hidden');}else if(el('app').classList.contains('hidden'))await iniciar();}else if(location.hash!=='#/login'){history.replaceState(null,'',location.pathname+location.search+'#/login');}});
 
 el('formMaterial').onsubmit=async e=>{e.preventDefault();const f=new FormData(e.target);if(await salvar('estoque',{clube_id:clubeId,categoria_id:categoriaSelecionada,item:f.get('nome'),categoria:f.get('categoria'),quantidade:Number(f.get('qtd')),tamanho:f.get('tamanho')||null,observacao:f.get('obs')||null}))e.target.reset()};
