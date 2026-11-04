@@ -2034,7 +2034,17 @@ header,.brand-header{
 <label for="localTreinoDia">Data do treino</label><input id="localTreinoDia" type="date" required>
 <label for="localTreinoModalidade">Onde será o treino?</label><select id="localTreinoModalidade" required><option value="academia">Só academia</option><option value="campo">Só campo</option><option value="ambos">Academia e campo</option></select>
 <div id="localTreinoCamposWrap" class="hidden"><label for="localTreinoCampos">Quais campos serão usados?</label><input id="localTreinoCampos" maxlength="200" placeholder="Ex.: Campo 1 e Campo 2"></div>
-<button type="submit">Salvar local do treino</button><p id="localTreinoMsg" role="status"></p></form></div><div class="card" id="formProgramacaoCard"><h2>📎 Enviar arquivo da programação</h2><form id="formProgramacao"><label>Arquivo da programação</label><input id="programacaoArquivo" name="arquivo" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png,.webp,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,image/jpeg,image/png,image/webp" required><p class="small">PDF, Word, Excel ou imagem. Tamanho máximo: 20 MB. Um arquivo por semana; ao enviar outro, ele substitui o anterior.</p><button type="submit">Enviar programação</button></form><div id="programacaoMsg" class="msg hidden"></div></div></section><section id="imprensa" class="hidden"><div class="card"><h2>📸 Galeria do clube</h2><p class="small">As fotos publicadas aqui ficam visíveis para todos os usuários deste clube.</p><div id="formFotosImprensaCard"><form id="formFotosImprensa"><label>Selecionar fotos</label><input id="fotosImprensaArquivos" type="file" accept="image/jpeg,image/png,image/webp" multiple><label>Legenda (opcional)</label><textarea id="fotosImprensaLegenda" maxlength="300" placeholder="Escreva uma legenda para as fotos"></textarea><p class="small">JPG, PNG ou WEBP · até 10 MB por foto.</p><button type="submit">Publicar fotos</button></form><div id="fotosImprensaMsg" class="msg hidden"></div></div></div><div class="card"><h2>Fotos publicadas</h2><div id="galeriaImprensa" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px">Carregando fotos...</div></div></section><section id="equipe" class="hidden"><div class="card"><h2>👥 Equipe e permissões</h2><p class="small">Cada profissional escolhe sua função ao se cadastrar. O administrador continua responsável por liberar acessos de administrador e diretor.</p><div id="listaEquipe">Carregando equipe...</div><button type="button" onclick="carregarEquipe()">Atualizar equipe</button></div></section><section id="codigoClube" class="hidden"><div class="card"><h2>🔐 Código de acesso do clube</h2><p>Compartilhe este código com os profissionais do seu time. Ele permite o cadastro nas funções disponíveis, mas nunca como administrador ou diretor.</p><div id="codigoClubeAtual" style="font-size:1.5rem;font-weight:700;letter-spacing:2px;padding:12px 0">Carregando código...</div><button type="button" onclick="gerarNovoCodigoClube()">Gerar novo código</button><p class="small">Ao gerar outro código, o anterior deixa de funcionar para novos cadastros. Quem já está cadastrado continua com acesso.</p><div id="codigoClubeMsg" class="msg hidden"></div></div></section>
+<button type="submit">Salvar local do treino</button><p id="localTreinoMsg" role="status"></p></form></div><div class="card"><h2>Treino de força na academia</h2><div id="listaTrabalhosForca" aria-live="polite"></div>
+<form id="formTrabalhoForca" class="hidden">
+<label for="forcaCategoria">Categoria</label><select id="forcaCategoria" name="categoria" required></select>
+<label for="forcaDia">Data do treino</label><input id="forcaDia" name="dia" type="date" required>
+<label for="forcaExercicio">Exercício ou trabalho realizado</label><input id="forcaExercicio" name="exercicio" maxlength="160" required placeholder="Ex.: Agachamento">
+<label for="forcaEquipamento">Equipamento usado</label><input id="forcaEquipamento" name="equipamento" maxlength="120" required placeholder="Ex.: Barra e anilhas">
+<label for="forcaSeries">Séries</label><input id="forcaSeries" name="series" type="number" min="1" max="100">
+<label for="forcaReps">Repetições por série</label><input id="forcaReps" name="repeticoes" type="number" min="1" max="1000">
+<label for="forcaCarga">Carga (kg)</label><input id="forcaCarga" name="carga_kg" type="number" min="0" max="2000" step="0.01">
+<label for="forcaObs">Observações</label><textarea id="forcaObs" name="observacao" maxlength="400" placeholder="Ex.: cargas diferentes por série ou por atleta"></textarea>
+<button type="submit">Salvar exercício</button><p id="forcaMsg" role="status"></p></form></div><div class="card" id="formProgramacaoCard"><h2>📎 Enviar arquivo da programação</h2><form id="formProgramacao"><label>Arquivo da programação</label><input id="programacaoArquivo" name="arquivo" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png,.webp,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,image/jpeg,image/png,image/webp" required><p class="small">PDF, Word, Excel ou imagem. Tamanho máximo: 20 MB. Um arquivo por semana; ao enviar outro, ele substitui o anterior.</p><button type="submit">Enviar programação</button></form><div id="programacaoMsg" class="msg hidden"></div></div></section><section id="imprensa" class="hidden"><div class="card"><h2>📸 Galeria do clube</h2><p class="small">As fotos publicadas aqui ficam visíveis para todos os usuários deste clube.</p><div id="formFotosImprensaCard"><form id="formFotosImprensa"><label>Selecionar fotos</label><input id="fotosImprensaArquivos" type="file" accept="image/jpeg,image/png,image/webp" multiple><label>Legenda (opcional)</label><textarea id="fotosImprensaLegenda" maxlength="300" placeholder="Escreva uma legenda para as fotos"></textarea><p class="small">JPG, PNG ou WEBP · até 10 MB por foto.</p><button type="submit">Publicar fotos</button></form><div id="fotosImprensaMsg" class="msg hidden"></div></div></div><div class="card"><h2>Fotos publicadas</h2><div id="galeriaImprensa" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px">Carregando fotos...</div></div></section><section id="equipe" class="hidden"><div class="card"><h2>👥 Equipe e permissões</h2><p class="small">Cada profissional escolhe sua função ao se cadastrar. O administrador continua responsável por liberar acessos de administrador e diretor.</p><div id="listaEquipe">Carregando equipe...</div><button type="button" onclick="carregarEquipe()">Atualizar equipe</button></div></section><section id="codigoClube" class="hidden"><div class="card"><h2>🔐 Código de acesso do clube</h2><p>Compartilhe este código com os profissionais do seu time. Ele permite o cadastro nas funções disponíveis, mas nunca como administrador ou diretor.</p><div id="codigoClubeAtual" style="font-size:1.5rem;font-weight:700;letter-spacing:2px;padding:12px 0">Carregando código...</div><button type="button" onclick="gerarNovoCodigoClube()">Gerar novo código</button><p class="small">Ao gerar outro código, o anterior deixa de funcionar para novos cadastros. Quem já está cadastrado continua com acesso.</p><div id="codigoClubeMsg" class="msg hidden"></div></div></section>
 <section id="emblemaClube" class="hidden"><div class="card"><h2>🛡️ Emblema do time</h2><p>Escolha o escudo ou emblema oficial do clube. Ele aparecerá no painel verde-esmeralda para todos os profissionais deste clube.</p><div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin:14px 0"><div style="width:104px;height:104px;display:grid;place-items:center;background:#f4f7f5;border-radius:14px;border:1px solid #d8e2dc"><img id="emblemaPreview" alt="Prévia do emblema" style="max-width:92px;max-height:92px;object-fit:contain"></div><div style="flex:1;min-width:180px"><label for="arquivoEmblema">Selecionar imagem do emblema</label><input id="arquivoEmblema" type="file" accept="image/png,image/jpeg,image/webp,image/*" onchange="prepararEmblemaClube(event)"><p class="small">PNG, JPG ou WEBP. A imagem será ajustada automaticamente para ficar leve e nítida.</p></div></div><button type="button" id="salvarEmblemaBtn" onclick="salvarEmblemaClube()" disabled>Salvar emblema no painel</button><button type="button" class="secondary" onclick="removerEmblemaClube()">Usar iniciais do clube</button><div id="emblemaClubeMsg" class="msg hidden"></div></div></section>
 <section id="viagens" class="hidden"><div class="card"><h2>🚌 Viagens do clube</h2><p class="small">A direção publica a relação de viagens. Todos os profissionais do clube podem consultar.</p><div id="formViagemCard" class="hidden"><h3>Publicar nova viagem</h3><form id="formViagem"><label>Destino</label><input id="viagemDestino" required maxlength="120"><label>Adversário (opcional)</label><input id="viagemAdversario" maxlength="120"><label>Data e horário de saída</label><input id="viagemSaida" type="datetime-local" required><label>Previsão de retorno</label><input id="viagemRetorno" type="datetime-local"><label>Local de saída</label><input id="viagemLocalSaida" maxlength="160"><label>Observações</label><textarea id="viagemObs" rows="2" maxlength="1000"></textarea><button type="submit">Publicar viagem para todos</button></form><div id="viagemMsg" class="msg hidden"></div></div><div id="listaViagens">Carregando viagens...</div><button type="button" onclick="carregarViagens()">Atualizar viagens</button></div></section>
 <section id="historico" class="hidden"><div class="card"><h2>🕘 Histórico do clube</h2><p class="small">Registro de viagens publicadas ou alteradas, itens do checklist marcados ou reabertos, mensagens, avisos e reuniões. Visível aos profissionais do mesmo clube.</p><label for="diaHistorico">Consultar por data</label><input id="diaHistorico" type="date" onchange="carregarHistorico()">
@@ -2098,7 +2108,7 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.addEventListener('controllerchange', () => {
    if (!window.__appAtualizadoAutomaticamente) { window.__appAtualizadoAutomaticamente = true; window.location.reload(); }
   });
-  navigator.serviceWorker.register('./service-worker.js?v=88-local-treino', { updateViaCache: 'none' })
+  navigator.serviceWorker.register('./service-worker.js?v=89-forca', { updateViaCache: 'none' })
    .then(reg => reg.update())
    .catch(() => {});
  });
@@ -2530,6 +2540,7 @@ async function carregarLocaisTreino(semana,categorias,global){
  const fim=new Date(Date.parse(semana)+6*86400000).toISOString().slice(0,10),dia=el('localTreinoDia');
  dia.min=semana;dia.max=fim;
  if(!dia.value||dia.value<semana||dia.value>fim)dia.value=hojeTreino()>=semana&&hojeTreino()<=fim?hojeTreino():semana;
+ carregarTrabalhosForca(semana,fim,ids,categorias,editar);
  if(!ids.length){box.textContent='Nenhuma categoria disponível.';return;}
  box.textContent='Carregando locais…';
  const {data,error}=await db.from('locais_treino').select('categoria_id,dia,modalidade,campos').in('categoria_id',ids).gte('dia',semana).lte('dia',fim).order('dia');
@@ -2539,6 +2550,47 @@ async function carregarLocaisTreino(semana,categorias,global){
   return '<div class="item"><b>'+esc(r.dia.split('-').reverse().join('/'))+' · '+esc(nome)+'</b><br>'+esc(modalidadesLocalTreino[r.modalidade])+(r.campos?' · '+esc(r.campos):'')+'</div>';
  }).join('')||'Nenhum local registrado nesta semana.';
 }
+
+let consultaForca=0;
+async function carregarTrabalhosForca(semana,fim,ids,categorias,editar){
+ const consulta=++consultaForca,clube=clubeId,box=el('listaTrabalhosForca'),form=el('formTrabalhoForca');
+ form.classList.toggle('hidden',!editar);
+ if(editar){
+  const seletor=el('forcaCategoria'), anterior=seletor.value, dia=el('forcaDia');
+  seletor.innerHTML=el('localTreinoCategoria').innerHTML;
+  if(ids.some(id=>String(id)===anterior))seletor.value=anterior;
+  dia.min=semana;dia.max=fim;
+  if(!dia.value||dia.value<semana||dia.value>fim)dia.value=el('localTreinoDia').value;
+ }
+ if(!ids.length){box.textContent='Nenhuma categoria disponível.';return;}
+ box.textContent='Carregando exercícios…';
+ const {data,error}=await db.from('trabalhos_forca').select('*').in('categoria_id',ids).gte('dia',semana).lte('dia',fim).order('dia',{ascending:false}).order('id');
+ if(clube!==clubeId||consulta!==consultaForca||el('programacaoSemana').value!==semana)return;
+ box.innerHTML=error?'Não foi possível carregar os exercícios.':(data||[]).map(r=>{
+  const categoria=categorias.find(c=>String(c.id)===String(r.categoria_id))?.nome||'';
+  const carga=[[r.series,'séries'],[r.repeticoes,'repetições por série'],[r.carga_kg,'kg']]
+   .filter(([valor])=>valor!=null).map(([valor,unidade])=>esc(valor)+' '+unidade).join(' · ');
+  return '<div class="item"><b>'+esc(r.dia.split('-').reverse().join('/'))+' · '+esc(categoria)+'</b><br>'+
+   esc(r.exercicio)+' · '+esc(r.equipamento)+(carga?'<br>'+carga:'')+(r.observacao?'<br>'+esc(r.observacao):'')+'</div>';
+ }).join('')||'Nenhum exercício registrado nesta semana.';
+}
+el('formTrabalhoForca').onsubmit=async event=>{
+ event.preventDefault();
+ const form=event.currentTarget,f=new FormData(form),status=el('forcaMsg'),botao=form.querySelector('button');
+ const texto=nome=>f.get(nome).trim(),numero=nome=>f.get(nome)===''?null:Number(f.get(nome));
+ if(!texto('exercicio')||!texto('equipamento')){status.textContent='Informe o exercício e o equipamento.';return;}
+ botao.disabled=true;
+ try{
+  const {error}=await db.from('trabalhos_forca').insert({categoria_id:f.get('categoria'),dia:f.get('dia'),
+   exercicio:texto('exercicio'),equipamento:texto('equipamento'),series:numero('series'),
+   repeticoes:numero('repeticoes'),carga_kg:numero('carga_kg'),observacao:texto('observacao')||null});
+  status.textContent=error?'Não foi possível salvar o exercício.':'Exercício salvo.';
+  if(!error){
+   for(const nome of ['exercicio','equipamento','series','repeticoes','carga_kg','observacao'])form.elements[nome].value='';
+   await carregarProgramacao();
+  }
+ }finally{botao.disabled=false;}
+};
 
 el('localTreinoModalidade').onchange=()=>{
  const usarCampo=el('localTreinoModalidade').value!=='academia';
