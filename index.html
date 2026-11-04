@@ -1965,7 +1965,7 @@ header,.brand-header{
 <div id="controlesLinkTse" class="hidden">
 <button type="button" onclick="gerarLinkTse(this)">Gerar link para o grupo</button>
 <label for="linkTse" class="small">Copie e envie este link ao grupo de jogadores.</label><input id="linkTse" readonly onclick="this.select()">
-<p id="statusTse" role="status"></p></div><h3>Respostas do dia</h3><div id="respostasTse" aria-live="polite"></div>
+<p id="statusTse" role="status"></p></div><form id="formGps" class="hidden" onsubmit="salvarGpsTreino(event)"><h3>Lançar GPS do treino</h3><p class="small">Use a data acima. Salvar novamente substitui o registro do jogador no dia.</p><label for="gpsJogador">Jogador</label><select id="gpsJogador" name="jogador" required></select><label for="gps-minutos">Tempo de treino (min)</label><input id="gps-minutos" name="minutos" type="number" min="0" max="1440" step="0.1" required><label for="gps-distancia">Distância total (m)</label><input id="gps-distancia" name="distancia" type="number" min="0" max="200000" step="0.1" required><label for="gps-alta">Distância em alta velocidade (m)</label><input id="gps-alta" name="alta" type="number" min="0" max="200000" step="0.1" ><label for="gps-velocidade">Velocidade máxima (km/h)</label><input id="gps-velocidade" name="velocidade" type="number" min="0" max="60" step="0.1" ><label for="gps-sprints">Número de sprints</label><input id="gps-sprints" name="sprints" type="number" min="0" max="10000" step="1" ><button type="submit">Salvar GPS</button><p id="statusGps" role="status"></p></form><h3>Dados de GPS do dia</h3><div id="listaGps" aria-live="polite"></div><h3>Respostas do dia</h3><div id="respostasTse" aria-live="polite"></div>
 <button type="button" onclick="carregarTse()">Atualizar respostas</button>
 </dialog><nav class="menu-principal"><button id="navInicioBtn" onclick="aba('inicio')">Início</button><button id="navEstoqueBtn" onclick="aba('estoque')">Estoque</button><button id="navJogadoresBtn" onclick="aba('jogadores')">Jogadores</button><button id="navUniformesBtn" onclick="aba('uniformes')">Uniformes</button><button id="navLavanderiaBtn" onclick="aba('lavanderia')">Lavanderia</button><button id="navMovimentacoesBtn" onclick="aba('movimentacoes')">Saídas/Devoluções</button><button id="navRelatoriosBtn" onclick="aba('relatorios')">Relatórios</button><button id="navEntregasBtn" onclick="aba('entregas')">Entregas por jogador</button><button id="abaAcompanhamentoBtn" class="hidden" onclick="abrirAreaAcompanhamento(null)">Relatórios de campo e equipe</button><button id="abaMassagistaBtn" class="hidden" onclick="abrirAreaAcompanhamento('massagem')">Massagista</button><button id="abaFisioBtn" class="hidden" onclick="abrirAreaAcompanhamento('fisioterapia')">Fisioterapia / DM</button><button id="abaPreparadorBtn" class="hidden" onclick="abrirAreaAcompanhamento('transicao')">Preparação física</button><button id="abaGoleirosBtn" class="hidden" onclick="abrirAreaAcompanhamento('goleiros')">Preparação de goleiros</button><button id="abaTreinadorBtn" class="hidden" onclick="abrirAreaAcompanhamento('campo')">Treinos de campo</button><button id="abaVideosBtn" class="hidden" onclick="aba('videos')">Vídeos dos treinos</button><button id="abaProgramacaoBtn" class="hidden" onclick="aba('programacao')">📅 Programação semanal</button><button id="navImprensaBtn" class="hidden" onclick="aba('imprensa')">📸 Imprensa</button><button id="abaEquipeBtn" class="hidden" onclick="aba('equipe')">Equipe e acessos</button><button id="navUsuariosAppBtn" class="hidden" onclick="aba('usuariosApp')">🌐 Usuários cadastrados no app</button><button id="abaAtividadesBtn" class="hidden" onclick="aba('atividades')">Atividades</button><button id="abaCodigoBtn" class="hidden" onclick="aba('codigoClube')">Código do clube</button><button id="abaEmblemaBtn" class="hidden" onclick="aba('emblemaClube')">🛡️ Emblema do time</button><button id="navCentralGestaoBtn" class="hidden" onclick="aba('centralGestao')">📊 Central de Gestão</button><button id="navNotificacoesBtn" onclick="aba('notificacoes')">🔔 Notificações</button><button id="abaViagensBtn" onclick="aba('viagens')">🚌 Viagens</button><button id="abaChatBtn" onclick="aba('chatClube')">💬 Chat do clube</button><button id="abaHistoricoBtn" onclick="aba('historico')">🕘 Histórico</button><button id="navPerfilBtn" onclick="aba('perfil')">👤 Perfil</button></nav>
 <section id="inicio"><div class="programacao-home-panel" id="inicioProgramacaoAvisos"><h2>🔔 Programações da sua categoria</h2><div id="listaAvisosProgramacaoInicio">Carregando avisos...</div></div><div class="dashboard-heading"><div><span class="dashboard-kicker">VISÃO GERAL DO CLUBE</span><h2>Painel principal</h2><p>Organização e acompanhamento da rotina do futebol.</p></div><span class="dashboard-live">● Atualizado</span></div><div class="dashboard-grid"><button class="dashboard-tile" onclick="aba('estoque')"><span class="tile-icon">▤</span><span><b>Estoque</b><small><strong id="dashEstoque">0</strong> itens cadastrados</small></span><span class="tile-arrow">›</span></button><button class="dashboard-tile" onclick="aba('jogadores')"><span class="tile-icon">⚽</span><span><b>Jogadores</b><small><strong id="dashJogadores">0</strong> atletas</small></span><span class="tile-arrow">›</span></button><button class="dashboard-tile" onclick="aba('uniformes')"><span class="tile-icon">👕</span><span><b>Uniformes</b><small><strong id="dashUniformes">0</strong> modelos cadastrados</small></span><span class="tile-arrow">›</span></button><button class="dashboard-tile" onclick="aba('lavanderia')"><span class="tile-icon">🧺</span><span><b>Lavanderia</b><small><strong id="dashLavanderia">0</strong> peças pendentes</small></span><span class="tile-arrow">›</span></button><button id="tileComissaoBtn" class="dashboard-tile" onclick="aba('equipe')"><span class="tile-icon">👥</span><span><b>Comissão técnica</b><small>Equipe e funções</small></span><span class="tile-arrow">›</span></button><button class="dashboard-tile" onclick="aba('relatorios')"><span class="tile-icon">▥</span><span><b>Relatórios</b><small>Dados e movimentações</small></span><span class="tile-arrow">›</span></button></div><section class="dashboard-insights" aria-label="Indicadores do clube">
@@ -2085,7 +2085,7 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.addEventListener('controllerchange', () => {
    if (!window.__appAtualizadoAutomaticamente) { window.__appAtualizadoAutomaticamente = true; window.location.reload(); }
   });
-  navigator.serviceWorker.register('./service-worker.js?v=84-tse-grupo', { updateViaCache: 'none' })
+  navigator.serviceWorker.register('./service-worker.js?v=85-gps', { updateViaCache: 'none' })
    .then(reg => reg.update())
    .catch(() => {});
  });
@@ -2683,14 +2683,14 @@ async function carregarDisponibilidadeTreino(day, avisos=false){
 async function verificarAcessoTse(){
  const clube=clubeId;
  el('abrirTse').classList.add('hidden');
- for(const id of ['geracaoTse','controlesLinkTse'])el(id).classList.add('hidden');
+ for(const id of ['geracaoTse','controlesLinkTse','formGps'])el(id).classList.add('hidden');
  const [consulta,geracao]=await Promise.all([
   db.rpc('pode_consultar_tse',{p_clube:clube}),
   db.rpc('pode_usar_tse',{p_clube:clube})
  ]);
  if(clube!==clubeId)return;
  if(consulta.data===true)el('abrirTse').classList.remove('hidden');
- if(geracao.data===true)for(const id of ['geracaoTse','controlesLinkTse'])el(id).classList.remove('hidden');
+ if(geracao.data===true)for(const id of ['geracaoTse','controlesLinkTse','formGps'])el(id).classList.remove('hidden');
 }
 
 async function carregarTse(){
@@ -2698,13 +2698,43 @@ async function carregarTse(){
  if(!dia.value)dia.value=hojeTreino();
  const dataTreino=dia.value, clube=clubeId;
  box.textContent='Carregando respostas…';
- const {data,error}=await db.rpc('ler_checkins',{p_clube:clube,p_dia:dataTreino});
+ const seletor=el('gpsJogador'), escolhido=seletor.value;
+ seletor.innerHTML='<option value="">Selecione o jogador</option>'+jogadores.map(j=>'<option value="'+esc(j.id)+'">'+esc(j.nome)+'</option>').join('');
+ seletor.value=escolhido;
+ el('listaGps').textContent='Carregando GPS…';
+ const [{data,error},gps]=await Promise.all([
+  db.rpc('ler_checkins',{p_clube:clube,p_dia:dataTreino}),
+  db.rpc('ler_gps_treino',{p_clube:clube,p_dia:dataTreino})
+ ]);
  if(dia.value!==dataTreino||clube!==clubeId)return;
- if(error){box.textContent='Não foi possível carregar as respostas.';return;}
  const nomes=new Map(jogadores.map(j=>[String(j.id),j.nome]));
+ el('listaGps').innerHTML=gps.error?'Não foi possível carregar o GPS.':(gps.data||[])
+ .filter(r=>nomes.has(String(r.jogador_id)))
+ .map(r=>'<div class="item"><b>'+esc(nomes.get(String(r.jogador_id)))+'</b><br>'+[
+  [r.minutos,'min'],[r.distancia_m,'m no total'],[r.alta_velocidade_m,'m em alta velocidade'],
+  [r.velocidade_max_kmh,'km/h de máxima'],[r.sprints,'sprints']
+ ].filter(([valor])=>valor!=null).map(([valor,unidade])=>esc(valor)+' '+unidade).join(' · ')+'</div>').join('')||'Nenhum dado de GPS nesta data.';
+ if(error){box.textContent='Não foi possível carregar as respostas.';return;}
  box.innerHTML=(data||[]).filter(r=>nomes.has(String(r.jogador_id))).map(r=>'<div class="item"><b>'+esc(nomes.get(String(r.jogador_id)))+'</b><br>'+
  (r.sono===null?'Pré-treino pendente':'Sono: '+esc(r.sono)+' h · Dor: '+esc(r.dor)+'/10'+(r.regiao?' · '+esc(r.regiao):''))+
  '<br>'+(r.pse===null?'PSE pendente':'PSE: '+esc(r.pse)+'/10')+'</div>').join('')||'Nenhuma resposta nesta data.';
+}
+
+async function salvarGpsTreino(event){
+ event.preventDefault();
+ const form=event.currentTarget, dados=new FormData(form), status=el('statusGps');
+ const numero=campo=>dados.get(campo)===''?null:Number(dados.get(campo));
+ const dia=el('dataTse').value, total=numero('distancia'), alta=numero('alta');
+ if(!dia){status.textContent='Selecione a data do treino.';return;}
+ if(alta!==null&&alta>total){status.textContent='A distância em alta velocidade deve caber na distância total.';return;}
+ const botao=form.querySelector('button');
+ botao.disabled=true;
+ try{
+  const {error}=await db.rpc('salvar_gps_treino',{p_jogador:dados.get('jogador'),p_dia:dia,
+   p_minutos:numero('minutos'),p_distancia:total,p_alta:alta,p_velocidade:numero('velocidade'),p_sprints:numero('sprints')});
+  status.textContent=error?'Não foi possível salvar o GPS. Confira os dados.':'GPS salvo.';
+  if(!error)await carregarTse();
+ }finally{botao.disabled=false;}
 }
 
 async function gerarLinkTse(botao){
