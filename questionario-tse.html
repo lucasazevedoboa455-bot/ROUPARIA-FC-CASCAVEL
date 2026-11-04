@@ -7,6 +7,7 @@
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f0f6f3;color:#16372a;font:16px system-ui,sans-serif}main{max-width:540px;margin:auto;padding:24px 16px}h1{margin-bottom:4px}form{padding:18px;background:white;border-radius:14px;margin:16px 0}h2{margin-top:0}label{display:block;font-weight:600;margin:14px 0 6px}input,button{font:inherit;padding:10px;border-radius:8px}input{width:100%;border:1px solid #83988c}button{margin-top:14px;background:#086047;color:white;border:0;font-weight:700}button:disabled{opacity:.6}[role=status]{margin-bottom:0}.hint{color:#425c4f}
 #elenco{display:grid;gap:8px}.atleta{display:flex;align-items:center;gap:12px;margin:0;text-align:left}.atleta img,.atleta span{width:44px;height:44px;border-radius:50%;object-fit:cover}.atleta span{display:grid;place-items:center;background:#e7f2ec;color:#16372a}
+.mapa-corpo{display:grid;grid-template-columns:1fr 1fr;gap:10px}.mapa-corpo figure{margin:0;text-align:center}.mapa-corpo svg{display:block;width:100%;max-width:165px;margin:auto}.mapa-corpo rect{fill:#a6c9b8;stroke:#31594a;stroke-width:.8;cursor:pointer}.mapa-corpo rect:focus{stroke:#151e19;stroke-width:2;outline:none}.mapa-corpo rect[aria-pressed="true"]{fill:#bc3e36;stroke:#73251f}#campoRegiao{margin:14px 0;padding:8px;min-width:0}
 </style>
 <main>
 <h1>Questionário do treino</h1>
@@ -24,8 +25,10 @@
 <label for="dor">Qual é a intensidade da dor agora? (0 a 10)</label>
 <input id="dor" name="dor" type="number" min="0" max="10" step="1" required aria-describedby="escalaDor">
 <small id="escalaDor">0 = sem dor · 10 = dor máxima</small>
-<div id="campoRegiao" hidden><label for="regiao">Em qual região do corpo você sente dor?</label>
-<input id="regiao" name="regiao" maxlength="120" placeholder="Ex.: joelho direito ou lombar"></div>
+<fieldset id="campoRegiao" hidden><legend>Em qual região do corpo você sente dor?</legend>
+<p>Toque na região da dor. O lado direito e o esquerdo são os do seu corpo.</p>
+<div class="mapa-corpo"><figure><figcaption>Frente</figcaption><svg viewBox="0 0 110 222" aria-label="Frente" role="group"><rect x="42" y="4" width="26" height="29" rx="12" data-regiao="Cabeça" aria-label="Cabeça" role="button" tabindex="0" aria-pressed="false"><title>Cabeça</title></rect><rect x="47" y="34" width="16" height="12" rx="7" data-regiao="Pescoço" aria-label="Pescoço" role="button" tabindex="0" aria-pressed="false"><title>Pescoço</title></rect><rect x="33" y="47" width="44" height="23" rx="7" data-regiao="Peito" aria-label="Peito" role="button" tabindex="0" aria-pressed="false"><title>Peito</title></rect><rect x="35" y="71" width="40" height="24" rx="7" data-regiao="Abdômen" aria-label="Abdômen" role="button" tabindex="0" aria-pressed="false"><title>Abdômen</title></rect><rect x="44" y="96" width="22" height="14" rx="7" data-regiao="Virilha" aria-label="Virilha" role="button" tabindex="0" aria-pressed="false"><title>Virilha</title></rect><rect x="19" y="47" width="13" height="17" rx="6.5" data-regiao="Ombro direito" aria-label="Ombro direito" role="button" tabindex="0" aria-pressed="false"><title>Ombro direito</title></rect><rect x="78" y="47" width="13" height="17" rx="6.5" data-regiao="Ombro esquerdo" aria-label="Ombro esquerdo" role="button" tabindex="0" aria-pressed="false"><title>Ombro esquerdo</title></rect><rect x="16" y="65" width="15" height="28" rx="7" data-regiao="Braço direito" aria-label="Braço direito" role="button" tabindex="0" aria-pressed="false"><title>Braço direito</title></rect><rect x="79" y="65" width="15" height="28" rx="7" data-regiao="Braço esquerdo" aria-label="Braço esquerdo" role="button" tabindex="0" aria-pressed="false"><title>Braço esquerdo</title></rect><rect x="11" y="94" width="16" height="24" rx="7" data-regiao="Antebraço direito" aria-label="Antebraço direito" role="button" tabindex="0" aria-pressed="false"><title>Antebraço direito</title></rect><rect x="83" y="94" width="16" height="24" rx="7" data-regiao="Antebraço esquerdo" aria-label="Antebraço esquerdo" role="button" tabindex="0" aria-pressed="false"><title>Antebraço esquerdo</title></rect><rect x="7" y="119" width="16" height="18" rx="7" data-regiao="Mão direita" aria-label="Mão direita" role="button" tabindex="0" aria-pressed="false"><title>Mão direita</title></rect><rect x="87" y="119" width="16" height="18" rx="7" data-regiao="Mão esquerda" aria-label="Mão esquerda" role="button" tabindex="0" aria-pressed="false"><title>Mão esquerda</title></rect><rect x="33" y="110" width="21" height="33" rx="7" data-regiao="Coxa direita" aria-label="Coxa direita" role="button" tabindex="0" aria-pressed="false"><title>Coxa direita</title></rect><rect x="56" y="110" width="21" height="33" rx="7" data-regiao="Coxa esquerda" aria-label="Coxa esquerda" role="button" tabindex="0" aria-pressed="false"><title>Coxa esquerda</title></rect><rect x="33" y="144" width="21" height="17" rx="7" data-regiao="Joelho direito" aria-label="Joelho direito" role="button" tabindex="0" aria-pressed="false"><title>Joelho direito</title></rect><rect x="56" y="144" width="21" height="17" rx="7" data-regiao="Joelho esquerdo" aria-label="Joelho esquerdo" role="button" tabindex="0" aria-pressed="false"><title>Joelho esquerdo</title></rect><rect x="34" y="162" width="19" height="29" rx="7" data-regiao="Canela direita" aria-label="Canela direita" role="button" tabindex="0" aria-pressed="false"><title>Canela direita</title></rect><rect x="57" y="162" width="19" height="29" rx="7" data-regiao="Canela esquerda" aria-label="Canela esquerda" role="button" tabindex="0" aria-pressed="false"><title>Canela esquerda</title></rect><rect x="35" y="192" width="17" height="13" rx="7" data-regiao="Tornozelo direito" aria-label="Tornozelo direito" role="button" tabindex="0" aria-pressed="false"><title>Tornozelo direito</title></rect><rect x="58" y="192" width="17" height="13" rx="7" data-regiao="Tornozelo esquerdo" aria-label="Tornozelo esquerdo" role="button" tabindex="0" aria-pressed="false"><title>Tornozelo esquerdo</title></rect><rect x="28" y="206" width="24" height="12" rx="7" data-regiao="Pé direito" aria-label="Pé direito" role="button" tabindex="0" aria-pressed="false"><title>Pé direito</title></rect><rect x="58" y="206" width="24" height="12" rx="7" data-regiao="Pé esquerdo" aria-label="Pé esquerdo" role="button" tabindex="0" aria-pressed="false"><title>Pé esquerdo</title></rect></svg></figure><figure><figcaption>Costas</figcaption><svg viewBox="0 0 110 222" aria-label="Costas" role="group"><rect x="42" y="4" width="26" height="29" rx="12" data-regiao="Cabeça" aria-label="Cabeça" role="button" tabindex="0" aria-pressed="false"><title>Cabeça</title></rect><rect x="47" y="34" width="16" height="12" rx="7" data-regiao="Pescoço" aria-label="Pescoço" role="button" tabindex="0" aria-pressed="false"><title>Pescoço</title></rect><rect x="33" y="47" width="44" height="23" rx="7" data-regiao="Parte superior das costas" aria-label="Parte superior das costas" role="button" tabindex="0" aria-pressed="false"><title>Parte superior das costas</title></rect><rect x="35" y="71" width="40" height="24" rx="7" data-regiao="Lombar" aria-label="Lombar" role="button" tabindex="0" aria-pressed="false"><title>Lombar</title></rect><rect x="44" y="96" width="22" height="14" rx="7" data-regiao="Glúteos" aria-label="Glúteos" role="button" tabindex="0" aria-pressed="false"><title>Glúteos</title></rect><rect x="78" y="47" width="13" height="17" rx="6.5" data-regiao="Ombro direito" aria-label="Ombro direito" role="button" tabindex="0" aria-pressed="false"><title>Ombro direito</title></rect><rect x="19" y="47" width="13" height="17" rx="6.5" data-regiao="Ombro esquerdo" aria-label="Ombro esquerdo" role="button" tabindex="0" aria-pressed="false"><title>Ombro esquerdo</title></rect><rect x="79" y="65" width="15" height="28" rx="7" data-regiao="Braço direito" aria-label="Braço direito" role="button" tabindex="0" aria-pressed="false"><title>Braço direito</title></rect><rect x="16" y="65" width="15" height="28" rx="7" data-regiao="Braço esquerdo" aria-label="Braço esquerdo" role="button" tabindex="0" aria-pressed="false"><title>Braço esquerdo</title></rect><rect x="83" y="94" width="16" height="24" rx="7" data-regiao="Antebraço direito" aria-label="Antebraço direito" role="button" tabindex="0" aria-pressed="false"><title>Antebraço direito</title></rect><rect x="11" y="94" width="16" height="24" rx="7" data-regiao="Antebraço esquerdo" aria-label="Antebraço esquerdo" role="button" tabindex="0" aria-pressed="false"><title>Antebraço esquerdo</title></rect><rect x="87" y="119" width="16" height="18" rx="7" data-regiao="Mão direita" aria-label="Mão direita" role="button" tabindex="0" aria-pressed="false"><title>Mão direita</title></rect><rect x="7" y="119" width="16" height="18" rx="7" data-regiao="Mão esquerda" aria-label="Mão esquerda" role="button" tabindex="0" aria-pressed="false"><title>Mão esquerda</title></rect><rect x="56" y="110" width="21" height="33" rx="7" data-regiao="Posterior da coxa direita" aria-label="Posterior da coxa direita" role="button" tabindex="0" aria-pressed="false"><title>Posterior da coxa direita</title></rect><rect x="33" y="110" width="21" height="33" rx="7" data-regiao="Posterior da coxa esquerda" aria-label="Posterior da coxa esquerda" role="button" tabindex="0" aria-pressed="false"><title>Posterior da coxa esquerda</title></rect><rect x="56" y="144" width="21" height="17" rx="7" data-regiao="Joelho direito" aria-label="Joelho direito" role="button" tabindex="0" aria-pressed="false"><title>Joelho direito</title></rect><rect x="33" y="144" width="21" height="17" rx="7" data-regiao="Joelho esquerdo" aria-label="Joelho esquerdo" role="button" tabindex="0" aria-pressed="false"><title>Joelho esquerdo</title></rect><rect x="57" y="162" width="19" height="29" rx="7" data-regiao="Panturrilha direita" aria-label="Panturrilha direita" role="button" tabindex="0" aria-pressed="false"><title>Panturrilha direita</title></rect><rect x="34" y="162" width="19" height="29" rx="7" data-regiao="Panturrilha esquerda" aria-label="Panturrilha esquerda" role="button" tabindex="0" aria-pressed="false"><title>Panturrilha esquerda</title></rect><rect x="58" y="192" width="17" height="13" rx="7" data-regiao="Tendão de Aquiles direito" aria-label="Tendão de Aquiles direito" role="button" tabindex="0" aria-pressed="false"><title>Tendão de Aquiles direito</title></rect><rect x="35" y="192" width="17" height="13" rx="7" data-regiao="Tendão de Aquiles esquerdo" aria-label="Tendão de Aquiles esquerdo" role="button" tabindex="0" aria-pressed="false"><title>Tendão de Aquiles esquerdo</title></rect><rect x="58" y="206" width="24" height="12" rx="7" data-regiao="Pé direito" aria-label="Pé direito" role="button" tabindex="0" aria-pressed="false"><title>Pé direito</title></rect><rect x="28" y="206" width="24" height="12" rx="7" data-regiao="Pé esquerdo" aria-label="Pé esquerdo" role="button" tabindex="0" aria-pressed="false"><title>Pé esquerdo</title></rect></svg></figure></div>
+<input id="regiao" name="regiao" type="hidden"><p id="regiaoMarcada" aria-live="polite">Nenhuma região selecionada.</p></fieldset>
 <button type="submit">Enviar pré-treino</button><p role="status"></p>
 </form>
 <form id="pos" hidden>
@@ -83,21 +86,34 @@ if(!/^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/i.test(codigo)){
      form.reset();form.querySelector('button').disabled=false;
      form.querySelector('[role=status]').textContent='';
     }
+    marcarRegiao('');
     dor.oninput();
    };
    elenco.append(botao);
   }
  });
  const dor=pre.elements.dor,regiao=pre.elements.regiao;
+ const campoRegiao=document.getElementById('campoRegiao'), partes=[...campoRegiao.querySelectorAll('[data-regiao]')];
+ function marcarRegiao(nome){
+  regiao.value=nome;
+  for(const parte of partes)parte.setAttribute('aria-pressed',String(parte.dataset.regiao===nome));
+  document.getElementById('regiaoMarcada').textContent=nome?'Região selecionada: '+nome:'Nenhuma região selecionada.';
+ }
+ for(const parte of partes){
+  parte.onclick=()=>marcarRegiao(parte.dataset.regiao);
+  parte.onkeydown=event=>{
+   if(event.key==='Enter'||event.key===' '){event.preventDefault();parte.onclick();}
+  };
+ }
  dor.oninput=()=>{
-  regiao.required=Number(dor.value)>0;
-  document.getElementById('campoRegiao').hidden=!regiao.required;
+  campoRegiao.hidden=Number(dor.value)<=0;
+  if(campoRegiao.hidden)marcarRegiao('');
  };
  for(const form of [pre,pos]){
   form.onsubmit=async event=>{
    event.preventDefault();
    const button=form.querySelector('button'),status=form.querySelector('[role=status]');
-   if(form===pre&&regiao.required&&!regiao.value.trim()){status.textContent='Informe a região da dor.';return;}
+   if(form===pre&&!campoRegiao.hidden&&!regiao.value.trim()){status.textContent='Toque no mapa para escolher a região da dor.';return;}
    if(grupo&&!jogador)return;
    trocar.disabled=true;
    button.disabled=true;
@@ -106,7 +122,7 @@ if(!/^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/i.test(codigo)){
     const dados={p_codigo:codigo,
       p_sono:form===pre?Number(pre.elements.sono.value):null,
       p_dor:form===pre?Number(dor.value):null,
-      p_regiao:form===pre&&regiao.required?regiao.value.trim():null,
+      p_regiao:form===pre&&!campoRegiao.hidden?regiao.value.trim():null,
       p_pse:form===pos?Number(pos.elements.pse.value):null};
     if(grupo)dados.p_jogador=jogador;
     const {data,error}=await db.rpc(grupo?'responder_atleta_tse':'responder_checkin',dados);
