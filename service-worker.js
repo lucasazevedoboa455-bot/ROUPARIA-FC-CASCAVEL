@@ -1,4 +1,4 @@
-const CACHE_NAME = 'gestao-inteligente-futebol-v81-pre-treino';
+const CACHE_NAME = 'gestao-inteligente-futebol-v82-questionario';
 const APP_FILES = ['./', './index.html', './manifest.json', './app-icon.svg', './cobra-fc-cascavel.svg'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_FILES)).then(() => self.skipWaiting()));
@@ -8,7 +8,7 @@ self.addEventListener('activate', event => {
 });
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
-  if (event.request.method !== 'GET' || url.origin !== self.location.origin) return;
+  if (event.request.method !== 'GET' || url.origin !== self.location.origin || url.pathname.endsWith('/questionario-tse.html')) return;
   event.respondWith(fetch(event.request).then(response => {
     if (response && response.ok) {
       const copy = response.clone();
