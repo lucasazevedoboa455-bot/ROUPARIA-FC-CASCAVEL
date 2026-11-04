@@ -1960,12 +1960,11 @@ header,.brand-header{
 <dialog id="dialogTse" style="width:min(94vw,600px);max-height:85vh;border:0;border-radius:14px;padding:20px">
 <button type="button" onclick="el('dialogTse').close()" style="float:right">Fechar</button>
 <h2>Fisiologia</h2><p>Respostas do Questionário TSE</p>
-<div id="geracaoTse" class="hidden"><p class="small">Gere um link individual e envie ao jogador. O link recebe uma resposta antes e outra depois do treino, na data selecionada.</p>
+<div id="geracaoTse" class="hidden"><p class="small">Gere um link para o grupo. Cada jogador informa o nome e pode responder uma vez antes e uma vez depois do treino, na data selecionada.</p>
 </div><label for="dataTse">Data do treino</label><input id="dataTse" type="date" onchange="el('linkTse').value='';carregarTse()">
 <div id="controlesLinkTse" class="hidden">
-<label for="jogadorTse">Jogador</label><select id="jogadorTse" onchange="el('linkTse').value=''"></select>
-<button type="button" onclick="gerarLinkTse(this)">Gerar link individual</button>
-<label for="linkTse" class="small">Copie e envie este link somente ao jogador.</label><input id="linkTse" readonly onclick="this.select()">
+<button type="button" onclick="gerarLinkTse(this)">Gerar link para o grupo</button>
+<label for="linkTse" class="small">Copie e envie este link ao grupo de jogadores.</label><input id="linkTse" readonly onclick="this.select()">
 <p id="statusTse" role="status"></p></div><h3>Respostas do dia</h3><div id="respostasTse" aria-live="polite"></div>
 <button type="button" onclick="carregarTse()">Atualizar respostas</button>
 </dialog><nav class="menu-principal"><button id="navInicioBtn" onclick="aba('inicio')">Início</button><button id="navEstoqueBtn" onclick="aba('estoque')">Estoque</button><button id="navJogadoresBtn" onclick="aba('jogadores')">Jogadores</button><button id="navUniformesBtn" onclick="aba('uniformes')">Uniformes</button><button id="navLavanderiaBtn" onclick="aba('lavanderia')">Lavanderia</button><button id="navMovimentacoesBtn" onclick="aba('movimentacoes')">Saídas/Devoluções</button><button id="navRelatoriosBtn" onclick="aba('relatorios')">Relatórios</button><button id="navEntregasBtn" onclick="aba('entregas')">Entregas por jogador</button><button id="abaAcompanhamentoBtn" class="hidden" onclick="abrirAreaAcompanhamento(null)">Relatórios de campo e equipe</button><button id="abaMassagistaBtn" class="hidden" onclick="abrirAreaAcompanhamento('massagem')">Massagista</button><button id="abaFisioBtn" class="hidden" onclick="abrirAreaAcompanhamento('fisioterapia')">Fisioterapia / DM</button><button id="abaPreparadorBtn" class="hidden" onclick="abrirAreaAcompanhamento('transicao')">Preparação física</button><button id="abaGoleirosBtn" class="hidden" onclick="abrirAreaAcompanhamento('goleiros')">Preparação de goleiros</button><button id="abaTreinadorBtn" class="hidden" onclick="abrirAreaAcompanhamento('campo')">Treinos de campo</button><button id="abaVideosBtn" class="hidden" onclick="aba('videos')">Vídeos dos treinos</button><button id="abaProgramacaoBtn" class="hidden" onclick="aba('programacao')">📅 Programação semanal</button><button id="navImprensaBtn" class="hidden" onclick="aba('imprensa')">📸 Imprensa</button><button id="abaEquipeBtn" class="hidden" onclick="aba('equipe')">Equipe e acessos</button><button id="navUsuariosAppBtn" class="hidden" onclick="aba('usuariosApp')">🌐 Usuários cadastrados no app</button><button id="abaAtividadesBtn" class="hidden" onclick="aba('atividades')">Atividades</button><button id="abaCodigoBtn" class="hidden" onclick="aba('codigoClube')">Código do clube</button><button id="abaEmblemaBtn" class="hidden" onclick="aba('emblemaClube')">🛡️ Emblema do time</button><button id="navCentralGestaoBtn" class="hidden" onclick="aba('centralGestao')">📊 Central de Gestão</button><button id="navNotificacoesBtn" onclick="aba('notificacoes')">🔔 Notificações</button><button id="abaViagensBtn" onclick="aba('viagens')">🚌 Viagens</button><button id="abaChatBtn" onclick="aba('chatClube')">💬 Chat do clube</button><button id="abaHistoricoBtn" onclick="aba('historico')">🕘 Histórico</button><button id="navPerfilBtn" onclick="aba('perfil')">👤 Perfil</button></nav>
@@ -2086,7 +2085,7 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.addEventListener('controllerchange', () => {
    if (!window.__appAtualizadoAutomaticamente) { window.__appAtualizadoAutomaticamente = true; window.location.reload(); }
   });
-  navigator.serviceWorker.register('./service-worker.js?v=83-fisiologia', { updateViaCache: 'none' })
+  navigator.serviceWorker.register('./service-worker.js?v=84-tse-grupo', { updateViaCache: 'none' })
    .then(reg => reg.update())
    .catch(() => {});
  });
@@ -2695,11 +2694,9 @@ async function verificarAcessoTse(){
 }
 
 async function carregarTse(){
- const dia=el('dataTse'),campo=el('jogadorTse'),box=el('respostasTse');
+ const dia=el('dataTse'),box=el('respostasTse');
  if(!dia.value)dia.value=hojeTreino();
- const dataTreino=dia.value, clube=clubeId, escolha=campo.value;
- campo.innerHTML='<option value="">Selecione o jogador</option>'+jogadores.map(j=>'<option value="'+esc(j.id)+'">'+esc(j.nome)+'</option>').join('');
- campo.value=escolha;
+ const dataTreino=dia.value, clube=clubeId;
  box.textContent='Carregando respostas…';
  const {data,error}=await db.rpc('ler_checkins',{p_clube:clube,p_dia:dataTreino});
  if(dia.value!==dataTreino||clube!==clubeId)return;
@@ -2711,16 +2708,16 @@ async function carregarTse(){
 }
 
 async function gerarLinkTse(botao){
- const jogador=el('jogadorTse').value, dia=el('dataTse').value, status=el('statusTse'), link=el('linkTse');
+ const dia=el('dataTse').value, status=el('statusTse'), link=el('linkTse');
  link.value='';
- if(!jogador||!dia){status.textContent='Selecione um jogador e a data.';return;}
+ if(!dia){status.textContent='Selecione a data do treino.';return;}
  botao.disabled=true;
  try{
-  const {data,error}=await db.rpc('gerar_checkin',{p_jogador:jogador,p_dia:dia});
+  const {data,error}=await db.rpc('gerar_link_tse',{p_clube:clubeId,p_dia:dia});
   if(error){status.textContent=error.message;return;}
-  if(jogador!==el('jogadorTse').value||dia!==el('dataTse').value)return;
+  if(dia!==el('dataTse').value)return;
   const url=new URL('./questionario-tse.html',location.href);
-  url.hash=data;
+  url.hash='grupo-'+data;
   link.value=url.href;
   link.select();
   status.textContent='Link pronto para copiar.';
