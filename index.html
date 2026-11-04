@@ -2111,7 +2111,7 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.addEventListener('controllerchange', () => {
    if (!window.__appAtualizadoAutomaticamente) { window.__appAtualizadoAutomaticamente = true; window.location.reload(); }
   });
-  navigator.serviceWorker.register('./service-worker.js?v=90-preparacao', { updateViaCache: 'none' })
+  navigator.serviceWorker.register('./service-worker.js?v=91-mapa-dor', { updateViaCache: 'none' })
    .then(reg => reg.update())
    .catch(() => {});
  });
@@ -2849,6 +2849,22 @@ async function verificarAcessoTse(){
  if(geracao.data===true)for(const id of ['geracaoTse','controlesLinkTse','formGps'])el(id).classList.remove('hidden');
 }
 
+const mapaDorFisiologia=[["Frente",[[42,4,26,29,12,"Cabeça"],[47,34,16,12,7,"Pescoço"],[33,47,44,23,7,"Peito"],[35,71,40,24,7,"Abdômen"],[44,96,22,14,7,"Virilha"],[19,47,13,17,6.5,"Ombro direito"],[78,47,13,17,6.5,"Ombro esquerdo"],[16,65,15,28,7,"Braço direito"],[79,65,15,28,7,"Braço esquerdo"],[11,94,16,24,7,"Antebraço direito"],[83,94,16,24,7,"Antebraço esquerdo"],[7,119,16,18,7,"Mão direita"],[87,119,16,18,7,"Mão esquerda"],[33,110,21,33,7,"Coxa direita"],[56,110,21,33,7,"Coxa esquerda"],[33,144,21,17,7,"Joelho direito"],[56,144,21,17,7,"Joelho esquerdo"],[34,162,19,29,7,"Canela direita"],[57,162,19,29,7,"Canela esquerda"],[35,192,17,13,7,"Tornozelo direito"],[58,192,17,13,7,"Tornozelo esquerdo"],[28,206,24,12,7,"Pé direito"],[58,206,24,12,7,"Pé esquerdo"]]],["Costas",[[42,4,26,29,12,"Cabeça"],[47,34,16,12,7,"Pescoço"],[33,47,44,23,7,"Parte superior das costas"],[35,71,40,24,7,"Lombar"],[44,96,22,14,7,"Glúteos"],[78,47,13,17,6.5,"Ombro direito"],[19,47,13,17,6.5,"Ombro esquerdo"],[79,65,15,28,7,"Braço direito"],[16,65,15,28,7,"Braço esquerdo"],[83,94,16,24,7,"Antebraço direito"],[11,94,16,24,7,"Antebraço esquerdo"],[87,119,16,18,7,"Mão direita"],[7,119,16,18,7,"Mão esquerda"],[56,110,21,33,7,"Posterior da coxa direita"],[33,110,21,33,7,"Posterior da coxa esquerda"],[56,144,21,17,7,"Joelho direito"],[33,144,21,17,7,"Joelho esquerdo"],[57,162,19,29,7,"Panturrilha direita"],[34,162,19,29,7,"Panturrilha esquerda"],[58,192,17,13,7,"Tendão de Aquiles direito"],[35,192,17,13,7,"Tendão de Aquiles esquerdo"],[58,206,24,12,7,"Pé direito"],[28,206,24,12,7,"Pé esquerdo"]]]];
+
+function renderMapaDorFisiologia(regiao){
+ const regioes=String(regiao||'').trim().toLocaleLowerCase('pt-BR');
+ const vistas=mapaDorFisiologia.map(([titulo,partes])=>{
+  const destaque=partes.some(([, , , , ,nome])=>nome.toLocaleLowerCase('pt-BR')===regioes);
+  if(!destaque)return '';
+  return '<figure style="margin:8px 0"><figcaption>'+esc(titulo)+'</figcaption>'+
+   '<svg width="105" viewBox="0 0 110 222" role="img" aria-label="'+esc(titulo+': '+regiao)+'">'+
+   partes.map(([x,y,w,h,raio,nome])=>'<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="'+raio+
+    '" fill="'+(nome.toLocaleLowerCase('pt-BR')===regioes?'#bc3e36':'#a6c9b8')+'" stroke="#31594a" stroke-width=".8"/>').join('')+
+   '</svg></figure>';
+ }).join('');
+ return vistas?'<details style="margin-top:6px"><summary>Ver região no mapa do corpo</summary><div style="display:flex;gap:18px">'+vistas+'</div></details>':'';
+}
+
 async function carregarTse(){
  const dia=el('dataTse'),box=el('respostasTse');
  if(!dia.value)dia.value=hojeTreino();
@@ -2872,7 +2888,7 @@ async function carregarTse(){
  ].filter(([valor])=>valor!=null).map(([valor,unidade])=>esc(valor)+' '+unidade).join(' · ')+'</div>').join('')||'Nenhum dado de GPS nesta data.';
  if(error){box.textContent='Não foi possível carregar as respostas.';return;}
  box.innerHTML=(data||[]).filter(r=>nomes.has(String(r.jogador_id))).map(r=>'<div class="item"><b>'+esc(nomes.get(String(r.jogador_id)))+'</b><br>'+
- (r.sono===null?'Pré-treino pendente':'Sono: '+esc(r.sono)+' h · Dor: '+esc(r.dor)+'/10'+(r.regiao?' · '+esc(r.regiao):''))+
+ (r.sono===null?'Pré-treino pendente':'Sono: '+esc(r.sono)+' h · Dor: '+esc(r.dor)+'/10'+(r.regiao?' · '+esc(r.regiao)+renderMapaDorFisiologia(r.regiao):''))+
  '<br>'+(r.pse===null?'PSE pendente':'PSE: '+esc(r.pse)+'/10')+'</div>').join('')||'Nenhuma resposta nesta data.';
 }
 
