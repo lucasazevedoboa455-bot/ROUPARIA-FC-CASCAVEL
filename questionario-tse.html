@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>Questionário TSE</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f0f6f3;color:#16372a;font:16px system-ui,sans-serif}main{max-width:540px;margin:auto;padding:24px 16px}h1{margin-bottom:4px}form{padding:18px;background:white;border-radius:14px;margin:16px 0}h2{margin-top:0}label{display:block;font-weight:600;margin:14px 0 6px}input,button{font:inherit;padding:10px;border-radius:8px}input{width:100%;border:1px solid #83988c}button{margin-top:14px;background:#086047;color:white;border:0;font-weight:700}button:disabled{opacity:.6}[role=status]{margin-bottom:0}.hint{color:#425c4f}
+</style>
+<main>
+<h1>Questionário TSE</h1>
+<p class="hint">Responda antes e depois do treino. Envie cada etapa uma vez, no dia do treino.</p>
+<p id="linkErro" role="alert" hidden>Abra o link individual que o fisiologista enviou.</p>
+<form id="pre" hidden>
+<h2>Antes do treino</h2>
+<label for="sono">Quantas horas você dormiu na última noite?</label>
+<input id="sono" name="sono" type="number" inputmode="decimal" min="0" max="24" step="0.1" required>
+<label for="dor">Qual é a intensidade da dor agora? (0 a 10)</label>
+<input id="dor" name="dor" type="number" min="0" max="10" step="1" required aria-describedby="escalaDor">
+<small id="escalaDor">0 = sem dor · 10 = dor máxima</small>
+<div id="campoRegiao" hidden><label for="regiao">Em qual região do corpo você sente dor?</label>
+<input id="regiao" name="regiao" maxlength="120" placeholder="Ex.: joelho direito ou lombar"></div>
+<button type="submit">Enviar pré-treino</button><p role="status"></p>
+</form>
+<form id="pos" hidden>
+<h2>Depois do treino</h2>
+<label for="pse">Quanto esforço você sentiu durante o treino? (PSE de 0 a 10)</label>
+<input id="pse" name="pse" type="number" min="0" max="10" step="1" required aria-describedby="escalaPse">
+<small id="escalaPse">0 = nenhum esforço · 10 = esforço máximo</small><br>
+<button type="submit">Enviar PSE</button><p role="status"></p>
+</form>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL='https://tcgwafifjtqcgmzfesfk.supabase.co';
+const SUPABASE_KEY='sb_publishable_VQT7oxscxB1yQH1kWj4ipQ_gNhtv3ZJ';
+const codigo=location.hash.slice(1);
+const pre=document.getElementById('pre'),pos=document.getElementById('pos');
+if(!/^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/i.test(codigo)){
+ document.getElementById('linkErro').hidden=false;
+}else{
+ const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}});
+ pre.hidden=pos.hidden=false;
+ const dor=pre.elements.dor,regiao=pre.elements.regiao;
+ dor.oninput=()=>{
+  regiao.required=Number(dor.value)>0;
+  document.getElementById('campoRegiao').hidden=!regiao.required;
+ };
+ for(const form of [pre,pos]){
+  form.onsubmit=async event=>{
+   event.preventDefault();
+   const button=form.querySelector('button'),status=form.querySelector('[role=status]');
+   if(form===pre&&regiao.required&&!regiao.value.trim()){status.textContent='Informe a região da dor.';return;}
+   button.disabled=true;
+   status.textContent='Enviando…';
+   try{
+    const {data,error}=await db.rpc('responder_checkin',{p_codigo:codigo,
+      p_sono:form===pre?Number(pre.elements.sono.value):null,
+      p_dor:form===pre?Number(dor.value):null,
+      p_regiao:form===pre&&regiao.required?regiao.value.trim():null,
+      p_pse:form===pos?Number(pos.elements.pse.value):null});
+    if(error)throw error;
+    status.textContent=data?'Resposta enviada ao fisiologista.':'Confira a data do treino. Esta etapa pode já ter sido enviada.';
+    if(!data)button.disabled=false;
+   }catch{status.textContent='Não foi possível enviar. Tente novamente.';button.disabled=false;}
+  };
+ }
+}
+</script>
+</html>
