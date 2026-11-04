@@ -1960,7 +1960,7 @@ header,.brand-header{
 <dialog id="dialogTse" style="width:min(94vw,600px);max-height:85vh;border:0;border-radius:14px;padding:20px">
 <button type="button" onclick="el('dialogTse').close()" style="float:right">Fechar</button>
 <h2>Fisiologia</h2><p>Respostas do Questionário TSE</p>
-<div id="geracaoTse" class="hidden"><p class="small">Gere um link para o grupo. Cada jogador informa o nome e pode responder uma vez antes e uma vez depois do treino, na data selecionada.</p>
+<div id="geracaoTse" class="hidden"><p class="small">Gere um link para o grupo. Cada jogador toca no próprio nome ou na foto e pode responder uma vez antes e uma vez depois do treino, na data selecionada.</p>
 </div><label for="dataTse">Data do treino</label><input id="dataTse" type="date" onchange="el('linkTse').value='';carregarTse()">
 <div id="controlesLinkTse" class="hidden">
 <button type="button" onclick="gerarLinkTse(this)">Gerar link para o grupo</button>
@@ -2092,7 +2092,7 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.addEventListener('controllerchange', () => {
    if (!window.__appAtualizadoAutomaticamente) { window.__appAtualizadoAutomaticamente = true; window.location.reload(); }
   });
-  navigator.serviceWorker.register('./service-worker.js?v=86-historico', { updateViaCache: 'none' })
+  navigator.serviceWorker.register('./service-worker.js?v=87-elenco-tse', { updateViaCache: 'none' })
    .then(reg => reg.update())
    .catch(() => {});
  });
@@ -2783,7 +2783,15 @@ async function gerarLinkTse(botao){
  if(!dia){status.textContent='Selecione a data do treino.';return;}
  botao.disabled=true;
  try{
-  const {data,error}=await db.rpc('gerar_link_tse',{p_clube:clubeId,p_dia:dia});
+  const clube=clubeId, fotos={};
+  const elenco=await db.from('jogadores').select('id,foto_path').eq('clube_id',clube).not('foto_path','is',null);
+  if(elenco.data?.length){
+   const idsPorFoto=new Map(elenco.data.map(j=>[j.foto_path,j.id]));
+   const assinadas=await db.storage.from('fotos-jogadores').createSignedUrls([...idsPorFoto.keys()],8*86400);
+   for(const foto of assinadas.data||[])if(foto.signedUrl)fotos[idsPorFoto.get(foto.path)]=foto.signedUrl;
+  }
+  if(clube!==clubeId||dia!==el('dataTse').value)return;
+  const {data,error}=await db.rpc('gerar_lista_tse',{p_clube:clube,p_dia:dia,p_fotos:fotos});
   if(error){status.textContent=error.message;return;}
   if(dia!==el('dataTse').value)return;
   const url=new URL('./questionario-tse.html',location.href);
