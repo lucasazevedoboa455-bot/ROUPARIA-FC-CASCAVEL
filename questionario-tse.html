@@ -10,7 +10,11 @@
 <main>
 <h1>Questionário TSE</h1>
 <p class="hint">Responda antes e depois do treino. Envie cada etapa uma vez, no dia do treino.</p>
-<p id="linkErro" role="alert" hidden>Abra o link individual que o fisiologista enviou.</p>
+<p id="linkErro" role="alert" hidden>Abra o link que o fisiologista enviou.</p>
+<section id="identificacao" hidden>
+<label for="nome">Seu nome como está cadastrado no clube</label><input id="nome" maxlength="160" autocomplete="name" required>
+<label for="camisa">Número da camisa (se houver outro jogador com o mesmo nome)</label><input id="camisa" type="number" min="0" max="9999" step="1">
+</section>
 <form id="pre" hidden>
 <h2>Antes do treino</h2>
 <label for="sono">Quantas horas você dormiu na última noite?</label>
@@ -34,13 +38,17 @@
 <script>
 const SUPABASE_URL='https://tcgwafifjtqcgmzfesfk.supabase.co';
 const SUPABASE_KEY='sb_publishable_VQT7oxscxB1yQH1kWj4ipQ_gNhtv3ZJ';
-const codigo=location.hash.slice(1);
+const hash=location.hash.slice(1);
+const grupo=hash.startsWith('grupo-');
+const codigo=grupo?hash.slice(6):hash;
+const nome=document.getElementById('nome'),camisa=document.getElementById('camisa');
 const pre=document.getElementById('pre'),pos=document.getElementById('pos');
 if(!/^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/i.test(codigo)){
  document.getElementById('linkErro').hidden=false;
 }else{
  const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}});
  pre.hidden=pos.hidden=false;
+ document.getElementById('identificacao').hidden=!grupo;
  const dor=pre.elements.dor,regiao=pre.elements.regiao;
  dor.oninput=()=>{
   regiao.required=Number(dor.value)>0;
@@ -51,16 +59,19 @@ if(!/^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/i.test(codigo)){
    event.preventDefault();
    const button=form.querySelector('button'),status=form.querySelector('[role=status]');
    if(form===pre&&regiao.required&&!regiao.value.trim()){status.textContent='Informe a região da dor.';return;}
+   if(grupo&&(!nome.value.trim()||!nome.reportValidity()||!camisa.reportValidity())){status.textContent='Informe seu nome e confira o número da camisa.';nome.focus();return;}
    button.disabled=true;
    status.textContent='Enviando…';
    try{
-    const {data,error}=await db.rpc('responder_checkin',{p_codigo:codigo,
+    const dados={p_codigo:codigo,
       p_sono:form===pre?Number(pre.elements.sono.value):null,
       p_dor:form===pre?Number(dor.value):null,
       p_regiao:form===pre&&regiao.required?regiao.value.trim():null,
-      p_pse:form===pos?Number(pos.elements.pse.value):null});
+      p_pse:form===pos?Number(pos.elements.pse.value):null};
+    if(grupo)Object.assign(dados,{p_nome:nome.value.trim(),p_camisa:camisa.value===''?null:Number(camisa.value)});
+    const {data,error}=await db.rpc(grupo?'responder_link_tse':'responder_checkin',dados);
     if(error)throw error;
-    status.textContent=data?'Resposta enviada ao fisiologista.':'Confira a data do treino. Esta etapa pode já ter sido enviada.';
+    status.textContent=data?'Resposta enviada ao fisiologista.':'Confira o nome cadastrado e a data do treino. Esta etapa pode já ter sido enviada.';
     if(!data)button.disabled=false;
    }catch{status.textContent='Não foi possível enviar. Tente novamente.';button.disabled=false;}
   };
