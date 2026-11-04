@@ -6,15 +6,17 @@
 <title>Questionário TSE</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f0f6f3;color:#16372a;font:16px system-ui,sans-serif}main{max-width:540px;margin:auto;padding:24px 16px}h1{margin-bottom:4px}form{padding:18px;background:white;border-radius:14px;margin:16px 0}h2{margin-top:0}label{display:block;font-weight:600;margin:14px 0 6px}input,button{font:inherit;padding:10px;border-radius:8px}input{width:100%;border:1px solid #83988c}button{margin-top:14px;background:#086047;color:white;border:0;font-weight:700}button:disabled{opacity:.6}[role=status]{margin-bottom:0}.hint{color:#425c4f}
+#elenco{display:grid;gap:8px}.atleta{display:flex;align-items:center;gap:12px;margin:0;text-align:left}.atleta img,.atleta span{width:44px;height:44px;border-radius:50%;object-fit:cover}.atleta span{display:grid;place-items:center;background:#e7f2ec;color:#16372a}
 </style>
 <main>
 <h1>Questionário do treino</h1>
 
 <p id="linkErro" role="alert" hidden>Abra o link que o fisiologista enviou.</p>
 <section id="identificacao" hidden>
-<label for="nome">Seu nome como está cadastrado no clube</label><input id="nome" maxlength="160" autocomplete="name" required>
-<label for="camisa">Número da camisa (se houver outro jogador com o mesmo nome)</label><input id="camisa" type="number" min="0" max="9999" step="1">
+<h2>Toque no seu nome ou na sua foto</h2>
+<div id="elenco" aria-live="polite">Carregando jogadores…</div>
 </section>
+<p id="selecionado" hidden></p><button id="trocar" type="button" hidden>Trocar jogador</button>
 <form id="pre" hidden>
 <h2>Antes do treino</h2>
 <label for="sono">Quantas horas você dormiu na última noite?</label>
@@ -41,14 +43,51 @@ const SUPABASE_KEY='sb_publishable_VQT7oxscxB1yQH1kWj4ipQ_gNhtv3ZJ';
 const hash=location.hash.slice(1);
 const grupo=hash.startsWith('grupo-');
 const codigo=grupo?hash.slice(6):hash;
-const nome=document.getElementById('nome'),camisa=document.getElementById('camisa');
+let jogador=null;
 const pre=document.getElementById('pre'),pos=document.getElementById('pos');
 if(!/^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/i.test(codigo)){
  document.getElementById('linkErro').hidden=false;
 }else{
  const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}});
- pre.hidden=pos.hidden=false;
- document.getElementById('identificacao').hidden=!grupo;
+ const identificacao=document.getElementById('identificacao'), elenco=document.getElementById('elenco');
+ const selecionado=document.getElementById('selecionado'), trocar=document.getElementById('trocar');
+ pre.hidden=pos.hidden=grupo;
+ identificacao.hidden=!grupo;
+ trocar.onclick=()=>{
+  jogador=null;
+  pre.hidden=pos.hidden=selecionado.hidden=trocar.hidden=true;
+  identificacao.hidden=false;
+ };
+ if(grupo)db.rpc('elenco_tse',{p_codigo:codigo}).then(({data,error})=>{
+  elenco.replaceChildren();
+  if(error||!data?.length){elenco.textContent='A lista não está disponível. Confira o dia do treino e o link enviado.';return;}
+  for(const atleta of data){
+   const botao=document.createElement('button'), inicial=document.createElement('span');
+   botao.type='button';botao.className='atleta';
+   inicial.textContent=atleta.nome.trim().slice(0,1).toUpperCase();
+   inicial.setAttribute('aria-hidden','true');
+   if(atleta.foto){
+    const foto=document.createElement('img');
+    foto.alt='';foto.loading='lazy';foto.referrerPolicy='no-referrer';
+    foto.onerror=()=>foto.replaceWith(inicial);
+    foto.src=atleta.foto;
+    botao.append(foto);
+   }else botao.append(inicial);
+   botao.append(document.createTextNode(atleta.nome+(atleta.camisa==null?'':' · '+atleta.camisa)));
+   botao.onclick=()=>{
+    jogador=atleta.jogador_id;
+    selecionado.textContent=atleta.nome;
+    identificacao.hidden=true;
+    pre.hidden=pos.hidden=selecionado.hidden=trocar.hidden=false;
+    for(const form of [pre,pos]){
+     form.reset();form.querySelector('button').disabled=false;
+     form.querySelector('[role=status]').textContent='';
+    }
+    dor.oninput();
+   };
+   elenco.append(botao);
+  }
+ });
  const dor=pre.elements.dor,regiao=pre.elements.regiao;
  dor.oninput=()=>{
   regiao.required=Number(dor.value)>0;
@@ -59,7 +98,8 @@ if(!/^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/i.test(codigo)){
    event.preventDefault();
    const button=form.querySelector('button'),status=form.querySelector('[role=status]');
    if(form===pre&&regiao.required&&!regiao.value.trim()){status.textContent='Informe a região da dor.';return;}
-   if(grupo&&(!nome.value.trim()||!nome.reportValidity()||!camisa.reportValidity())){status.textContent='Informe seu nome e confira o número da camisa.';nome.focus();return;}
+   if(grupo&&!jogador)return;
+   trocar.disabled=true;
    button.disabled=true;
    status.textContent='Enviando…';
    try{
@@ -68,12 +108,12 @@ if(!/^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/i.test(codigo)){
       p_dor:form===pre?Number(dor.value):null,
       p_regiao:form===pre&&regiao.required?regiao.value.trim():null,
       p_pse:form===pos?Number(pos.elements.pse.value):null};
-    if(grupo)Object.assign(dados,{p_nome:nome.value.trim(),p_camisa:camisa.value===''?null:Number(camisa.value)});
-    const {data,error}=await db.rpc(grupo?'responder_link_tse':'responder_checkin',dados);
+    if(grupo)dados.p_jogador=jogador;
+    const {data,error}=await db.rpc(grupo?'responder_atleta_tse':'responder_checkin',dados);
     if(error)throw error;
-    status.textContent=data?'Resposta enviada ao fisiologista.':'Confira o nome cadastrado e a data do treino. Esta etapa pode já ter sido enviada.';
+    status.textContent=data?'Resposta enviada ao fisiologista.':'Confira a data do treino. Esta etapa pode já ter sido enviada.';
     if(!data)button.disabled=false;
-   }catch{status.textContent='Não foi possível enviar. Tente novamente.';button.disabled=false;}
+   }catch{status.textContent='Não foi possível enviar. Tente novamente.';button.disabled=false;}finally{trocar.disabled=false;}
   };
  }
 }
