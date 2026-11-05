@@ -1922,7 +1922,7 @@ header,.brand-header{
 <label>O que deseja fazer?</label><select name="modoCadastro" id="modoCadastro" required><option value="existente">Entrar em um clube existente</option><option value="novo">Cadastrar meu clube</option></select>
 <div id="cadastroClubeExistente">
 <label>Código de acesso do clube</label><input name="codigo" id="codigoCadastro" maxlength="30" autocomplete="off" placeholder="Ex.: FCC001">
-<label>Sua função</label><select name="perfil" id="perfilCadastro"><option value="">Selecione sua função</option><option value="roupeiro">Roupeiro</option><option value="treinador">Treinador</option><option value="preparador_fisico">Preparador físico</option><option value="fisioterapeuta">Fisioterapeuta</option><option value="massagista">Massagista</option><option value="preparador_goleiros">Preparador de goleiros</option><option value="analista">Analista</option><option value="imprensa">Imprensa</option><option value="presidente">Presidente</option><option value="gerente_futebol">Gerente de Futebol</option><option value="nutricionista">Nutricionista</option></select>
+<label>Sua função</label><select name="perfil" id="perfilCadastro"><option value="">Selecione sua função</option><option value="roupeiro">Roupeiro</option><option value="treinador">Treinador</option><option value="preparador_fisico">Preparador físico</option><option value="fisiologista">Fisiologia (Fisiologista)</option><option value="fisioterapeuta">Fisioterapeuta</option><option value="massagista">Massagista</option><option value="preparador_goleiros">Preparador de goleiros</option><option value="analista">Analista</option><option value="imprensa">Imprensa</option><option value="presidente">Presidente</option><option value="gerente_futebol">Gerente de Futebol</option><option value="nutricionista">Nutricionista</option></select>
 <div id="categoriaCadastroWrap"><label>Sua categoria (para roupeiro)</label><select name="categoria" id="categoriaCadastro"><option value="">Selecione sua categoria</option><option>Profissional</option><option>Sub-20</option><option>Sub-17</option><option>Sub-15</option><option>Sub-13</option></select></div>
 </div>
 <div id="cadastroClubeNovo" class="hidden">
@@ -2125,7 +2125,7 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.addEventListener('controllerchange', () => {
    if (!window.__appAtualizadoAutomaticamente) { window.__appAtualizadoAutomaticamente = true; window.location.reload(); }
   });
-  navigator.serviceWorker.register('./service-worker.js?v=91-mapa-dor', { updateViaCache: 'none' })
+  navigator.serviceWorker.register('./service-worker.js?v=92-cadastro-fisiologia', { updateViaCache: 'none' })
    .then(reg => reg.update())
    .catch(() => {});
  });
@@ -2247,7 +2247,7 @@ el('verificarPagamento').onclick=async()=>{
  el('pagamentoMsg').textContent='Ainda não recebemos a confirmação. Se acabou de pagar, aguarde alguns instantes e tente novamente.';
 };
 const nomesNovosPerfis = {presidente:'Presidente', gerente_futebol:'Gerente de Futebol', nutricionista:'Nutricionista'};
-const precisaCategoriaCadastro = perfil => ['roupeiro','nutricionista'].includes(perfil);
+const precisaCategoriaCadastro = perfil => ['roupeiro','nutricionista','fisiologista'].includes(perfil);
 const novoPerfil = (acao, dados={}) => db.rpc('perfis_clube', {p_acao:acao,p_dados:dados});
 const formNutricao = el('formNutricao');
 function cartaoNovoPerfil(titulo, texto) {
@@ -2333,7 +2333,7 @@ async function iniciar(){
      const criado=await db.rpc('criar_clube_do_usuario',{p_nome:String(meta.clube_nome),p_cor_primaria:String(meta.cor_primaria||'#009739'),p_cor_secundaria:String(meta.cor_secundaria||'#FFDF00'),p_cor_terciaria:String(meta.cor_terciaria||'#002776')});
      erroVinculo=criado.error;
    }else{
-     if(!meta.codigo_acesso||!meta.perfil_nome||(meta.perfil_nome==='roupeiro'&&!meta.categoria_nome)){
+     if(!meta.codigo_acesso||!meta.perfil_nome||(precisaCategoriaCadastro(meta.perfil_nome)&&!meta.categoria_nome)){
        await db.auth.signOut();
        mensagem('loginMsg','Esta conta ainda não está vinculada a um clube. Faça o cadastro usando o código do clube fornecido pelo administrador.');
        return;
@@ -2409,7 +2409,7 @@ async function carregarUsuariosApp(){
  if(error){resumo.textContent='Não foi possível consultar os cadastros: '+error.message;return;}
  const usuarios=data||[];
  resumo.textContent=usuarios.length+' conta(s) cadastrada(s) em todos os clubes.';
- const nomesPerfil={admin:'Administrador do clube',diretor:'Diretor',roupeiro:'Roupeiro',treinador:'Treinador',preparador_fisico:'Preparador físico',fisioterapeuta:'Fisioterapeuta',massagista:'Massagista',preparador_goleiros:'Preparador de goleiros',analista:'Analista'};
+ const nomesPerfil={admin:'Administrador do clube',diretor:'Diretor',roupeiro:'Roupeiro',treinador:'Treinador',preparador_fisico:'Preparador físico',fisioterapeuta:'Fisioterapeuta',fisiologista:'Fisiologista',massagista:'Massagista',preparador_goleiros:'Preparador de goleiros',analista:'Analista'};
  box.innerHTML=usuarios.map(u=>'<article class="card usuario-app-card"><div class="usuario-app-top"><b>'+esc(u.nome||'Nome não informado')+'</b><span class="usuario-app-role">'+esc(nomesPerfil[u.perfil]||u.perfil||'Função não informada')+'</span></div><p>✉️ '+esc(u.email||'E-mail não disponível')+'</p><p>🏟️ '+esc(u.clube||'Clube não informado')+'</p><small class="small">Cadastro: '+(u.cadastrado_em?new Date(u.cadastrado_em).toLocaleString('pt-BR'):'Data não disponível')+'</small></article>').join('')||'<div class="card">Nenhum usuário cadastrado.</div>';
 }
 async function carregarEquipe(){
