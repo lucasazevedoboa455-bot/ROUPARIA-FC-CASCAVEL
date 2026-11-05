@@ -2124,7 +2124,7 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.addEventListener('controllerchange', () => {
    if (!window.__appAtualizadoAutomaticamente) { window.__appAtualizadoAutomaticamente = true; window.location.reload(); }
   });
-  navigator.serviceWorker.register('./service-worker.js?v=93-cadastro-diretor', { updateViaCache: 'none' })
+  navigator.serviceWorker.register('./service-worker.js?v=95-dotcon-turquesa', { updateViaCache: 'none' })
    .then(reg => reg.update())
    .catch(() => {});
  });
