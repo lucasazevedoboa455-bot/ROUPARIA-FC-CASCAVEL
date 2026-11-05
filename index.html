@@ -3011,6 +3011,7 @@ async function gerarLinkTse(botao){
   if(error){status.textContent=error.message;return;}
   if(dia!==el('dataTse').value)return;
   const url=new URL('./questionario-tse.html',location.href);
+  url.searchParams.set('v','mapa-51');
   url.hash='grupo-'+data;
   link.value=url.href;
   link.select();
