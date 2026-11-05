@@ -1922,7 +1922,7 @@ header,.brand-header{
 <label>O que deseja fazer?</label><select name="modoCadastro" id="modoCadastro" required><option value="existente">Entrar em um clube existente</option><option value="novo">Cadastrar meu clube</option></select>
 <div id="cadastroClubeExistente">
 <label>Código de acesso do clube</label><input name="codigo" id="codigoCadastro" maxlength="30" autocomplete="off" placeholder="Ex.: FCC001">
-<label>Sua função</label><select name="perfil" id="perfilCadastro"><option value="">Selecione sua função</option><option value="roupeiro">Roupeiro</option><option value="treinador">Treinador</option><option value="preparador_fisico">Preparador físico</option><option value="fisiologista">Fisiologia (Fisiologista)</option><option value="fisioterapeuta">Fisioterapeuta</option><option value="massagista">Massagista</option><option value="preparador_goleiros">Preparador de goleiros</option><option value="analista">Analista</option><option value="imprensa">Imprensa</option><option value="presidente">Presidente</option><option value="gerente_futebol">Gerente de Futebol</option><option value="nutricionista">Nutricionista</option></select>
+<label>Sua função</label><select name="perfil" id="perfilCadastro"><option value="">Selecione sua função</option><option value="roupeiro">Roupeiro</option><option value="treinador">Treinador</option><option value="preparador_fisico">Preparador físico</option><option value="fisiologista">Fisiologia (Fisiologista)</option><option value="fisioterapeuta">Fisioterapeuta</option><option value="massagista">Massagista</option><option value="preparador_goleiros">Preparador de goleiros</option><option value="analista">Analista</option><option value="imprensa">Imprensa</option><option value="diretor">Diretor</option><option value="presidente">Presidente</option><option value="gerente_futebol">Gerente de Futebol</option><option value="nutricionista">Nutricionista</option></select>
 <div id="categoriaCadastroWrap"><label>Sua categoria (para roupeiro)</label><select name="categoria" id="categoriaCadastro"><option value="">Selecione sua categoria</option><option>Profissional</option><option>Sub-20</option><option>Sub-17</option><option>Sub-15</option><option>Sub-13</option></select></div>
 </div>
 <div id="cadastroClubeNovo" class="hidden">
@@ -2125,7 +2125,7 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.addEventListener('controllerchange', () => {
    if (!window.__appAtualizadoAutomaticamente) { window.__appAtualizadoAutomaticamente = true; window.location.reload(); }
   });
-  navigator.serviceWorker.register('./service-worker.js?v=92-cadastro-fisiologia', { updateViaCache: 'none' })
+  navigator.serviceWorker.register('./service-worker.js?v=93-cadastro-diretor', { updateViaCache: 'none' })
    .then(reg => reg.update())
    .catch(() => {});
  });
@@ -2246,7 +2246,7 @@ el('verificarPagamento').onclick=async()=>{
  mostrarPagamentoObrigatorio(resultado);
  el('pagamentoMsg').textContent='Ainda não recebemos a confirmação. Se acabou de pagar, aguarde alguns instantes e tente novamente.';
 };
-const nomesNovosPerfis = {presidente:'Presidente', gerente_futebol:'Gerente de Futebol', nutricionista:'Nutricionista'};
+const nomesNovosPerfis = {diretor:'Diretor', presidente:'Presidente', gerente_futebol:'Gerente de Futebol', nutricionista:'Nutricionista'};
 const precisaCategoriaCadastro = perfil => ['roupeiro','nutricionista','fisiologista'].includes(perfil);
 const novoPerfil = (acao, dados={}) => db.rpc('perfis_clube', {p_acao:acao,p_dados:dados});
 const formNutricao = el('formNutricao');
