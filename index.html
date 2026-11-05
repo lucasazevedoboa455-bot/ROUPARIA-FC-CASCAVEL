@@ -2379,7 +2379,7 @@ el('clubName').textContent=clube?.nome||'Minha rouparia';
  const iniciais=String(clube?.nome||'FC').trim().split(/\\s+/).filter(Boolean).slice(0,2).map(p=>p[0]).join('').toUpperCase();el('escudoIniciaisClube').textContent=iniciais||'FC';el('escudoClube').title='Identidade visual de '+(clube?.nome||'seu clube'); const nomeClubeEscudo=String(clube?.nome||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase();const usarEscudoFCC=nomeClubeEscudo.includes('cascavel');el('app').classList.toggle('tema-fc-cascavel',usarEscudoFCC);if(clube?.emblema_url){atualizarEmblemaNoPainel(clube.emblema_url);}else{atualizarEmblemaNoPainel('');}
  el('status').textContent='Perfil: '+(vinculo.perfil||'usuário');
  const nomeExibicao=String(clube?.nome||'Meu clube').trim();const titulo=el('nomeClubeTopo');if(titulo)titulo.textContent='⚽ '+nomeExibicao;document.title=nomeExibicao;const metaApp=document.querySelector('meta[name="apple-mobile-web-app-title"]');if(metaApp)metaApp.setAttribute('content',nomeExibicao);
- if(clube){document.documentElement.style.setProperty('--club-primary',clube.cor_primaria||'#009739');document.documentElement.style.setProperty('--club-secondary',clube.cor_secundaria||'#FFDF00');document.documentElement.style.setProperty('--club-tertiary',clube.cor_terciaria||'#002776');}
+ el('app').dataset.clubeId=String(clubeId); if(clube){document.documentElement.style.setProperty('--club-primary',clube.cor_primaria||'#009739');document.documentElement.style.setProperty('--club-secondary',clube.cor_secundaria||'#FFDF00');document.documentElement.style.setProperty('--club-tertiary',clube.cor_terciaria||'#002776');}
  el('login').classList.add('hidden');
  if(perfilAtual==='roupeiro'){
    if(!categoriaEscolhidaAntesLogin){el('login').classList.remove('hidden');el('app').classList.add('hidden');mensagem('loginMsg','Selecione sua categoria antes de entrar.');await db.auth.signOut();return;}
@@ -3736,6 +3736,28 @@ body:has(#app:not(.hidden)) #app #perfil button{
 #escudoClube{border:2px solid #d9b65a!important;border-radius:12px!important;box-shadow:0 0 0 2px rgba(217,182,90,.18),0 3px 9px rgba(0,0,0,.22)!important;background:transparent!important}
 #escudoClube .escudo-oficial-clube{z-index:1}
 #escudoIniciaisClube{position:relative;z-index:1}
+</style>
+
+<style id="tema-dotcon-fut7-v1">
+/* Tema restrito ao clube Dotcon (id 12); demais clubes mantêm suas cores. */
+#app[data-clube-id="12"] .club-top-card,
+#app[data-clube-id="12"] .card.club-top-card,
+body:has(#app[data-clube-id="12"]:not(.hidden)) #app nav.menu-principal,
+body:has(#app[data-clube-id="12"]:not(.hidden)) #app #perfil,
+body:has(#app[data-clube-id="12"]:not(.hidden)) #app #perfil>.card,
+body:has(#app[data-clube-id="12"]:not(.hidden)) #app #perfil .card {
+ background:linear-gradient(115deg,#075e57 0%,#0b8f81 60%,#0fffdF 100%)!important;
+ border-color:#0fffdf!important;
+ border-bottom-color:#0fffdf!important;
+ color:#fff!important;
+}
+body:has(#app[data-clube-id="12"]:not(.hidden)) #app nav.menu-principal button.active,
+body:has(#app[data-clube-id="12"]:not(.hidden)) #app nav.menu-principal button.ativo,
+body:has(#app[data-clube-id="12"]:not(.hidden)) #app nav.menu-principal button[aria-current="page"],
+body:has(#app[data-clube-id="12"]:not(.hidden)) #app #perfil button {
+ background:#0fffdf!important;color:#000!important;border-color:#0fffdf!important;
+}
+#app[data-clube-id="12"] .club-top-card .btn-sair{border-color:#0fffdf!important}
 </style>
 </body>
 </html>
