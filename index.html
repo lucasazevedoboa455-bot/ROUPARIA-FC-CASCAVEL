@@ -2934,19 +2934,85 @@ async function verificarAcessoTse(){
  if(geracao.data===true)for(const id of ['geracaoTse','controlesLinkTse','formGps'])el(id).classList.remove('hidden');
 }
 
-const mapaDorFisiologia=[["Frente",[["M55 4C46 4 42 10 43 20Q44 30 55 34Q66 30 67 20C68 10 64 4 55 4Z","","Cabeça"],["M49 31Q55 35 61 31L63 40 70 44H40L47 40Z","","Pescoço"],["M40 43Q55 46 70 43L76 50 72 65Q70 70 70 73H40Q40 70 38 65L34 50Z","","Peito"],["M40 73H70Q68 84 75 96Q55 101 35 96Q42 84 40 73Z","","Abdômen"],["M35 96Q55 101 75 96L76 109Q64 109 55 117Q46 109 34 109Z","","Virilha"],["M40 43Q24 42 21 57L23 64 36 65 38 60 34 50Z","","Ombro direito"],["M40 43Q24 42 21 57L23 64 36 65 38 60 34 50Z"," transform=\"translate(110 0) scale(-1 1)\"","Ombro esquerdo"],["M23 64L36 65Q35 76 29 88L18 86Q19 72 23 64Z","","Braço direito"],["M23 64L36 65Q35 76 29 88L18 86Q19 72 23 64Z"," transform=\"translate(110 0) scale(-1 1)\"","Braço esquerdo"],["M18 86L29 88Q26 100 19 112L11 110Q12 97 18 86Z","","Antebraço direito"],["M18 86L29 88Q26 100 19 112L11 110Q12 97 18 86Z"," transform=\"translate(110 0) scale(-1 1)\"","Antebraço esquerdo"],["M11 110L19 112Q20 121 16 125L14 121Q10 134 7 130Q5 123 11 110Z","","Mão direita"],["M11 110L19 112Q20 121 16 125L14 121Q10 134 7 130Q5 123 11 110Z"," transform=\"translate(110 0) scale(-1 1)\"","Mão esquerda"],["M34 109Q46 109 55 117Q53 136 49 149H36Q31 128 34 109Z","","Coxa direita"],["M34 109Q46 109 55 117Q53 136 49 149H36Q31 128 34 109Z"," transform=\"translate(110 0) scale(-1 1)\"","Coxa esquerda"],["M36 149H49L48 162H37Z","","Joelho direito"],["M36 149H49L48 162H37Z"," transform=\"translate(110 0) scale(-1 1)\"","Joelho esquerdo"],["M37 162H48Q50 174 45 193H37Q33 173 37 162Z","","Canela direita"],["M37 162H48Q50 174 45 193H37Q33 173 37 162Z"," transform=\"translate(110 0) scale(-1 1)\"","Canela esquerda"],["M37 193H45L45 205H36Z","","Tornozelo direito"],["M37 193H45L45 205H36Z"," transform=\"translate(110 0) scale(-1 1)\"","Tornozelo esquerdo"],["M36 205H45Q49 214 44 216H27Q24 213 36 205Z","","Pé direito"],["M36 205H45Q49 214 44 216H27Q24 213 36 205Z"," transform=\"translate(110 0) scale(-1 1)\"","Pé esquerdo"]]],["Costas",[["M55 4C46 4 42 10 43 20Q44 30 55 34Q66 30 67 20C68 10 64 4 55 4Z","","Cabeça"],["M49 31Q55 35 61 31L63 40 70 44H40L47 40Z","","Pescoço"],["M40 43Q55 46 70 43L76 50 72 65Q70 70 70 73H40Q40 70 38 65L34 50Z","","Parte superior das costas"],["M40 73H70Q68 84 75 96Q55 101 35 96Q42 84 40 73Z","","Lombar"],["M35 96Q55 101 75 96L76 109Q64 109 55 117Q46 109 34 109Z","","Glúteos"],["M40 43Q24 42 21 57L23 64 36 65 38 60 34 50Z"," transform=\"translate(110 0) scale(-1 1)\"","Ombro direito"],["M40 43Q24 42 21 57L23 64 36 65 38 60 34 50Z","","Ombro esquerdo"],["M23 64L36 65Q35 76 29 88L18 86Q19 72 23 64Z"," transform=\"translate(110 0) scale(-1 1)\"","Braço direito"],["M23 64L36 65Q35 76 29 88L18 86Q19 72 23 64Z","","Braço esquerdo"],["M18 86L29 88Q26 100 19 112L11 110Q12 97 18 86Z"," transform=\"translate(110 0) scale(-1 1)\"","Antebraço direito"],["M18 86L29 88Q26 100 19 112L11 110Q12 97 18 86Z","","Antebraço esquerdo"],["M11 110L19 112Q20 121 16 125L14 121Q10 134 7 130Q5 123 11 110Z"," transform=\"translate(110 0) scale(-1 1)\"","Mão direita"],["M11 110L19 112Q20 121 16 125L14 121Q10 134 7 130Q5 123 11 110Z","","Mão esquerda"],["M34 109Q46 109 55 117Q53 136 49 149H36Q31 128 34 109Z"," transform=\"translate(110 0) scale(-1 1)\"","Posterior da coxa direita"],["M34 109Q46 109 55 117Q53 136 49 149H36Q31 128 34 109Z","","Posterior da coxa esquerda"],["M36 149H49L48 162H37Z"," transform=\"translate(110 0) scale(-1 1)\"","Joelho direito"],["M36 149H49L48 162H37Z","","Joelho esquerdo"],["M37 162H48Q50 174 45 193H37Q33 173 37 162Z"," transform=\"translate(110 0) scale(-1 1)\"","Panturrilha direita"],["M37 162H48Q50 174 45 193H37Q33 173 37 162Z","","Panturrilha esquerda"],["M37 193H45L45 205H36Z"," transform=\"translate(110 0) scale(-1 1)\"","Tendão de Aquiles direito"],["M37 193H45L45 205H36Z","","Tendão de Aquiles esquerdo"],["M36 205H45Q49 214 44 216H27Q24 213 36 205Z"," transform=\"translate(110 0) scale(-1 1)\"","Pé direito"],["M36 205H45Q49 214 44 216H27Q24 213 36 205Z","","Pé esquerdo"]]]];
+const mapaDorFisiologia = [
+ ["Frente", [
+  ["M55 4C47 4 43 9 43 17C39 17 41 25 45 25C46 29 50 33 55 34C60 33 64 29 65 25C69 25 71 17 67 17C67 9 63 4 55 4Z","","Cabeça"],
+  ["M49 31Q55 35 61 31C61 38 64 41 70 43Q55 48 40 43C46 41 49 38 49 31Z","","Pescoço"],
+  ["M40 43Q47 45.5 55 45.5V75Q47 75 40 73C38 64 35 59 34 50Z","","Peitoral direito"],
+  ["M40 43Q47 45.5 55 45.5V75Q47 75 40 73C38 64 35 59 34 50Z"," transform=\"translate(110 0) scale(-1 1)\"","Peitoral esquerdo"],
+  ["M40 73Q55 77 70 73Q69 79 70 85Q55 89 40 85Q41 79 40 73Z","","Abdômen superior"],
+  ["M40 85Q55 89 70 85Q71 91 75 96Q55 103 35 96Q39 91 40 85Z","","Abdômen inferior"],
+  ["M35 96Q55 101 75 96L76 109Q64 109 55 117Q46 109 34 109Z","","Virilha"],
+  ["M40 43Q24 42 21 57L23 64 36 65 38 60 34 50Z","","Ombro direito"],
+  ["M40 43Q24 42 21 57L23 64 36 65 38 60 34 50Z"," transform=\"translate(110 0) scale(-1 1)\"","Ombro esquerdo"],
+  ["M23 64L36 65Q35 76 29 88L18 86Q19 72 23 64Z","","Braço direito"],
+  ["M23 64L36 65Q35 76 29 88L18 86Q19 72 23 64Z"," transform=\"translate(110 0) scale(-1 1)\"","Braço esquerdo"],
+  ["M18 86L29 88Q26 100 19 112L11 110Q12 97 18 86Z","","Antebraço direito"],
+  ["M18 86L29 88Q26 100 19 112L11 110Q12 97 18 86Z"," transform=\"translate(110 0) scale(-1 1)\"","Antebraço esquerdo"],
+  ["M11 110L19 112C20 117 20 122 18 124C16 125 16 120 15 120L12 130Q11 133 10 130L11 124L8 132Q6 133 7 129L8 123L5 129Q3 130 4 126Q5 117 11 110Z","","Mão direita"],
+  ["M11 110L19 112C20 117 20 122 18 124C16 125 16 120 15 120L12 130Q11 133 10 130L11 124L8 132Q6 133 7 129L8 123L5 129Q3 130 4 126Q5 117 11 110Z"," transform=\"translate(110 0) scale(-1 1)\"","Mão esquerda"],
+  ["M34 109Q46 109 55 117Q53 136 49 149H36Q31 128 34 109Z","","Coxa direita"],
+  ["M34 109Q46 109 55 117Q53 136 49 149H36Q31 128 34 109Z"," transform=\"translate(110 0) scale(-1 1)\"","Coxa esquerda"],
+  ["M36 149Q43 152 49 149Q50 155 48 162Q42 165 37 162Q35 156 36 149Z","","Joelho direito"],
+  ["M36 149Q43 152 49 149Q50 155 48 162Q42 165 37 162Q35 156 36 149Z"," transform=\"translate(110 0) scale(-1 1)\"","Joelho esquerdo"],
+  ["M37 162Q42 165 48 162C52 174 46 184 45 193H37C36 182 32 173 37 162Z","","Canela direita"],
+  ["M37 162Q42 165 48 162C52 174 46 184 45 193H37C36 182 32 173 37 162Z"," transform=\"translate(110 0) scale(-1 1)\"","Canela esquerda"],
+  ["M37 193H45L45 205H36Z","","Tornozelo direito"],
+  ["M37 193H45L45 205H36Z"," transform=\"translate(110 0) scale(-1 1)\"","Tornozelo esquerdo"],
+  ["M36 205H45C46 210 48 214 45 216C41 218 31 218 27 216C24 214 28 211 36 205Z","","Pé direito"],
+  ["M36 205H45C46 210 48 214 45 216C41 218 31 218 27 216C24 214 28 211 36 205Z"," transform=\"translate(110 0) scale(-1 1)\"","Pé esquerdo"]
+ ], "M48 17q3-2 5 0m4 0q2-2 5 0m-7 2-1 5h2m-4 4q3 1 6 0M44 51q6-2 11 2 5-4 11-2M55 54v10m-16-5q6 7 14 5m4 0q8 2 14-5M55 78v15m-9-11q4-2 9 0 5-2 9 0m-17 6q4-2 8 0 4-2 8 0M41 116q-4 13 1 28m27-28q4 13-1 28M42 168v20m26-20v20"],
+ ["Costas", [
+  ["M55 4C47 4 43 9 43 17C39 17 41 25 45 25C46 29 50 33 55 34C60 33 64 29 65 25C69 25 71 17 67 17C67 9 63 4 55 4Z","","Cabeça"],
+  ["M49 31Q55 35 61 31C61 38 64 41 70 43Q55 48 40 43C46 41 49 38 49 31Z","","Pescoço"],
+  ["M40 43Q47 45.5 55 45.5V75Q47 75 40 73C38 64 35 59 34 50Z","","Escápula esquerda"],
+  ["M40 43Q47 45.5 55 45.5V75Q47 75 40 73C38 64 35 59 34 50Z"," transform=\"translate(110 0) scale(-1 1)\"","Escápula direita"],
+  ["M40 73Q47 75 55 75V98.5Q45 98.5 35 96C40 88 42 82 40 73Z","","Lombar esquerda"],
+  ["M40 73Q47 75 55 75V98.5Q45 98.5 35 96C40 88 42 82 40 73Z"," transform=\"translate(110 0) scale(-1 1)\"","Lombar direita"],
+  ["M35 96Q45 98.5 55 98.5V117Q46 109 34 109Z","","Glúteo esquerdo"],
+  ["M35 96Q45 98.5 55 98.5V117Q46 109 34 109Z"," transform=\"translate(110 0) scale(-1 1)\"","Glúteo direito"],
+  ["M40 43Q24 42 21 57L23 64 36 65 38 60 34 50Z"," transform=\"translate(110 0) scale(-1 1)\"","Ombro direito"],
+  ["M40 43Q24 42 21 57L23 64 36 65 38 60 34 50Z","","Ombro esquerdo"],
+  ["M23 64L36 65Q35 76 29 88L18 86Q19 72 23 64Z"," transform=\"translate(110 0) scale(-1 1)\"","Braço direito"],
+  ["M23 64L36 65Q35 76 29 88L18 86Q19 72 23 64Z","","Braço esquerdo"],
+  ["M18 86L29 88Q26 100 19 112L11 110Q12 97 18 86Z"," transform=\"translate(110 0) scale(-1 1)\"","Antebraço direito"],
+  ["M18 86L29 88Q26 100 19 112L11 110Q12 97 18 86Z","","Antebraço esquerdo"],
+  ["M11 110L19 112C20 117 20 122 18 124C16 125 16 120 15 120L12 130Q11 133 10 130L11 124L8 132Q6 133 7 129L8 123L5 129Q3 130 4 126Q5 117 11 110Z"," transform=\"translate(110 0) scale(-1 1)\"","Mão direita"],
+  ["M11 110L19 112C20 117 20 122 18 124C16 125 16 120 15 120L12 130Q11 133 10 130L11 124L8 132Q6 133 7 129L8 123L5 129Q3 130 4 126Q5 117 11 110Z","","Mão esquerda"],
+  ["M34 109Q46 109 55 117Q53 136 49 149H36Q31 128 34 109Z"," transform=\"translate(110 0) scale(-1 1)\"","Posterior da coxa direita"],
+  ["M34 109Q46 109 55 117Q53 136 49 149H36Q31 128 34 109Z","","Posterior da coxa esquerda"],
+  ["M36 149Q43 152 49 149Q50 155 48 162Q42 165 37 162Q35 156 36 149Z"," transform=\"translate(110 0) scale(-1 1)\"","Joelho direito"],
+  ["M36 149Q43 152 49 149Q50 155 48 162Q42 165 37 162Q35 156 36 149Z","","Joelho esquerdo"],
+  ["M37 162Q42 165 48 162C52 174 46 184 45 193H37C36 182 32 173 37 162Z"," transform=\"translate(110 0) scale(-1 1)\"","Panturrilha direita"],
+  ["M37 162Q42 165 48 162C52 174 46 184 45 193H37C36 182 32 173 37 162Z","","Panturrilha esquerda"],
+  ["M37 193H45L45 205H36Z"," transform=\"translate(110 0) scale(-1 1)\"","Tendão de Aquiles direito"],
+  ["M37 193H45L45 205H36Z","","Tendão de Aquiles esquerdo"],
+  ["M36 205H45C46 210 48 214 45 216C41 218 31 218 27 216C24 214 28 211 36 205Z"," transform=\"translate(110 0) scale(-1 1)\"","Pé direito"],
+  ["M36 205H45C46 210 48 214 45 216C41 218 31 218 27 216C24 214 28 211 36 205Z","","Pé esquerdo"]
+ ], "M44 15q11-7 22 0M47 27q8 4 16 0M55 44v49M44 48q-3 10 5 16m17-16q3 10-5 16M43 74q4 8 8 13m16-13q-4 8-8 13M55 103v10m-15-9q5 5 11 5m19-5q-5 5-11 5M42 115q-2 14 1 27m25-27q2 14-1 27M41 168q-3 10 1 17m27-17q3 10-1 17"]
+];
+
+const regioesAnterioresTse = {
+ 'peito': ['Peitoral direito', 'Peitoral esquerdo'],
+ 'abdômen': ['Abdômen superior', 'Abdômen inferior'],
+ 'parte superior das costas': ['Escápula esquerda', 'Escápula direita'],
+ 'lombar': ['Lombar esquerda', 'Lombar direita'],
+ 'glúteos': ['Glúteo esquerdo', 'Glúteo direito']
+};
 
 function renderMapaDorFisiologia(regiao){
- const regioes=String(regiao||'').trim().toLocaleLowerCase('pt-BR');
- const vistas=mapaDorFisiologia.map(([titulo,partes])=>{
-  const destaque=partes.some(([,,nome])=>nome.toLocaleLowerCase('pt-BR')===regioes);
-  if(!destaque)return '';
-  return '<figure style="margin:8px 0"><figcaption>'+esc(titulo)+'</figcaption>'+
-   '<svg width="145" style="max-width:100%;height:auto" viewBox="0 0 110 222" role="img" aria-label="'+esc(titulo+': '+regiao)+'">'+
-   partes.map(([contorno,espelho,nome])=>'<path d="'+contorno+'"'+espelho+' fill="'+(nome.toLocaleLowerCase('pt-BR')===regioes?'#bc3e36':'#a6c9b8')+'" stroke="#31594a" stroke-width=".65" stroke-linejoin="round"/>').join('')+
+ const nomeSalvo=String(regiao||'').trim().toLocaleLowerCase('pt-BR');
+ const anteriores=regioesAnterioresTse[nomeSalvo]||[];
+ const marcada=nome=>nome.toLocaleLowerCase('pt-BR')===nomeSalvo||anteriores.includes(nome);
+ const vistas=mapaDorFisiologia.map(([titulo,partes,detalhes])=>{
+  if(!partes.some(([,,nome])=>marcada(nome)))return '';
+  return '<figure style="margin:0;text-align:center;background:#eef7f3;border-radius:12px;padding:6px"><figcaption>'+esc(titulo)+'</figcaption>'+
+   '<svg width="145" style="display:block;max-width:100%;height:auto" viewBox="0 0 110 222" role="img" aria-label="'+esc(titulo+': '+regiao)+'">'+
+   partes.map(([contorno,espelho,nome])=>'<path d="'+contorno+'"'+espelho+' fill="'+(marcada(nome)?'#bc3e36':'#b5d4c7')+'" stroke="#447265" stroke-width=".65" stroke-linejoin="round"/>').join('')+
+   '<path d="'+detalhes+'" fill="none" stroke="#173b31" stroke-opacity=".38" stroke-width=".85" stroke-linecap="round"/>'+
    '</svg></figure>';
  }).join('');
- return vistas?'<details style="margin-top:6px"><summary>Ver região no mapa do corpo</summary><div style="display:flex;gap:18px">'+vistas+'</div></details>':'';
+ return vistas?'<div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px">'+vistas+'</div>':'';
 }
 
 async function carregarTse(){
