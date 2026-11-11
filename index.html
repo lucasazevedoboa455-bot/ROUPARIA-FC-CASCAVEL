@@ -2241,7 +2241,7 @@ el('verificarPagamento').onclick=async()=>{
  const resultado=await solicitarStatusPagamento();
  botao.disabled=false;
  if(resultado.error){el('pagamentoMsg').textContent=resultado.error;return;}
- if(resultado.paid){el('pagamentoObrigatorio').classList.add('hidden');await iniciar();return;}
+ if(resultado.paid||resultado.required===false||resultado.exempt===true){el('pagamentoObrigatorio').classList.add('hidden');await iniciar();return;}
  mostrarPagamentoObrigatorio(resultado);
  el('pagamentoMsg').textContent='Ainda não recebemos a confirmação. Se acabou de pagar, aguarde alguns instantes e tente novamente.';
 };
