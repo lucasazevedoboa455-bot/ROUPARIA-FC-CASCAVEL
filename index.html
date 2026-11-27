@@ -2124,7 +2124,7 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.addEventListener('controllerchange', () => {
    if (!window.__appAtualizadoAutomaticamente) { window.__appAtualizadoAutomaticamente = true; window.location.reload(); }
   });
-  navigator.serviceWorker.register('./service-worker.js?v=96-cascavel-home', { updateViaCache: 'none' })
+  navigator.serviceWorker.register('./service-worker.js?v=97-cascavel-premium', { updateViaCache: 'none' })
    .then(reg => reg.update())
    .catch(() => {});
  });
@@ -3923,6 +3923,26 @@ body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) .brand-h
 #app:is([data-clube-id="1"],[data-clube-id="3"]) #inicio .dashboard-tile .tile-arrow{display:none!important}
 #app:is([data-clube-id="1"],[data-clube-id="3"]) #inicio :is(.dashboard-insights,.insight-metric,.insight-panel){background:#fff!important;color:#111!important;border:1px solid #e5e5e5!important;border-radius:16px!important}
 #app:is([data-clube-id="1"],[data-clube-id="3"]) #inicio .insight-metric :is(b,small,em){color:#222!important}
+</style>
+
+<style id="cascavel-premium-v97">
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app:is([data-clube-id="1"],[data-clube-id="3"]) .club-top-card{background:#fff!important;background-image:none!important;border:1px solid #e5e5e5!important;box-shadow:0 4px 18px #00000012!important;color:#111!important}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app:is([data-clube-id="1"],[data-clube-id="3"]) .club-top-card :is(#clubName,#status,.club-title-wrap,.club-title-wrap *){color:#111!important;-webkit-text-fill-color:#111!important}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app:is([data-clube-id="1"],[data-clube-id="3"]) .club-top-card .btn-sair{background:#ffcf00!important;color:#111!important;-webkit-text-fill-color:#111!important;border:0!important}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app:is([data-clube-id="1"],[data-clube-id="3"]) nav.menu-principal{background:#111!important;background-image:none!important;border:0!important;border-bottom:3px solid #ffcf00!important}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app:is([data-clube-id="1"],[data-clube-id="3"]) nav.menu-principal button:not(.hidden){background:#222!important;color:#fff!important;-webkit-text-fill-color:#fff!important;border:1px solid #444!important}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app:is([data-clube-id="1"],[data-clube-id="3"]) nav.menu-principal button:is(.active,.ativo,[aria-current="page"]){background:#ffcf00!important;color:#111!important;-webkit-text-fill-color:#111!important}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app:is([data-clube-id="1"],[data-clube-id="3"]) #inicio .programacao-home-panel{background:linear-gradient(105deg,#101010 0%,#101010 40%,#10101066 100%),repeating-linear-gradient(155deg,#111 0 40px,#ffcf00 40px 80px)!important;border:0!important}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app:is([data-clube-id="1"],[data-clube-id="3"]) #inicio .programacao-home-panel>h2{color:#fff!important;-webkit-text-fill-color:#fff!important}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app:is([data-clube-id="1"],[data-clube-id="3"]) #inicio .programacao-home-panel>h2:after{content:"  •  FC Cascavel";color:#ffcf00;font-size:.65em}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app:is([data-clube-id="1"],[data-clube-id="3"]) #inicio .programacao-aviso{background:#fff!important;color:#111!important;border-radius:12px!important;padding:12px!important}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app:is([data-clube-id="1"],[data-clube-id="3"]) #inicio .programacao-aviso :is(p,small,.small){color:#333!important}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app:is([data-clube-id="1"],[data-clube-id="3"]) #inicio .dashboard-tile:not(.hidden){min-height:112px!important}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app:is([data-clube-id="1"],[data-clube-id="3"]) #inicio .dashboard-tile .tile-icon{background:#ffcf00!important;color:#111!important}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app:is([data-clube-id="1"],[data-clube-id="3"]) #inicio .dashboard-heading{padding:12px 0!important}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app:is([data-clube-id="1"],[data-clube-id="3"]) nav.menu-inferior{background:#111!important;border-top:3px solid #ffcf00!important}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app:is([data-clube-id="1"],[data-clube-id="3"]) nav.menu-inferior button:not(.hidden){color:#fff!important}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app:is([data-clube-id="1"],[data-clube-id="3"]) nav.menu-inferior button:is(.active,.ativo,[aria-current="page"]){background:#ffcf00!important;color:#111!important}
 </style>
 </body>
 </html>
