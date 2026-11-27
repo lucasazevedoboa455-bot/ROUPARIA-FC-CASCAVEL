@@ -3906,5 +3906,23 @@ body:has(#app[data-clube-id="1"]:not(.hidden)) #app .club-top-card {
  background-image:linear-gradient(115deg,#075c45 0%,#078966 100%)!important;
 }
 </style>
+
+<style id="cascavel-home-refresh">
+/* Scoped visual refresh: Cascavel only. Existing controls and permissions unchanged. */
+body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) .brand-header{background:linear-gradient(120deg,#101010 55%,#37300b 100%)!important;border-bottom:4px solid #f5c400!important}
+#app:is([data-clube-id="1"],[data-clube-id="3"]) .club-top-card{background:linear-gradient(120deg,#111 65%,#39300a)!important;border:1px solid #f5c400!important;border-radius:18px!important;color:#fff!important}
+#app:is([data-clube-id="1"],[data-clube-id="3"]) .club-top-card :is(#clubName,#status,.club-title-wrap){color:#fff!important}
+#app:is([data-clube-id="1"],[data-clube-id="3"]) #inicio:not(.hidden){background:#f7f7f5!important;color:#151515!important}
+#app:is([data-clube-id="1"],[data-clube-id="3"]) #inicio .programacao-home-panel{background:linear-gradient(115deg,#151515,#37300b)!important;color:#fff!important;border:1px solid #f5c400!important;border-radius:18px!important;padding:20px!important}
+#app:is([data-clube-id="1"],[data-clube-id="3"]) #inicio .programacao-home-panel>h2{color:#ffda27!important}
+#app:is([data-clube-id="1"],[data-clube-id="3"]) #inicio :is(.dashboard-heading,.insights-head) :is(h2,h3,p,.dashboard-kicker){color:#171717!important}
+#app:is([data-clube-id="1"],[data-clube-id="3"]) #inicio .dashboard-grid{grid-template-columns:repeat(auto-fit,minmax(130px,1fr))!important;gap:12px!important}
+#app:is([data-clube-id="1"],[data-clube-id="3"]) #inicio .dashboard-tile:not(.hidden){display:flex!important;flex-direction:column!important;align-items:center!important;text-align:center!important;justify-content:center!important;min-height:130px;background:#fff!important;color:#111!important;border:1px solid #e4e4e4!important;border-radius:16px!important;box-shadow:0 3px 12px #0000000c!important}
+#app:is([data-clube-id="1"],[data-clube-id="3"]) #inicio .dashboard-tile :is(b,small,strong){color:#171717!important}
+#app:is([data-clube-id="1"],[data-clube-id="3"]) #inicio .dashboard-tile .tile-icon{background:#ffdc32!important;color:#111!important}
+#app:is([data-clube-id="1"],[data-clube-id="3"]) #inicio .dashboard-tile .tile-arrow{display:none!important}
+#app:is([data-clube-id="1"],[data-clube-id="3"]) #inicio :is(.dashboard-insights,.insight-metric,.insight-panel){background:#fff!important;color:#111!important;border:1px solid #e5e5e5!important;border-radius:16px!important}
+#app:is([data-clube-id="1"],[data-clube-id="3"]) #inicio .insight-metric :is(b,small,em){color:#222!important}
+</style>
 </body>
 </html>
