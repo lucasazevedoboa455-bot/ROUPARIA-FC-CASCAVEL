@@ -2124,7 +2124,7 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.addEventListener('controllerchange', () => {
    if (!window.__appAtualizadoAutomaticamente) { window.__appAtualizadoAutomaticamente = true; window.location.reload(); }
   });
-  navigator.serviceWorker.register('./service-worker.js?v=107-modern-navigation', { updateViaCache: 'none' })
+  navigator.serviceWorker.register('./service-worker.js?v=108-modern-clean', { updateViaCache: 'none' })
    .then(reg => reg.update())
    .catch(() => {});
  });
@@ -4067,5 +4067,12 @@ html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #ap
 #app[data-clube-id]:not([data-clube-id="1"]):not([data-clube-id="3"]) #inicio .dashboard-tile{border-radius:16px!important;background:white!important;min-height:90px}
 #app[data-clube-id]:not([data-clube-id="1"]):not([data-clube-id="3"]) #inicio .dashboard-tile .tile-icon{background:var(--modern-accent)!important;color:#161616!important}
 #app[data-clube-id]:not([data-clube-id="1"]):not([data-clube-id="3"]) #inicio .dashboard-grid{grid-template-columns:repeat(auto-fit,minmax(105px,1fr))!important}
-</style><style id="modern-navigation-v107">#app #modernQuickNav{display:flex;flex-wrap:wrap;gap:6px;padding:8px;background:#fff;border-radius:14px;margin:8px 0}#app #modernQuickNav button{flex:1;min-width:55px;padding:10px 5px;background:var(--club-primary,#174b39)!important;color:white!important;border-radius:9px;font-size:12px}#app:is([data-clube-id="1"],[data-clube-id="3"]) #modernQuickNav{background:#171717}#app:is([data-clube-id="1"],[data-clube-id="3"]) #modernQuickNav button{background:#ffcf00!important;color:#111!important}</style></body>
+</style><style id="modern-navigation-v107">#app #modernQuickNav{display:flex;flex-wrap:wrap;gap:6px;padding:8px;background:#fff;border-radius:14px;margin:8px 0}#app #modernQuickNav button{flex:1;min-width:55px;padding:10px 5px;background:var(--club-primary,#174b39)!important;color:white!important;border-radius:9px;font-size:12px}#app:is([data-clube-id="1"],[data-clube-id="3"]) #modernQuickNav{background:#171717}#app:is([data-clube-id="1"],[data-clube-id="3"]) #modernQuickNav button{background:#ffcf00!important;color:#111!important}</style><style id="modern-clean-v108">
+html body #app[data-clube-id] #inicio #cascavelWelcome .cas-welcome-crest{display:none!important}
+html body #app[data-clube-id] #inicio #modernQuickNav button{border:0!important;box-shadow:none!important}
+html body #app[data-clube-id] #inicio #casJogos2027 h2,html body #app[data-clube-id] #inicio #casJogos2027 p{color:#fff!important;-webkit-text-fill-color:#fff!important}
+html body #app[data-clube-id] #inicio #casJogos2027 img{border-radius:50%;object-fit:contain}
+html body #app[data-clube-id] .club-top-card{padding:10px!important;min-height:0!important}
+html body #app[data-clube-id] .club-top-card #escudoClube{display:none!important}
+</style></body>
 </html>
