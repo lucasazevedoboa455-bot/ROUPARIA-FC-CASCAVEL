@@ -4186,5 +4186,11 @@ html body #app#app[data-clube-id] #inicio .dashboard-grid{grid-template-columns:
 html body #app#app[data-clube-id] #inicio .dashboard-grid button.dashboard-tile{background:#191b20!important;border:1px solid #41454d!important;border-radius:14px!important;min-height:120px!important;padding:9px!important}
 html body #app#app[data-clube-id] #inicio .dashboard-grid button.dashboard-tile b{font-size:12px!important;overflow-wrap:anywhere}
 html body #app#app[data-clube-id] :is(.insights-grid,.insights-bottom){background:transparent!important}
-</style></body>
+</style><style id="single-nav-v119">
+html body #app#app[data-clube-id] #homeModulesToggle{display:block!important;position:fixed;bottom:calc(12px + env(safe-area-inset-bottom));right:12px;z-index:1001;background:var(--club-secondary,#c9a653)!important;color:#111!important;border-radius:14px!important;padding:13px!important}
+html body #app#app[data-clube-id] nav.menu-principal{display:none!important}
+html body #app#app[data-clube-id].home-menu-open nav.menu-principal{display:flex!important;position:fixed!important;bottom:calc(66px + env(safe-area-inset-bottom));left:12px;right:12px;top:auto!important;max-height:60vh;overflow:auto;flex-wrap:wrap!important;z-index:1000;background:#191b20!important;padding:12px!important}
+html body #app#app[data-clube-id] #modernQuickNav{display:none!important}
+html body #app#app[data-clube-id]{padding-bottom:80px!important}
+</style><script>(()=>{const app=document.getElementById('app');const nav=app?.querySelector('nav.menu-principal');if(!nav)return;nav.addEventListener('click',e=>{if(e.target.closest('button'))app.classList.remove('home-menu-open')});})();</script></body>
 </html>
