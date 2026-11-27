@@ -2124,7 +2124,7 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.addEventListener('controllerchange', () => {
    if (!window.__appAtualizadoAutomaticamente) { window.__appAtualizadoAutomaticamente = true; window.location.reload(); }
   });
-  navigator.serviceWorker.register('./service-worker.js?v=100-cascavel-finish', { updateViaCache: 'none' })
+  navigator.serviceWorker.register('./service-worker.js?v=101-cascavel-reference', { updateViaCache: 'none' })
    .then(reg => reg.update())
    .catch(() => {});
  });
@@ -3993,6 +3993,25 @@ html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #ap
 html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app:is([data-clube-id="1"],[data-clube-id="3"]) nav.menu-principal{border-radius:12px!important;box-shadow:none!important}
 html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app:is([data-clube-id="1"],[data-clube-id="3"]) nav.menu-principal button:not(.hidden){border-radius:9px!important}
 @media(min-width:760px){html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app:is([data-clube-id="1"],[data-clube-id="3"]) #inicio .dashboard-grid{grid-template-columns:repeat(5,minmax(0,1fr))!important}html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app:is([data-clube-id="1"],[data-clube-id="3"]) #inicio .insights-metrics{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
+</style>
+<style id="cascavel-reference-v101">
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) .brand-mark{background:#ffcf00 url('https://assets-mantosdofutebol.sfo2.digitaloceanspaces.com/wp-content/uploads/2021/12/Novo-escudo-FC-Cascavel-2022-a.jpg') center/contain no-repeat!important;font-size:0!important}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) .brand-header{min-height:64px!important;padding:10px 14px!important}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) .brand-header h1{font-size:18px!important}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) .brand-header p{font-size:9px!important}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app .club-top-card{margin:4px 0 8px!important}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app .club-top-card #clubName{font-size:0!important}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app .club-top-card #clubName:after{content:"Bem-vindo ao FC Cascavel";font-size:14px!important}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app .club-title-wrap:before{content:"Olá!";font-size:21px;font-weight:850;color:#111}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app #inicio .dashboard-heading{display:none!important}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app #inicio .dashboard-grid{margin-top:10px!important}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app #inicio .dashboard-tile small{display:none!important}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app #inicio .dashboard-tile:not(.hidden){min-height:88px!important}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app #inicio .dashboard-tile b{color:#111!important}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app #inicio .programacao-home-panel>h2{font-size:0!important}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app #inicio .programacao-home-panel>h2:before{content:"Programação Semanal";font-size:19px;color:white}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app #inicio .programacao-home-panel:after{opacity:.5!important}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app .cascavel-programacao-link span{max-width:100%;overflow-wrap:anywhere;font-weight:500!important}
 </style>
 </body>
 </html>
