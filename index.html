@@ -4114,5 +4114,20 @@ html body #app[data-clube-id]:has(#inicio:not(.hidden)){background:#101114!impor
 #homeModulesToggle{display:none}
 #app:has(#inicio:not(.hidden)) #homeModulesToggle{display:block!important;margin:8px 0 0 auto;padding:8px 12px;background:#191a1d;color:white;border:1px solid #555;border-radius:10px;font-size:12px}
 #app.home-menu-open:has(#inicio:not(.hidden)) nav.menu-principal{display:flex!important}
+</style><style id="department-modern-v113">
+html body #app[data-clube-id]{--dept-accent:var(--club-secondary,#c9a653);--dept-bg:#101114;--dept-card:#191a1e}
+html body #app:is([data-clube-id="1"],[data-clube-id="3"]){--dept-accent:#ffcf00}
+html body #app[data-clube-id] > section:not(.hidden){background:var(--dept-bg)!important;color:#f5f5f5!important;border-radius:18px!important;padding:14px!important}
+html body #app[data-clube-id] > section :is(h1,h2,h3,h4,label,.small,.dashboard-kicker,.dashboard-heading p){color:#f5f5f5!important;-webkit-text-fill-color:#f5f5f5!important}
+html body #app[data-clube-id] > section :is(.card,.dashboard-tile,.dashboard-heading){background:linear-gradient(145deg,#25262a,#131417)!important;color:#fff!important;border:1px solid var(--dept-accent)!important;border-radius:16px!important;box-shadow:0 4px 12px #0003!important}
+html body #app[data-clube-id] #inicio .dashboard-tile{min-height:105px!important;padding:12px!important;text-align:left!important;position:relative}
+html body #app[data-clube-id] #inicio .dashboard-tile b{color:#fff!important;-webkit-text-fill-color:#fff!important}
+html body #app[data-clube-id] #inicio .dashboard-tile .tile-icon{background:transparent!important;color:var(--dept-accent)!important}
+html body #app[data-clube-id] > section :is(input,select,textarea){background:#24262a!important;color:#fff!important;border:1px solid #666!important;border-radius:10px!important}
+html body #app[data-clube-id] > section :is(table,th,td){background:#191a1e!important;color:#fff!important;border-color:#444!important}
+html body #app[data-clube-id] > section button:not(.dashboard-tile):not(#modernQuickNav button){border-radius:11px!important}
+html body #app[data-clube-id] #dialogTse{background:#191a1e;color:#fff;border:1px solid var(--dept-accent);border-radius:18px}
+html body #app[data-clube-id] #dialogTse :is(input,select,textarea){background:#25262a;color:#fff;border:1px solid #666;border-radius:10px}
+@media(max-width:480px){html body #app[data-clube-id] #inicio .dashboard-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 </style></body>
 </html>
