@@ -4146,5 +4146,9 @@ html body #app[data-clube-id] > section:not(#inicio) a{color:var(--module-accent
 html body #app[data-clube-id] > section:not(#inicio) :is(.small,small){color:#c5c7cc!important}
 html body #app[data-clube-id] #dialogTse :is(h2,h3,label){color:#fff!important}
 html body #app[data-clube-id] #dialogTse button{background:var(--module-accent)!important;color:#111!important;border-radius:12px!important}
-</style></body>
+</style><style id="home-fix-v115">
+html body:has(#app:not(.hidden) #inicio:not(.hidden)) #app .card.club-top-card{display:none!important;visibility:hidden!important;height:0!important;margin:0!important;padding:0!important}
+html body #app[data-clube-id] #homeModulesToggle{background:var(--club-secondary,#c9a653)!important;color:#111!important;border:0!important}
+html body #app:is([data-clube-id="1"],[data-clube-id="3"]) #homeModulesToggle{background:#ffcf00!important;color:#111!important}
+</style><script>(()=>{const app=document.getElementById('app'),home=document.getElementById('inicio'),card=app?.querySelector('.club-top-card');if(!app||!home||!card)return;const sync=()=>{if(!home.classList.contains('hidden'))card.style.setProperty('display','none','important');else card.style.removeProperty('display')};new MutationObserver(sync).observe(home,{attributes:true,attributeFilter:['class']});sync()})();</script></body>
 </html>
