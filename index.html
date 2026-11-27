@@ -2124,7 +2124,7 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.addEventListener('controllerchange', () => {
    if (!window.__appAtualizadoAutomaticamente) { window.__appAtualizadoAutomaticamente = true; window.location.reload(); }
   });
-  navigator.serviceWorker.register('./service-worker.js?v=104-cascavel-rebuilt', { updateViaCache: 'none' })
+  navigator.serviceWorker.register('./service-worker.js?v=105-cascavel-icons', { updateViaCache: 'none' })
    .then(reg => reg.update())
    .catch(() => {});
  });
@@ -2196,6 +2196,9 @@ function aplicarPermissoesTela(){
  const shortcuts=[['navEntregasBtn','✓','Entregas'],['abrirTse','♥','Fisiologia'],['abaFisioBtn','✚','Fisioterapia (DM)'],['abaPreparadorBtn','▥','Preparação física'],['abaVideosBtn','▶','Análise de desempenho'],['navImprensaBtn','▣','Imprensa']];
  grid.querySelectorAll('[data-cascavel-shortcut]').forEach(x=>x.remove());
  for(const [id,icon,label] of shortcuts){const nav=el(id);if(!nav||nav.classList.contains('hidden'))continue;const b=document.createElement('button');b.type='button';b.className='dashboard-tile';b.dataset.cascavelShortcut=id;b.innerHTML='<span class="tile-icon">'+icon+'</span><span><b>'+label+'</b></span>';b.onclick=()=>{if(!nav.classList.contains('hidden'))nav.click();};grid.append(b);}
+ const paths={Estoque:'M3 7l9-4 9 4v10l-9 4-9-4z M3 7l9 4 9-4 M12 11v10',Jogadores:'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8 M22 21v-2a4 4 0 0 0-3-4 M17 3a4 4 0 0 1 0 8',Uniformes:'M8 3l4 3 4-3 6 4-3 5-3-2v11H8V10l-3 2-3-5z',Lavanderia:'M4 3h16v18H4z M4 8h16 M12 18a4 4 0 1 0 0-8 4 4 0 0 0 0 8',Entregas:'M4 4h16v16H4z M7 12l3 3 7-7',Fisiologia:'M2 12h5l3-7 4 14 3-7h5','Fisioterapia (DM)':'M9 3h6v6h6v6h-6v6H9v-6H3V9h6z','Preparação física':'M2 9v6 M6 6v12 M18 6v12 M22 9v6 M6 12h12',Relatórios:'M3 21h18 M5 17V9h3v8 M11 17V3h3v14 M17 17v-5h3v5','Comissão técnica':'M4 21v-4l4-3h8l4 3v4 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8'};
+ grid.querySelectorAll('.dashboard-tile').forEach(b=>{const label=b.querySelector('b')?.textContent,icon=b.querySelector('.tile-icon');if(icon&&paths[label])icon.innerHTML='<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="'+paths[label]+'"/></svg>';});
+
  if(!admin&&!director&&!roupeiro){grid.querySelectorAll('.dashboard-tile:not([data-cascavel-shortcut])').forEach(b=>b.classList.add('hidden'));if(grid.querySelector('[data-cascavel-shortcut]'))grid.classList.remove('hidden');}
  }
 
