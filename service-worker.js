@@ -1,4 +1,4 @@
-const CACHE_NAME = 'gestao-inteligente-futebol-v114-departments';
+const CACHE_NAME = 'gestao-inteligente-futebol-v122-modern-nav';
 const APP_FILES = ['./', './index.html', './manifest.json', './app-icon.svg', './cobra-fc-cascavel.svg'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_FILES)).then(() => self.skipWaiting()));
