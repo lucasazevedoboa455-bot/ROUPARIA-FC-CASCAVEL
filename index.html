@@ -2124,7 +2124,7 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.addEventListener('controllerchange', () => {
    if (!window.__appAtualizadoAutomaticamente) { window.__appAtualizadoAutomaticamente = true; window.location.reload(); }
   });
-  navigator.serviceWorker.register('./service-worker.js?v=98-cascavel-compact', { updateViaCache: 'none' })
+  navigator.serviceWorker.register('./service-worker.js?v=99-cascavel-dashboard', { updateViaCache: 'none' })
    .then(reg => reg.update())
    .catch(() => {});
  });
@@ -2186,6 +2186,14 @@ function aplicarPermissoesTela(){
  const vf=el('formVideoCard');if(vf)vf.classList.toggle('hidden',!(admin||perfilAtual==='analista'||perfilAtual==='preparador_goleiros'));
  if(perfilAtual==='preparador_goleiros'){el('videoTipo').value='goleiros';el('videoTipo').disabled=true;}else el('videoTipo').disabled=false;
  const pf=el('formProgramacaoCard');if(pf)pf.classList.toggle('hidden',!(admin||perfilAtual==='preparador_fisico'||perfilAtual==='roupeiro'));
+ if(['1','3'].includes(String(clubeId))){
+ const grid=el('inicio').querySelector('.dashboard-grid');
+ const shortcuts=[['navEntregasBtn','✓','Entregas'],['abrirTse','♥','Fisiologia'],['abaFisioBtn','✚','Fisioterapia (DM)'],['abaPreparadorBtn','▥','Preparação física'],['abaVideosBtn','▶','Análise de desempenho'],['navImprensaBtn','▣','Imprensa']];
+ grid.querySelectorAll('[data-cascavel-shortcut]').forEach(x=>x.remove());
+ for(const [id,icon,label] of shortcuts){const nav=el(id);if(!nav||nav.classList.contains('hidden'))continue;const b=document.createElement('button');b.type='button';b.className='dashboard-tile';b.dataset.cascavelShortcut=id;b.innerHTML='<span class="tile-icon">'+icon+'</span><span><b>'+label+'</b></span>';b.onclick=()=>{if(!nav.classList.contains('hidden'))nav.click();};grid.append(b);}
+ if(!admin&&!director&&!roupeiro){grid.querySelectorAll('.dashboard-tile:not([data-cascavel-shortcut])').forEach(b=>b.classList.add('hidden'));if(grid.querySelector('[data-cascavel-shortcut]'))grid.classList.remove('hidden');}
+ }
+
 }
 async function gerarCheckoutSandbox(){
  const botao=el('gerarCheckoutSandbox'),msg=el('sandboxPagamentoMsg');
@@ -3960,6 +3968,14 @@ html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #ap
 html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app:is([data-clube-id="1"],[data-clube-id="3"]) #inicio .dashboard-tile:not(.hidden){min-height:94px!important;padding:8px 4px!important;gap:5px!important}
 html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app:is([data-clube-id="1"],[data-clube-id="3"]) #inicio .dashboard-tile b{font-size:12px!important}
 html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app:is([data-clube-id="1"],[data-clube-id="3"]) #inicio .dashboard-tile small{font-size:10px!important}
+</style>
+<style id="cascavel-v99">
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app:is([data-clube-id="1"],[data-clube-id="3"]) #inicio .programacao-home-panel{position:relative;overflow:hidden;isolation:isolate}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app:is([data-clube-id="1"],[data-clube-id="3"]) #inicio .programacao-home-panel:before{content:"";position:absolute;z-index:-1;right:-12px;top:0;width:48%;height:100%;background:linear-gradient(165deg,#111 0 30%,#ffd000 30% 70%,#111 70%);transform:skewY(-8deg);box-shadow:inset 0 0 30px #0005}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app:is([data-clube-id="1"],[data-clube-id="3"]) #inicio .programacao-home-panel:after{content:"";position:absolute;z-index:-1;right:8%;top:12%;width:80px;height:80px;background:url('https://assets-mantosdofutebol.sfo2.digitaloceanspaces.com/wp-content/uploads/2021/12/Novo-escudo-FC-Cascavel-2022-a.jpg') center/contain no-repeat;border-radius:50%;opacity:.85}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app:is([data-clube-id="1"],[data-clube-id="3"]) #inicio .programacao-home-panel>h2,html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app:is([data-clube-id="1"],[data-clube-id="3"]) .cascavel-programacao-link{position:relative;z-index:1}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app:is([data-clube-id="1"],[data-clube-id="3"]) #inicio .dashboard-tile{border-radius:14px!important}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app:is([data-clube-id="1"],[data-clube-id="3"]) #inicio .dashboard-tile .tile-icon{border-radius:12px!important}
 </style>
 </body>
 </html>
