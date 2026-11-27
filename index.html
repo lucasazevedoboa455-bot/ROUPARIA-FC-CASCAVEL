@@ -2124,7 +2124,7 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.addEventListener('controllerchange', () => {
    if (!window.__appAtualizadoAutomaticamente) { window.__appAtualizadoAutomaticamente = true; window.location.reload(); }
   });
-  navigator.serviceWorker.register('./service-worker.js?v=102-cascavel-status', { updateViaCache: 'none' })
+  navigator.serviceWorker.register('./service-worker.js?v=103-cascavel-fix', { updateViaCache: 'none' })
    .then(reg => reg.update())
    .catch(() => {});
  });
@@ -4020,6 +4020,14 @@ html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #ap
 html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app #cascavelStatus>div:nth-child(2){border-top:3px solid #d22}
 html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app #cascavelStatus>div:nth-child(3){border-top:3px solid #ffcf00}
 html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app #cascavelStatus>div:nth-child(4){border-top:3px solid #299447}
+</style>
+<style id="cascavel-v103">
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app .club-top-card #clubName:after,html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app #inicio .programacao-home-panel>h2:before{content:none!important}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app .club-top-card #clubName{font-size:16px!important}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app #inicio .programacao-home-panel>h2{font-size:18px!important}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app .club-top-card .club-title-wrap:before{content:none!important}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app .club-top-card .club-top-identity{flex:1!important}
+html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app .club-top-card #escudoOficialClube{width:54px!important;height:54px!important;object-fit:contain!important}
 </style>
 </body>
 </html>
