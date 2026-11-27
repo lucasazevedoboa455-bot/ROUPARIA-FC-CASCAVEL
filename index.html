@@ -2124,7 +2124,7 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.addEventListener('controllerchange', () => {
    if (!window.__appAtualizadoAutomaticamente) { window.__appAtualizadoAutomaticamente = true; window.location.reload(); }
   });
-  navigator.serviceWorker.register('./service-worker.js?v=105-cascavel-icons', { updateViaCache: 'none' })
+  navigator.serviceWorker.register('./service-worker.js?v=106-modern-clubs', { updateViaCache: 'none' })
    .then(reg => reg.update())
    .catch(() => {});
  });
@@ -2186,11 +2186,11 @@ function aplicarPermissoesTela(){
  const vf=el('formVideoCard');if(vf)vf.classList.toggle('hidden',!(admin||perfilAtual==='analista'||perfilAtual==='preparador_goleiros'));
  if(perfilAtual==='preparador_goleiros'){el('videoTipo').value='goleiros';el('videoTipo').disabled=true;}else el('videoTipo').disabled=false;
  const pf=el('formProgramacaoCard');if(pf)pf.classList.toggle('hidden',!(admin||perfilAtual==='preparador_fisico'||perfilAtual==='roupeiro'));
- if(['1','3'].includes(String(clubeId))){
+ {
  const grid=el('inicio').querySelector('.dashboard-grid');
  const title=el('inicioProgramacaoAvisos').querySelector('h2');title.textContent='Programação Semanal';
  let welcome=el('cascavelWelcome');if(!welcome){welcome=document.createElement('div');welcome.id='cascavelWelcome';el('inicio').prepend(welcome);}
- welcome.replaceChildren();const copy=document.createElement('div');const heading=document.createElement('h2');heading.textContent=admin?'Olá, Administrador!':'Olá!';const sub=document.createElement('p');sub.textContent='Bem-vindo ao FC Cascavel';copy.append(heading,sub);welcome.append(copy);const crest=el('escudoOficialClube').cloneNode(false);crest.removeAttribute('id');crest.removeAttribute('onload');crest.removeAttribute('onerror');crest.className='cas-welcome-crest';welcome.append(crest);
+ welcome.classList.remove('hidden');welcome.replaceChildren();const copy=document.createElement('div');const heading=document.createElement('h2');heading.textContent=admin?'Olá, Administrador!':'Olá!';const sub=document.createElement('p');sub.textContent='Bem-vindo ao '+(el('clubName').textContent.trim()||'clube');copy.append(heading,sub);welcome.append(copy);const crest=el('escudoOficialClube').cloneNode(false);crest.removeAttribute('id');crest.removeAttribute('onload');crest.removeAttribute('onerror');crest.className='cas-welcome-crest';welcome.append(crest);
  const category=el('categoriaAtual');if(category){const label=document.createElement('span');label.className='cas-category';label.textContent=category.selectedOptions[0]?.textContent||'Categoria';welcome.append(label);}
 
  const shortcuts=[['navEntregasBtn','✓','Entregas'],['abrirTse','♥','Fisiologia'],['abaFisioBtn','✚','Fisioterapia (DM)'],['abaPreparadorBtn','▥','Preparação física'],['abaVideosBtn','▶','Análise de desempenho'],['navImprensaBtn','▣','Imprensa']];
@@ -4054,5 +4054,14 @@ html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #ap
 html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app #inicio .dashboard-tile{min-height:85px!important}
 @media(min-width:760px){html body:has(#app:is([data-clube-id="1"],[data-clube-id="3"]):not(.hidden)) #app #inicio .dashboard-grid{grid-template-columns:repeat(5,minmax(0,1fr))!important}}
 </style>
-<style>#casJogos2027{display:none}#app:is([data-clube-id="1"],[data-clube-id="3"]) #casJogos2027{display:block!important;background:#101114;color:#fff;border-radius:18px;padding:16px;margin:12px 0}#casJogos2027 h2{color:white!important;margin:0 0 12px}#casJogos2027 .cas-match{border:1px solid #383838;border-radius:14px;text-align:center;padding:14px 6px;background:#191a1d}#casJogos2027 small{color:#ddd}#casJogos2027 summary{color:#ffd000;padding:12px 0;cursor:pointer}#casJogos2027 .cas-match-row{padding:12px 0;border-top:1px solid #444}</style></body>
+<style>#casJogos2027{display:none}#app:is([data-clube-id="1"],[data-clube-id="3"]) #casJogos2027{display:block!important;background:#101114;color:#fff;border-radius:18px;padding:16px;margin:12px 0}#casJogos2027 h2{color:white!important;margin:0 0 12px}#casJogos2027 .cas-match{border:1px solid #383838;border-radius:14px;text-align:center;padding:14px 6px;background:#191a1d}#casJogos2027 small{color:#ddd}#casJogos2027 summary{color:#ffd000;padding:12px 0;cursor:pointer}#casJogos2027 .cas-match-row{padding:12px 0;border-top:1px solid #444}</style><style id="modern-all-clubs-v106">
+#app[data-clube-id]:not([data-clube-id="1"]):not([data-clube-id="3"]){--modern-primary:var(--club-primary,#174b39);--modern-accent:var(--club-secondary,#c9a653)}
+#app[data-clube-id]:not([data-clube-id="1"]):not([data-clube-id="3"]) #cascavelWelcome{display:flex;align-items:center;gap:12px;background:#fff;border-radius:18px;padding:16px;margin:12px 0;color:#182a23}
+#app #cascavelWelcome>div{flex:1;min-width:0}#app #cascavelWelcome h2{font-size:19px;margin:0}#app #cascavelWelcome p{font-size:12px;margin:4px 0}#app #cascavelWelcome .cas-welcome-crest{width:56px;height:56px;object-fit:contain}#app #cascavelWelcome .cas-category{font-size:11px;border:1px solid #ddd;padding:6px;border-radius:8px}
+#app[data-clube-id]:not([data-clube-id="1"]):not([data-clube-id="3"]) #inicio #inicioProgramacaoAvisos.programacao-home-panel{background:linear-gradient(115deg,#102b23,var(--modern-primary))!important;border:1px solid var(--modern-accent)!important;border-radius:18px!important;color:white!important;padding:18px!important}
+#app[data-clube-id]:not([data-clube-id="1"]):not([data-clube-id="3"]) #inicio #inicioProgramacaoAvisos h2{color:white!important;-webkit-text-fill-color:white!important}
+#app[data-clube-id]:not([data-clube-id="1"]):not([data-clube-id="3"]) #inicio .dashboard-tile{border-radius:16px!important;background:white!important;min-height:90px}
+#app[data-clube-id]:not([data-clube-id="1"]):not([data-clube-id="3"]) #inicio .dashboard-tile .tile-icon{background:var(--modern-accent)!important;color:#161616!important}
+#app[data-clube-id]:not([data-clube-id="1"]):not([data-clube-id="3"]) #inicio .dashboard-grid{grid-template-columns:repeat(auto-fit,minmax(105px,1fr))!important}
+</style></body>
 </html>
