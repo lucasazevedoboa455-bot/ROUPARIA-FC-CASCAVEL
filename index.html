@@ -3203,7 +3203,7 @@ async function carregarNotificacoesProgramacao(){
   const detalhe=imagem?'':'<small>Arquivo da programação · toque para abrir</small>';
   return '<button type="button" class="programacao-aviso '+(n.lida_em?'':'nao-lida')+'" onclick="abrirNotificacaoProgramacao('+Number(n.id)+','+Number(n.categoria_id)+','+Number(n.programacao_id)+')">'+foto+(imagem?'':'<span class="aviso-texto">'+detalhe+'</span>')+'</button>';
  }).join('');
- if(home){if(['1','3'].includes(String(clubeId))){const n=rows[0], arquivo=n.arquivo;const dia=new Date(arquivo?.criado_em||n.criado_em).toLocaleDateString('pt-BR');home.innerHTML='<button type="button" class="cascavel-programacao-link" onclick="abrirNotificacaoProgramacao('+Number(n.id)+','+Number(n.categoria_id)+','+Number(n.programacao_id)+')"><span>Publicado por: '+esc(nomes[arquivo?.enviado_por]||'Equipe')+'<br>Data: '+esc(dia)+'</span><strong>Ver programação ›</strong></button>';}else home.innerHTML=html;}if(central)central.innerHTML=html;
+ if(home){if(['1','3'].includes(String(clubeId))&&!rows[0].arquivo?.tipo_arquivo?.startsWith('image/')){const n=rows[0], arquivo=n.arquivo;const dia=new Date(arquivo?.criado_em||n.criado_em).toLocaleDateString('pt-BR');home.innerHTML='<button type="button" class="cascavel-programacao-link" onclick="abrirNotificacaoProgramacao('+Number(n.id)+','+Number(n.categoria_id)+','+Number(n.programacao_id)+')"><span>Publicado por: '+esc(nomes[arquivo?.enviado_por]||'Equipe')+'<br>Data: '+esc(dia)+'</span><strong>Ver programação ›</strong></button>';}else home.innerHTML=html;}if(central)central.innerHTML=html;
  Promise.all(rows.map(async n=>{
   const arquivo=n.arquivo;
   if(!arquivo?.tipo_arquivo?.startsWith('image/'))return;
@@ -4222,5 +4222,15 @@ html body #app#app#app[data-clube-id] #inicio #cascavelWelcome{background:linear
 html body #app#app#app[data-clube-id] #inicio #inicioProgramacaoAvisos button{background:var(--club-primary,#176b52)!important;color:white!important}
 @media(min-width:760px){html body #app#app#app[data-clube-id] #inicio .dashboard-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
 @media(max-width:350px){html body #app#app#app[data-clube-id] #inicio .dashboard-grid{grid-template-columns:1fr!important}}
-</style></body>
+</style><style id="programacao-full129">
+html body #app#app#app[data-clube-id] #inicio #inicioProgramacaoAvisos.programacao-home-panel{padding:12px 0 0!important;width:100%!important;max-width:100%!important;overflow:hidden!important}
+html body #app#app#app[data-clube-id] #inicio #inicioProgramacaoAvisos>h2{padding:0 12px!important;margin:0 0 12px!important}
+html body #app#app#app[data-clube-id] #inicio #listaAvisosProgramacaoInicio button.programacao-aviso{display:block!important;width:100%!important;padding:0!important;border:0!important;margin:0 0 8px!important;background:white!important;box-shadow:none!important}
+html body #app#app#app[data-clube-id] #inicio #listaAvisosProgramacaoInicio img.programacao-foto-inicio{width:100%!important;height:auto!important;max-height:none!important;max-width:100%!important;object-fit:contain!important;border-radius:0!important;margin:0!important;cursor:zoom-in}
+#programacaoFull129{position:fixed!important;inset:0!important;width:100%!important;height:100%!important;max-width:none!important;max-height:none!important;margin:0!important;padding:0!important;border:0!important;background:#111!important;color:white!important;box-sizing:border-box!important}
+#programacaoFull129 .full-toolbar{display:flex;align-items:center;justify-content:space-between;padding:12px;gap:8px;background:#111;color:white}
+#programacaoFull129 .full-toolbar button{background:#333;color:white;border:1px solid #777;padding:10px;border-radius:8px}
+#programacaoFull129 .full-scroll{height:calc(100% - 70px);overflow:auto;touch-action:pan-x pan-y pinch-zoom}
+#programacaoFull129 img{display:block;width:100%;height:auto;max-width:none;max-height:none;margin:auto}
+</style><dialog id="programacaoFull129" aria-label="Programação semanal em tela cheia"><div class="full-toolbar"><button type="button" id="progClose129">Fechar ✕</button><button type="button" id="progZoom129">Ampliar +</button></div><div class="full-scroll"><img alt="Programação semanal ampliada"></div></dialog><script>(()=>{const d=document.getElementById('programacaoFull129'),p=d.querySelector('img'),z=document.getElementById('progZoom129');let zoom=false;document.getElementById('progClose129').onclick=()=>d.close();z.onclick=()=>{zoom=!zoom;p.style.width=zoom?'200%':'100%';z.textContent=zoom?'Reduzir −':'Ampliar +'};d.addEventListener('close',()=>{p.removeAttribute('src')});document.addEventListener('click',e=>{const i=e.target.closest?.('#listaAvisosProgramacaoInicio img.programacao-foto-inicio');if(!i||!i.getAttribute('src'))return;e.preventDefault();e.stopImmediatePropagation();zoom=false;p.style.width='100%';z.textContent='Ampliar +';p.src=i.src;if(!d.open)d.showModal()},true)})();</script></body>
 </html>
