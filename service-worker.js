@@ -1,4 +1,4 @@
-const CACHE_NAME = 'gestao-inteligente-futebol-v104-cascavel-rebuilt';
+const CACHE_NAME = 'gestao-inteligente-futebol-v105-cascavel-icons';
 const APP_FILES = ['./', './index.html', './manifest.json', './app-icon.svg', './cobra-fc-cascavel.svg'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_FILES)).then(() => self.skipWaiting()));
